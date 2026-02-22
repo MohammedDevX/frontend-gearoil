@@ -1,24 +1,25 @@
-import { Component } from '@angular/core';
-import { NgIf, NgIfContext } from "@angular/common";
-
+import { Component, HostListener  } from '@angular/core';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgIf],
+  imports: [],
   templateUrl: './header.html',
-  styleUrl: './header.scss',
+  styleUrls: ['./header.scss','./mobile_header.scss']
 })
 export class Header {
-    isDepartmentsOpen = false;
+    isDepartmentsOpen: boolean = false;
 
     toggleDepartments(event: Event) {
       event.stopPropagation();
       this.isDepartmentsOpen = !this.isDepartmentsOpen;
     }
 
-    closeDepartments() {
+    closeDepartments() { 
       this.isDepartmentsOpen = false;
     }
-
+      @HostListener('document:click')
+  onDocumentClick() {
+    this.closeDepartments();
+  }
 
 }

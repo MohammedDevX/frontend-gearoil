@@ -30,7 +30,13 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/template/css/bootstrap/css/bootstrap.css",
+              "src/assets/template/css/fontawesome/css/all.min.css",
+              "src/assets/template/css/owl-carousel/assets/owl.carousel.min.css",
+              "src/assets/template/css//select2/css/select2.min.css",
+              "src/assets/template/css//photoswipe/default-skin/default-skin.css",
+              "src/assets/template/css/photoswipe/photoswipe.css"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
@@ -48,8 +54,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "60kB",
+                  "maximumError": "100kB"
                 }
               ],
               "outputHashing": "all"

@@ -138,13 +138,13 @@
 														d="M0.280,0.282 C0.645,-0.084 1.238,-0.077 1.596,0.297 L3.504,2.310 L5.413,0.297 C5.770,-0.077 6.363,-0.084 6.728,0.282 C7.080,0.634 7.088,1.203 6.746,1.565 L3.504,5.007 L0.262,1.565 C-0.080,1.203 -0.072,0.634 0.280,0.282 Z" />
 												</svg></span></button>
 										<div class="topbar__menu-body"><a class="topbar__menu-item" href="#"><img
-													src="images/languages/language-1.png" alt=""><span>English</span> </a><a
-												class="topbar__menu-item" href="#"><img src="images/languages/language-2.png"
+													src="../../../assets/template/images/languages/language-1.png" alt=""><span>English</span> </a><a
+												class="topbar__menu-item" href="#"><img src="../../../assets/template/images/languages/language-2.png"
 													alt=""><span>French</span> </a><a class="topbar__menu-item" href="#"><img
-													src="images/languages/language-3.png" alt=""><span>German</span> </a><a
-												class="topbar__menu-item" href="#"><img src="images/languages/language-4.png"
+													src="../../../assets/template/images/languages/language-3.png" alt=""><span>German</span> </a><a
+												class="topbar__menu-item" href="#"><img src="../../../assets/template/images/languages/language-4.png"
 													alt=""><span>Russian</span> </a><a class="topbar__menu-item" href="#"><img
-													src="images/languages/language-5.png" alt=""><span>Italian</span></a></div>
+													src="../../../assets/template/images/languages/language-5.png" alt=""><span>Italian</span></a></div>
 									</div>
 								</div>
 							</div> -->
@@ -152,7 +152,7 @@
 						<!-- ***************************************************************** -->
 				<div class="header__navbar">
 					<div class="header__navbar-departments">
-						<div class="departments">
+						<div class="departments" [class.departments--open]="isDepartmentsOpen">
 							<button class="departments__button" type="button" (click)="toggleDepartments($event)">
 								<span
 									class="departments__button-icon">
@@ -170,687 +170,689 @@
 									</svg>
 								</span>
 							</button>
-							<div class="departments__menu" *ngIf="isDepartmentsOpen">
-								<div class="departments__arrow"></div>
-								<div class="departments__body">
-									<ul class="departments__list">
-										<li class="departments__list-padding" role="presentation"></li>
-										<li
-											class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
-											<a href="#" class="departments__item-link">Headlights & Lighting <span
-													class="departments__item-arrow"><svg width="7" height="11">
-														<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
-	C-0.1,9.8-0.1,10.4,0.3,10.7z" />
-													</svg></span></a>
-											<div class="departments__item-menu">
-												<div
-													class="megamenu departments__megamenu departments__megamenu--size--xl">
-													<div class="megamenu__image"><img
-															src="images/departments/departments-2.jpg" alt=""></div>
-													<div class="row">
-														<div class="col-1of5">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Body
-																		Parts</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Bumpers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Hoods</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Grilles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Door Handles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Car Covers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tailgates</a></li>
-																	</ul>
-																</li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Suspension</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Steering</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Fuel
-																		Systems</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Transmission</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Air
-																		Filters</a></li>
-															</ul>
-														</div>
-														<div class="col-1of5">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link"
-																		href="#">Headlights & Lighting</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Headlights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tail Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Turn Signals</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Switches & Relays</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Corner Lights</a></li>
-																	</ul>
-																</li>
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Brakes
-																		& Suspension</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Brake Discs</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Wheel Hubs</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Air Suspension</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Ball Joints</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Brake Pad Sets</a></li>
-																	</ul>
-																</li>
-															</ul>
-														</div>
-														<div class="col-1of5">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link"
-																		href="#">Interior Parts</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Floor Mats</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Gauges</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Consoles & Organizers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Mobile Electronics</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Steering Wheels</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Cargo Accessories</a></li>
-																	</ul>
-																</li>
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Engine
-																		& Drivetrain</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Air Filters</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Oxygen Sensors</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Heating</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Exhaust</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Cranks & Pistons</a></li>
-																	</ul>
-																</li>
-															</ul>
-														</div>
-														<div class="col-1of5">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Tools
-																		& Garage</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Repair Manuals</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Car Care</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Code Readers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tool Boxes</a></li>
-																	</ul>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</li>
-										<li
-											class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
-											<a href="#" class="departments__item-link">Interior Parts <span
-													class="departments__item-arrow"><svg width="7" height="11">
-														<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
-	C-0.1,9.8-0.1,10.4,0.3,10.7z" />
-													</svg></span></a>
-											<div class="departments__item-menu">
-												<div
-													class="megamenu departments__megamenu departments__megamenu--size--lg">
-													<div class="megamenu__image"><img
-															src="images/departments/departments-1.jpg" alt=""></div>
-													<div class="row">
-														<div class="col-3">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Body
-																		Parts</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Bumpers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Hoods</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Grilles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Door Handles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Car Covers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tailgates</a></li>
-																	</ul>
-																</li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Suspension</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Steering</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Fuel
-																		Systems</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Transmission</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Air
-																		Filters</a></li>
-															</ul>
-														</div>
-														<div class="col-3">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link"
-																		href="#">Headlights & Lighting</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Headlights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tail Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Turn Signals</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Switches & Relays</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Corner Lights</a></li>
-																	</ul>
-																</li>
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Brakes
-																		& Suspension</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Brake Discs</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Wheel Hubs</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Air Suspension</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Ball Joints</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Brake Pad Sets</a></li>
-																	</ul>
-																</li>
-															</ul>
-														</div>
-														<div class="col-3">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link"
-																		href="#">Interior Parts</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Floor Mats</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Gauges</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Consoles & Organizers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Mobile Electronics</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Steering Wheels</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Cargo Accessories</a></li>
-																	</ul>
-																</li>
-															</ul>
-														</div>
-														<div class="col-3">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Tools
-																		& Garage</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Repair Manuals</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Car Care</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Code Readers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tool Boxes</a></li>
-																	</ul>
-																</li>
-															</ul>
+							@if (isDepartmentsOpen){
+								<div class="departments__menu" >
+									<div class="departments__arrow"></div>
+									<div class="departments__body">
+										<ul class="departments__list">
+											<li class="departments__list-padding" role="presentation"></li>
+											<li
+												class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
+												<a href="#" class="departments__item-link">Headlights & Lighting <span
+														class="departments__item-arrow"><svg width="7" height="11">
+															<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+		C-0.1,9.8-0.1,10.4,0.3,10.7z" />
+														</svg></span></a>
+												<div class="departments__item-menu">
+													<div
+														class="megamenu departments__megamenu departments__megamenu--size--xl">
+														<div class="megamenu__image"><img
+																src="../../../assets/template/images/departments/departments-2.jpg" alt=""></div>
+														<div class="row">
+															<div class="col-1of5">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Body
+																			Parts</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Bumpers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Hoods</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Grilles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Door Handles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Car Covers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tailgates</a></li>
+																		</ul>
+																	</li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Suspension</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Steering</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Fuel
+																			Systems</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Transmission</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Air
+																			Filters</a></li>
+																</ul>
+															</div>
+															<div class="col-1of5">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link"
+																			href="#">Headlights & Lighting</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Headlights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tail Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Turn Signals</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Switches & Relays</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Corner Lights</a></li>
+																		</ul>
+																	</li>
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Brakes
+																			& Suspension</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Brake Discs</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Wheel Hubs</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Air Suspension</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Ball Joints</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Brake Pad Sets</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+															<div class="col-1of5">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link"
+																			href="#">Interior Parts</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Floor Mats</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Gauges</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Consoles & Organizers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Mobile Electronics</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Steering Wheels</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Cargo Accessories</a></li>
+																		</ul>
+																	</li>
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Engine
+																			& Drivetrain</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Air Filters</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Oxygen Sensors</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Heating</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Exhaust</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Cranks & Pistons</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+															<div class="col-1of5">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Tools
+																			& Garage</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Repair Manuals</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Car Care</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Code Readers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tool Boxes</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										</li>
-										<li
-											class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
-											<a href="#" class="departments__item-link">Switches & Relays <span
-													class="departments__item-arrow"><svg width="7" height="11">
-														<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
-	C-0.1,9.8-0.1,10.4,0.3,10.7z" />
-													</svg></span></a>
-											<div class="departments__item-menu">
-												<div
-													class="megamenu departments__megamenu departments__megamenu--size--md">
-													<div class="megamenu__image"><img
-															src="images/departments/departments-3.jpg" alt=""></div>
-													<div class="row">
-														<div class="col-4">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Body
-																		Parts</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Bumpers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Hoods</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Grilles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Door Handles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Car Covers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tailgates</a></li>
-																	</ul>
-																</li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Suspension</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Steering</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Fuel
-																		Systems</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Transmission</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Air
-																		Filters</a></li>
-															</ul>
-														</div>
-														<div class="col-4">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link"
-																		href="#">Headlights & Lighting</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Headlights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tail Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Turn Signals</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Switches & Relays</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Corner Lights</a></li>
-																	</ul>
-																</li>
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Brakes
-																		& Suspension</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Brake Discs</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Wheel Hubs</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Air Suspension</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Ball Joints</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Brake Pad Sets</a></li>
-																	</ul>
-																</li>
-															</ul>
-														</div>
-														<div class="col-4">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link"
-																		href="#">Interior Parts</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Floor Mats</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Gauges</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Consoles & Organizers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Mobile Electronics</a></li>
-																	</ul>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</li>
-										<li
-											class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
-											<a href="#" class="departments__item-link">Tires & Wheels <span
-													class="departments__item-arrow"><svg width="7" height="11">
-														<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
-	C-0.1,9.8-0.1,10.4,0.3,10.7z" />
-													</svg></span></a>
-											<div class="departments__item-menu">
-												<div
-													class="megamenu departments__megamenu departments__megamenu--size--nl">
-													<div class="megamenu__image"><img
-															src="images/departments/departments-4.jpg" alt=""></div>
-													<div class="row">
-														<div class="col-6">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Body
-																		Parts</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Bumpers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Hoods</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Grilles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Door Handles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Car Covers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tailgates</a></li>
-																	</ul>
-																</li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Suspension</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Steering</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Fuel
-																		Systems</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Transmission</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Air
-																		Filters</a></li>
-															</ul>
-														</div>
-														<div class="col-6">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link"
-																		href="#">Headlights & Lighting</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Headlights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tail Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Turn Signals</a></li>
-																	</ul>
-																</li>
-															</ul>
+											</li>
+											<li
+												class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
+												<a href="#" class="departments__item-link">Interior Parts <span
+														class="departments__item-arrow"><svg width="7" height="11">
+															<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+		C-0.1,9.8-0.1,10.4,0.3,10.7z" />
+														</svg></span></a>
+												<div class="departments__item-menu">
+													<div
+														class="megamenu departments__megamenu departments__megamenu--size--lg">
+														<div class="megamenu__image"><img
+																src="../../../assets/template/images/departments/departments-1.jpg" alt=""></div>
+														<div class="row">
+															<div class="col-3">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Body
+																			Parts</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Bumpers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Hoods</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Grilles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Door Handles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Car Covers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tailgates</a></li>
+																		</ul>
+																	</li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Suspension</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Steering</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Fuel
+																			Systems</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Transmission</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Air
+																			Filters</a></li>
+																</ul>
+															</div>
+															<div class="col-3">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link"
+																			href="#">Headlights & Lighting</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Headlights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tail Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Turn Signals</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Switches & Relays</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Corner Lights</a></li>
+																		</ul>
+																	</li>
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Brakes
+																			& Suspension</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Brake Discs</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Wheel Hubs</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Air Suspension</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Ball Joints</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Brake Pad Sets</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+															<div class="col-3">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link"
+																			href="#">Interior Parts</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Floor Mats</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Gauges</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Consoles & Organizers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Mobile Electronics</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Steering Wheels</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Cargo Accessories</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+															<div class="col-3">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Tools
+																			& Garage</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Repair Manuals</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Car Care</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Code Readers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tool Boxes</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										</li>
-										<li
-											class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
-											<a href="#" class="departments__item-link">Tools & Garage <span
-													class="departments__item-arrow"><svg width="7" height="11">
-														<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
-	C-0.1,9.8-0.1,10.4,0.3,10.7z" />
-													</svg></span></a>
-											<div class="departments__item-menu">
-												<div
-													class="megamenu departments__megamenu departments__megamenu--size--sm">
-													<div class="row">
-														<div class="col-12">
-															<ul
-																class="megamenu__links megamenu-links megamenu-links--root">
-																<li
-																	class="megamenu-links__item megamenu-links__item--has-submenu">
-																	<a class="megamenu-links__item-link" href="#">Body
-																		Parts</a>
-																	<ul class="megamenu-links">
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Bumpers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Hoods</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Grilles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Fog Lights</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Door Handles</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Car Covers</a></li>
-																		<li class="megamenu-links__item"><a
-																				class="megamenu-links__item-link"
-																				href="#">Tailgates</a></li>
-																	</ul>
-																</li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Suspension</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Steering</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Fuel
-																		Systems</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link"
-																		href="#">Transmission</a></li>
-																<li class="megamenu-links__item"><a
-																		class="megamenu-links__item-link" href="#">Air
-																		Filters</a></li>
-															</ul>
+											</li>
+											<li
+												class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
+												<a href="#" class="departments__item-link">Switches & Relays <span
+														class="departments__item-arrow"><svg width="7" height="11">
+															<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+		C-0.1,9.8-0.1,10.4,0.3,10.7z" />
+														</svg></span></a>
+												<div class="departments__item-menu">
+													<div
+														class="megamenu departments__megamenu departments__megamenu--size--md">
+														<div class="megamenu__image"><img
+																src="../../../assets/template/images/departments/departments-3.jpg" alt=""></div>
+														<div class="row">
+															<div class="col-4">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Body
+																			Parts</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Bumpers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Hoods</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Grilles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Door Handles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Car Covers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tailgates</a></li>
+																		</ul>
+																	</li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Suspension</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Steering</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Fuel
+																			Systems</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Transmission</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Air
+																			Filters</a></li>
+																</ul>
+															</div>
+															<div class="col-4">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link"
+																			href="#">Headlights & Lighting</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Headlights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tail Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Turn Signals</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Switches & Relays</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Corner Lights</a></li>
+																		</ul>
+																	</li>
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Brakes
+																			& Suspension</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Brake Discs</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Wheel Hubs</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Air Suspension</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Ball Joints</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Brake Pad Sets</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+															<div class="col-4">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link"
+																			href="#">Interior Parts</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Floor Mats</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Gauges</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Consoles & Organizers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Mobile Electronics</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										</li>
-										<li class="departments__item"><a href="#"
-												class="departments__item-link">Clutches</a></li>
-										<li class="departments__item"><a href="#" class="departments__item-link">Fuel
-												Systems</a></li>
-										<li class="departments__item"><a href="#"
-												class="departments__item-link">Steering</a></li>
-										<li class="departments__item"><a href="#"
-												class="departments__item-link">Suspension</a></li>
-										<li class="departments__item"><a href="#" class="departments__item-link">Body
-												Parts</a></li>
-										<li class="departments__item"><a href="#"
-												class="departments__item-link">Transmission</a></li>
-										<li class="departments__item"><a href="#" class="departments__item-link">Air
-												Filters</a></li>
-										<li class="departments__list-padding" role="presentation"></li>
-									</ul>
-									<div class="departments__menu-container"></div>
+											</li>
+											<li
+												class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
+												<a href="#" class="departments__item-link">Tires & Wheels <span
+														class="departments__item-arrow"><svg width="7" height="11">
+															<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+		C-0.1,9.8-0.1,10.4,0.3,10.7z" />
+														</svg></span></a>
+												<div class="departments__item-menu">
+													<div
+														class="megamenu departments__megamenu departments__megamenu--size--nl">
+														<div class="megamenu__image"><img
+																src="../../../assets/template/images/departments/departments-4.jpg" alt=""></div>
+														<div class="row">
+															<div class="col-6">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Body
+																			Parts</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Bumpers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Hoods</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Grilles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Door Handles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Car Covers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tailgates</a></li>
+																		</ul>
+																	</li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Suspension</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Steering</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Fuel
+																			Systems</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Transmission</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Air
+																			Filters</a></li>
+																</ul>
+															</div>
+															<div class="col-6">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link"
+																			href="#">Headlights & Lighting</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Headlights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tail Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Turn Signals</a></li>
+																		</ul>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+											<li
+												class="departments__item departments__item--submenu--megamenu departments__item--has-submenu">
+												<a href="#" class="departments__item-link">Tools & Garage <span
+														class="departments__item-arrow"><svg width="7" height="11">
+															<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+		C-0.1,9.8-0.1,10.4,0.3,10.7z" />
+														</svg></span></a>
+												<div class="departments__item-menu">
+													<div
+														class="megamenu departments__megamenu departments__megamenu--size--sm">
+														<div class="row">
+															<div class="col-12">
+																<ul
+																	class="megamenu__links megamenu-links megamenu-links--root">
+																	<li
+																		class="megamenu-links__item megamenu-links__item--has-submenu">
+																		<a class="megamenu-links__item-link" href="#">Body
+																			Parts</a>
+																		<ul class="megamenu-links">
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Bumpers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Hoods</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Grilles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Fog Lights</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Door Handles</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Car Covers</a></li>
+																			<li class="megamenu-links__item"><a
+																					class="megamenu-links__item-link"
+																					href="#">Tailgates</a></li>
+																		</ul>
+																	</li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Suspension</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Steering</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Fuel
+																			Systems</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link"
+																			href="#">Transmission</a></li>
+																	<li class="megamenu-links__item"><a
+																			class="megamenu-links__item-link" href="#">Air
+																			Filters</a></li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+											<li class="departments__item"><a href="#"
+													class="departments__item-link">Clutches</a></li>
+											<li class="departments__item"><a href="#" class="departments__item-link">Fuel
+													Systems</a></li>
+											<li class="departments__item"><a href="#"
+													class="departments__item-link">Steering</a></li>
+											<li class="departments__item"><a href="#"
+													class="departments__item-link">Suspension</a></li>
+											<li class="departments__item"><a href="#" class="departments__item-link">Body
+													Parts</a></li>
+											<li class="departments__item"><a href="#"
+													class="departments__item-link">Transmission</a></li>
+											<li class="departments__item"><a href="#" class="departments__item-link">Air
+													Filters</a></li>
+											<li class="departments__list-padding" role="presentation"></li>
+										</ul>
+										<div class="departments__menu-container"></div>
+									</div>
 								</div>
-							</div>
+							}
 						</div>
 					</div>
 					<div class="header__navbar-menu">
@@ -1216,7 +1218,7 @@
 											class="suggestions__item suggestions__product" href="#">
 											<div class="suggestions__product-image image image--type--product">
 												<div class="image__body"><img class="image__tag"
-														src="images/products/product-2-40x40.jpg" alt=""></div>
+														src="../../../assets/template/images/products/product-2-40x40.jpg" alt=""></div>
 											</div>
 											<div class="suggestions__product-info">
 												<div class="suggestions__product-name">Brandix Brake Kit BDX-750Z370-S
@@ -1240,7 +1242,7 @@
 										</a><a class="suggestions__item suggestions__product" href="#">
 											<div class="suggestions__product-image image image--type--product">
 												<div class="image__body"><img class="image__tag"
-														src="images/products/product-3-40x40.jpg" alt=""></div>
+														src="../../../assets/template/images/products/product-3-40x40.jpg" alt=""></div>
 											</div>
 											<div class="suggestions__product-info">
 												<div class="suggestions__product-name">Left Headlight Of Brandix Z54
@@ -1264,7 +1266,7 @@
 										</a><a class="suggestions__item suggestions__product" href="#">
 											<div class="suggestions__product-image image image--type--product">
 												<div class="image__body"><img class="image__tag"
-														src="images/products/product-4-40x40.jpg" alt=""></div>
+														src="../../../assets/template/images/products/product-3-40x40.jpg" alt=""></div>
 											</div>
 											<div class="suggestions__product-info">
 												<div class="suggestions__product-name">Glossy Gray 19" Aluminium Wheel
@@ -1433,7 +1435,7 @@
 											Account</a></div>
 								</form>
 								<div class="account-menu__divider"></div><a href="#" class="account-menu__user">
-									<div class="account-menu__user-avatar"><img src="images/avatars/avatar-4.jpg"
+									<div class="account-menu__user-avatar"><img src="../../../assets/template/images/avatars/avatar-4.jpg"
 											alt=""></div>
 									<div class="account-menu__user-info">
 										<div class="account-menu__user-name">Ryan Ford</div>
@@ -1471,7 +1473,7 @@
 									<li class="dropcart__item">
 										<div class="dropcart__item-image image image--type--product"><a
 												class="image__body" href="product-full.html"><img class="image__tag"
-													src="images/products/product-4-70x70.jpg" alt=""></a></div>
+													src="../../../assets/template/images/products/product-4-70x70.jpg" alt=""></a></div>
 										<div class="dropcart__item-info">
 											<div class="dropcart__item-name"><a href="product-full.html">Glossy Gray 19"
 													Aluminium Wheel AR-19</a></div>
@@ -1494,7 +1496,7 @@
 									<li class="dropcart__item">
 										<div class="dropcart__item-image image image--type--product"><a
 												class="image__body" href="product-full.html"><img class="image__tag"
-													src="images/products/product-2-70x70.jpg" alt=""></a></div>
+													src="../../../assets/template/images/products/product-2-70x70.jpg" alt=""></a></div>
 										<div class="dropcart__item-info">
 											<div class="dropcart__item-name"><a href="product-full.html">Brandix Brake
 													Kit BDX-750Z370-S</a></div>
@@ -1513,7 +1515,7 @@
 									<li class="dropcart__item">
 										<div class="dropcart__item-image image image--type--product"><a
 												class="image__body" href="product-full.html"><img class="image__tag"
-													src="images/products/product-5-70x70.jpg" alt=""></a></div>
+													src="../../../assets/template/images/products/product-5-70x70.jpg" alt=""></a></div>
 										<div class="dropcart__item-info">
 											<div class="dropcart__item-name"><a href="product-full.html">Twin Exhaust
 													Pipe From Brandix Z54</a></div>
@@ -1535,22 +1537,24 @@
 								</ul>
 								<div class="dropcart__totals">
 									<table>
-										<tr>
-											<th>Subtotal</th>
-											<td>$5877.00</td>
-										</tr>
-										<tr>
-											<th>Shipping</th>
-											<td>$25.00</td>
-										</tr>
-										<tr>
-											<th>Tax</th>
-											<td>$0.00</td>
-										</tr>
-										<tr>
-											<th>Total</th>
-											<td>$5902.00</td>
-										</tr>
+										<tbody>
+											<tr>
+												<th>Subtotal</th>
+												<td>$5877.00</td>
+											</tr>
+											<tr>
+												<th>Shipping</th>
+												<td>$25.00</td>
+											</tr>
+											<tr>
+												<th>Tax</th>
+												<td>$0.00</td>
+											</tr>
+											<tr>
+												<th>Total</th>
+												<td>$5902.00</td>
+											</tr>
+										</tbody>
 									</table>
 								</div>
 								<div class="dropcart__actions"><a href="cart.html" class="btn btn-secondary">View
