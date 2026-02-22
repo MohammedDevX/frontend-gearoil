@@ -1,27 +1,107 @@
-<div class="card">
-    <div class="form-title">Créer un compte</div>
-    <div class="form-sub">Remplissez les informations ci-dessous pour vous inscrire.</div>
-  
-    <div class="row">
-      <div class="field">
-        <label>Nom</label>
-        <input type="text" [(ngModel)]="model.nom" placeholder="Dupont" />
+<div class="bg">
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="bg-glow2"></div>
+  <div class="noise"></div>
+</div>
+
+<div class="page">
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+      <div class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6zm0 10a4 4 0 1 1 4-4 4 4 0 0 1-4 4z"/>
+          </svg>
+        </div>
+        <div class="logo-name">Gear<span>Oil</span></div>
       </div>
-      <div class="field">
-        <label>Prénom</label>
-        <input type="text" [(ngModel)]="model.prenom" placeholder="Jean" />
+
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Nouveau compte client
       </div>
+
+      <h1 class="card-title">
+        Rejoignez<br>
+        <span class="highlight">GearOil.</span>
+      </h1>
+      <p class="card-sub">Créez votre compte pour accéder à la plateforme de gestion automobile.</p>
     </div>
-  
-    <div class="field">
-      <label>Adresse email</label>
-      <input type="email" [(ngModel)]="model.email" placeholder="jean.dupont@example.com" />
+
+    <!-- FORM -->
+    <div class="form-body">
+
+      <div class="steps">
+        <div class="step active">
+          <div class="step-num">1</div>
+          Infos
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <div class="step-num">2</div>
+          Sécurité
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <div class="step-num">3</div>
+          Accès
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <div class="field-label">Nom</div>
+          <input class="field-input" type="text" [(ngModel)]="model.nom" placeholder="Dupont" />
+        </div>
+        <div class="field">
+          <div class="field-label">Prénom</div>
+          <input class="field-input" type="text" [(ngModel)]="model.prenom" placeholder="Jean" />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Adresse email</div>
+        <input class="field-input" type="email" [(ngModel)]="model.email" placeholder="jean.dupont@gearoil.com" />
+      </div>
+
+      <div class="field">
+        <div class="field-label">Mot de passe</div>
+        <input
+          class="field-input"
+          type="password"
+          [(ngModel)]="model.password"
+          placeholder="Min. 6 car., 1 maj., 1 chiffre"
+          (input)="checkStrength(model.password)"
+          style="width:100%"
+        />
+        <div class="strength-bars">
+          <div class="strength-bar" [class.active]="strengthScore >= 1" [class.medium]="strengthScore === 3" [class.strong]="strengthScore >= 4"></div>
+          <div class="strength-bar" [class.active]="strengthScore >= 2" [class.medium]="strengthScore === 3" [class.strong]="strengthScore >= 4"></div>
+          <div class="strength-bar" [class.active]="strengthScore >= 3" [class.medium]="strengthScore === 3" [class.strong]="strengthScore >= 4"></div>
+          <div class="strength-bar" [class.active]="strengthScore >= 4" [class.strong]="strengthScore >= 4"></div>
+          <div class="strength-bar" [class.active]="strengthScore >= 5" [class.strong]="strengthScore >= 5"></div>
+        </div>
+        <div class="strength-text" [style.color]="strengthColor">{{ strengthLabel }}</div>
+      </div>
+
+      <div class="divider">ou</div>
+
+      <div class="terms" (click)="accepted = !accepted">
+        <div class="terms-check" [class.checked]="accepted"></div>
+        <div class="terms-text">
+          J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a> de GearOil.
+        </div>
+      </div>
+
+      <button class="btn" (click)="register()">S'inscrire →</button>
     </div>
-  
-    <div class="field">
-      <label>Mot de passe</label>
-      <input type="password" [(ngModel)]="model.password" placeholder="Min. 6 caractères" />
+
+    <div class="card-footer">
+      Déjà un compte ? <a href="#">Contacter l'administrateur</a>
     </div>
-  
-    <button class="btn-primary" (click)="register()">S'inscrire</button>
+
   </div>
+</div>
