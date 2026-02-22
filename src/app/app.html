@@ -1,14 +1,572 @@
-<header class="navbar">
-  <!-- <h2>GearOil Shop</h2>
-  <nav>
-    <a routerLink="/">Home</a>
-    <a routerLink="/products">Products</a>
-    <a routerLink="/cart">Cart</a>
-  </nav> -->
-</header>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GearOil — Auth</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+  :root {
+    --coal: #0d0d0d;
+    --iron: #1a1a1a;
+    --steel: #2a2a2a;
+    --rust: #c94a1a;
+    --rust-glow: #e05a20;
+    --chrome: #d4d4d4;
+    --chrome-dim: #7a7a7a;
+    --white: #f5f5f0;
+  }
 
-<!-- <router-outlet /> -->
+  html, body {
+    height: 100%;
+    background: var(--coal);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+  }
+
+  /* ── BACKGROUND ── */
+  .bg {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.025) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.025) 40px),
+      radial-gradient(ellipse 80% 60% at 70% 50%, #1e0b04 0%, #0d0d0d 60%);
+  }
+
+  .bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: .4;
+  }
+
+  /* ── GEAR DECO ── */
+  .gear-deco {
+    position: fixed;
+    right: -80px; top: 50%;
+    transform: translateY(-50%);
+    width: 500px; height: 500px;
+    opacity: .04;
+    animation: spin 60s linear infinite;
+  }
+
+  .gear-deco-sm {
+    position: fixed;
+    left: -60px; bottom: 10%;
+    width: 280px; height: 280px;
+    opacity: .035;
+    animation: spin 40s linear infinite reverse;
+  }
+
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+  @keyframes spin-sm { to { transform: rotate(360deg); } }
+
+  /* ── LAYOUT ── */
+  .shell {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* LEFT PANEL */
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 56px;
+    border-right: 1px solid rgba(201,74,26,.15);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--rust);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+
+  .logo-text span { color: var(--rust); }
+
+  .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 0;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--rust);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 7vw, 88px);
+    line-height: .95;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--rust);
+    -webkit-text-stroke: 0px;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--chrome-dim);
+    max-width: 360px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 40px;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--chrome-dim);
+  }
+
+  /* RIGHT PANEL */
+  .right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    background: rgba(255,255,255,.013);
+  }
+
+  /* TABS */
+  .card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--steel);
+  }
+
+  .tab {
+    flex: 1;
+    padding: 14px 0;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--chrome-dim);
+    cursor: pointer;
+    transition: all .25s;
+    margin-bottom: -1px;
+  }
+
+  .tab:hover { color: var(--chrome); }
+
+  .tab.active {
+    color: var(--rust);
+    border-bottom-color: var(--rust);
+  }
+
+  /* FORMS */
+  .form { display: none; flex-direction: column; gap: 20px; }
+  .form.active { display: flex; animation: fadeUp .35s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .form-sub {
+    font-size: 13px;
+    color: var(--chrome-dim);
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .field { display: flex; flex-direction: column; gap: 7px; }
+
+  .field label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--chrome-dim);
+  }
+
+  .field input {
+    background: var(--iron);
+    border: 1px solid var(--steel);
+    border-radius: 4px;
+    padding: 13px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--white);
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+
+  .field input::placeholder { color: #444; }
+
+  .field input:focus {
+    border-color: var(--rust);
+    box-shadow: 0 0 0 3px rgba(201,74,26,.12);
+  }
+
+  .btn-primary {
+    background: var(--rust);
+    border: none;
+    border-radius: 4px;
+    padding: 15px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: var(--white);
+    cursor: pointer;
+    transition: background .2s, transform .1s, box-shadow .2s;
+    margin-top: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 60%);
+  }
+
+  .btn-primary:hover {
+    background: var(--rust-glow);
+    box-shadow: 0 8px 24px rgba(201,74,26,.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  /* SET PASSWORD PAGE */
+  .set-pw-info {
+    background: rgba(201,74,26,.08);
+    border: 1px solid rgba(201,74,26,.2);
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--chrome-dim);
+    line-height: 1.6;
+  }
+
+  .set-pw-info strong { color: var(--rust); }
+
+  /* PASSWORD STRENGTH */
+  .strength-bar {
+    height: 3px;
+    background: var(--steel);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .strength-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    background: var(--rust);
+    transition: width .3s, background .3s;
+  }
+
+  .strength-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--chrome-dim);
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--chrome-dim);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--steel);
+  }
+
+  /* FOOTER LINK */
+  .form-footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--chrome-dim);
+  }
+
+  .form-footer a {
+    color: var(--rust);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .form-footer a:hover { text-decoration: underline; }
+
+  /* BADGE */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,74,26,.1);
+    border: 1px solid rgba(201,74,26,.25);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--rust);
+    margin-top: 32px;
+  }
+
+  .badge-dot { width: 6px; height: 6px; background: var(--rust); border-radius: 50%; animation: pulse 2s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .3; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .shell { grid-template-columns: 1fr; }
+    .left { display: none; }
+    .right { padding: 32px 24px; min-height: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg"></div>
+
+<!-- Gear SVGs -->
+<svg class="gear-deco" viewBox="0 0 100 100" fill="white" xmlns="http://www.w3.org/2000/svg">
+  <path d="M43.3 5.5l2.1-5.5h9.2l2.1 5.5 5.6 2.3 5-3.2 6.5 6.5-3.2 5 2.3 5.6 5.5 2.1v9.2l-5.5 2.1-2.3 5.6 3.2 5-6.5 6.5-5-3.2-5.6 2.3-2.1 5.5h-9.2l-2.1-5.5-5.6-2.3-5 3.2-6.5-6.5 3.2-5-2.3-5.6L5.5 56v-9.2l5.5-2.1 2.3-5.6-3.2-5 6.5-6.5 5 3.2 5.6-2.3zM50 35a15 15 0 1 0 0 30 15 15 0 0 0 0-30z"/>
+</svg>
+
+<svg class="gear-deco-sm" viewBox="0 0 100 100" fill="white" xmlns="http://www.w3.org/2000/svg" style="animation: spin-sm 40s linear infinite reverse;">
+  <path d="M43.3 5.5l2.1-5.5h9.2l2.1 5.5 5.6 2.3 5-3.2 6.5 6.5-3.2 5 2.3 5.6 5.5 2.1v9.2l-5.5 2.1-2.3 5.6 3.2 5-6.5 6.5-5-3.2-5.6 2.3-2.1 5.5h-9.2l-2.1-5.5-5.6-2.3-5 3.2-6.5-6.5 3.2-5-2.3-5.6L5.5 56v-9.2l5.5-2.1 2.3-5.6-3.2-5 6.5-6.5 5 3.2 5.6-2.3zM50 35a15 15 0 1 0 0 30 15 15 0 0 0 0-30z"/>
+</svg>
+
+<div class="shell">
+
+  <!-- LEFT PANEL -->
+  <div class="left">
+    <div class="logo">
+      <div class="logo-icon"></div>
+      <div class="logo-text">Gear<span>Oil</span></div>
+    </div>
+
+    <div class="hero">
+      <div class="eyebrow">Plateforme de gestion</div>
+      <h1 class="hero-title">
+        Gérez votre<br>
+        activité<br>
+        <em>sans friction.</em>
+      </h1>
+      <p class="hero-sub">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta nihil omnis aut eos reiciendis, ea, voluptatum optio autem numquam exercitationem assumenda rerum ad facere quibusdam totam obcaecati, modi non aspernatur..
+      </p>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Système en ligne
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num">99.9%</span>
+        <span class="stat-label">Disponibilité</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2FA</span>
+        <span class="stat-label">Sécurité</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">24/7</span>
+        <span class="stat-label">Support</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right">
+    <div class="card">
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('register')">Inscription</button>
+        <button class="tab" onclick="showTab('setpassword')">Activation</button>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div class="form active" id="tab-register">
+        <div>
+          <div class="form-title">Créer un compte</div>
+          <div class="form-sub">Remplissez les informations ci-dessous pour vous inscrire.</div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Nom</label>
+            <input type="text" placeholder="Dupont" />
+          </div>
+          <div class="field">
+            <label>Prénom</label>
+            <input type="text" placeholder="Jean" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Adresse email</label>
+          <input type="email" placeholder="jean.dupont@example.com" />
+        </div>
+
+        <div class="field">
+          <label>Mot de passe</label>
+          <input type="password" placeholder="Min. 6 caractères" id="pw-input" oninput="checkStrength(this.value)" />
+          <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+          <div class="strength-label" id="strength-label">— Entrez un mot de passe</div>
+        </div>
+
+        <button class="btn-primary">S'inscrire</button>
+
+        <div class="form-footer">
+          Déjà un compte ? <a href="#">Contacter l'administrateur</a>
+        </div>
+      </div>
+
+      <!-- SET PASSWORD FORM -->
+      <div class="form" id="tab-setpassword">
+        <div>
+          <div class="form-title">Activer le compte</div>
+          <div class="form-sub">Définissez votre mot de passe pour accéder à la plateforme.</div>
+        </div>
+
+        <div class="set-pw-info">
+          Lien reçu par email. <strong>Token valide 24h.</strong> Ce mot de passe sera utilisé pour toutes vos connexions.
+        </div>
+
+        <div class="field">
+          <label>Nouveau mot de passe</label>
+          <input type="password" placeholder="Min. 6 car., 1 maj., 1 chiffre, 1 spécial" id="pw-input2" oninput="checkStrength2(this.value)" />
+          <div class="strength-bar"><div class="strength-fill" id="strength-fill2"></div></div>
+          <div class="strength-label" id="strength-label2">— Entrez un mot de passe</div>
+        </div>
+
+        <button class="btn-primary">Activer le compte</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showTab(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && tab === 'register') || (i === 1 && tab === 'setpassword'));
+    });
+    document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
+
+  function evalStrength(pw) {
+    let score = 0;
+    if (pw.length >= 6) score++;
+    if (pw.length >= 10) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    return score;
+  }
+
+  function applyStrength(score, fillId, labelId) {
+    const fill = document.getElementById(fillId);
+    const label = document.getElementById(labelId);
+    const levels = [
+      { w: '0%',   color: '#c94a1a', text: '— Entrez un mot de passe' },
+      { w: '20%',  color: '#c94a1a', text: 'Très faible' },
+      { w: '40%',  color: '#e07a20', text: 'Faible' },
+      { w: '60%',  color: '#e0b020', text: 'Moyen' },
+      { w: '80%',  color: '#80c030', text: 'Fort' },
+      { w: '100%', color: '#40c060', text: '✓ Très fort' },
+    ];
+    const lvl = levels[score];
+    fill.style.width = lvl.w;
+    fill.style.background = lvl.color;
+    label.textContent = lvl.text;
+    label.style.color = lvl.color;
+  }
+
+  function checkStrength(pw) { applyStrength(pw ? evalStrength(pw) : 0, 'strength-fill', 'strength-label'); }
+  function checkStrength2(pw) { applyStrength(pw ? evalStrength(pw) : 0, 'strength-fill2', 'strength-label2'); }
+</script>
+</body>
+</html>

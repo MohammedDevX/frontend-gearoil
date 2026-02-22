@@ -1,0 +1,27 @@
+<div class="card">
+    <div class="form-title">Créer un compte</div>
+    <div class="form-sub">Remplissez les informations ci-dessous pour vous inscrire.</div>
+  
+    <div class="row">
+      <div class="field">
+        <label>Nom</label>
+        <input type="text" [(ngModel)]="model.nom" placeholder="Dupont" />
+      </div>
+      <div class="field">
+        <label>Prénom</label>
+        <input type="text" [(ngModel)]="model.prenom" placeholder="Jean" />
+      </div>
+    </div>
+  
+    <div class="field">
+      <label>Adresse email</label>
+      <input type="email" [(ngModel)]="model.email" placeholder="jean.dupont@example.com" />
+    </div>
+  
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" [(ngModel)]="model.password" placeholder="Min. 6 caractères" />
+    </div>
+  
+    <button class="btn-primary" (click)="register()">S'inscrire</button>
+  </div>
