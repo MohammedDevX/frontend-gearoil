@@ -1,5 +1,4 @@
 
-
 // .account-menu__divider {
 //     height: 1px;
 //     background: #ebebeb
@@ -360,8 +359,8 @@
 
 // .departments__menu {
 //     position: absolute;
-//     z-index: 1;
 //     visibility: hidden;
+//     z-index: 1000 !important; /* Ensures the menu box is above other elements */
 //     opacity: 0;
 //     top: 100%;
 //     transform: translateY(-10px);
@@ -782,7 +781,8 @@
 
 // .header__navbar-departments,
 // .header__navbar-menu {
-//     z-index: 2
+//     z-index: 999 !important; /* Forces the entire department section to the front */
+//     position: relative; 
 // }
 
 
@@ -2588,4 +2588,54 @@
 //     .header {
 //         display: grid;
 //     }
+// }
+
+// /* 1. Show the submenu container and position it to the right */
+// .departments__item--hover .departments__item-menu,
+// .departments__item:hover .departments__item-menu {
+//     display: block;
+//     position: absolute;
+//     top: 0;
+//     left: 100%; /* Pushes the submenu exactly to the right of the main list */
+//     height: 100%;
+//     z-index: 10;
+// }
+
+// /* 2. Show the actual megamenu inside the container */
+// .departments__item--hover .departments__megamenu,
+// .departments__item:hover .departments__megamenu {
+//     display: block;
+//     height: 100%;
+//     background-color: #fff;
+//     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2); /* Matches your theme's shadow */
+// }
+// /* 1. Fix the width of the XL Megamenu */
+// .departments__megamenu--size--xl {
+//     width: 900px !important; /* Shrink from 1120px to a more standard size */
+//     max-width: calc(100vw - 320px) !important; /* Prevents it from bleeding off the screen (assuming your sidebar is ~280px) */
+// }
+
+// /* 2. Fix the padding on the sides of the menu box */
+// .departments__megamenu {
+//     padding: 30px 40px 35px !important; /* Increase left/right padding (40px) for better breathing room */
+//     box-sizing: border-box !important; /* Ensures padding doesn't make the box wider */
+//     overflow: hidden; /* Keeps the background image neatly tucked inside */
+// }
+
+// /* 3. Fix the inner columns pushing into the side padding */
+// .departments__megamenu .row {
+//     margin-left: -15px !important;
+//     margin-right: -15px !important;
+//     width: calc(100% + 30px); /* Compensates for the negative margins */
+// }
+
+// .departments__megamenu [class*="col-"] {
+//     padding-left: 15px !important;
+//     padding-right: 15px !important;
+// }
+
+// /* 4. (Optional) Adjust background image opacity so it doesn't make text hard to read on a narrower menu */
+// .departments__megamenu--size--xl .megamenu__image {
+//     opacity: 0.4; 
+//     right: -20px; /* Push it slightly off-edge for a cleaner look */
 // }

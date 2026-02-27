@@ -30,8 +30,9 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
               "src/assets/template/css/bootstrap/css/bootstrap.css",
+              "src/styles.scss",
+              "src/assets/template/css/style.css",
               "src/assets/template/css/fontawesome/css/all.min.css",
               "src/assets/template/css/owl-carousel/assets/owl.carousel.min.css",
               "src/assets/template/css//select2/css/select2.min.css",

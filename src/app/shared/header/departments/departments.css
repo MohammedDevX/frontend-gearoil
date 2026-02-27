@@ -1,0 +1,673 @@
+.account-menu__form-button .btn {
+
+    padding-left: 28px;
+    padding-right: 28px
+
+}
+
+.account-menu__form-button {
+
+    margin-top: 32px;
+    text-align: center
+
+}
+
+.account-menu__form-link a {
+
+    color: #6c757d;
+    transition: color .1s
+
+}
+
+.account-menu__form-link a:hover {
+
+    color: inherit
+
+}
+
+.account-menu__links a {
+
+    display: block;
+    color: inherit;
+    font-size: 15px;
+    padding: 5px 20px;
+    font-weight: 500
+
+}
+
+.account-menu__links a:hover {
+
+    background: #f2f2f2
+
+}
+
+.account-menu__user-avatar img {
+
+    border-radius: 100%;
+    max-width: 100%
+
+}
+
+.departments {
+
+    position: relative
+
+}
+
+.departments__arrow {
+
+    position: absolute;
+    width: 31px;
+    height: 21px;
+    pointer-events: none;
+    bottom: 100%;
+    overflow: hidden
+
+}
+
+.departments__arrow:before {
+
+    position: absolute;
+    display: block;
+    content: "";
+    width: 7px;
+    height: 7px;
+    top: 100%;
+    margin-top: -3.5px;
+    background-color: #fff;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, .2);
+    border-radius: 1px;
+    left: 50%;
+    margin-left: -3.5px;
+    transform: rotate(45deg) translateX(-.5px) translateY(-.5px)
+
+}
+
+.departments__body {
+
+    border-radius: 1.5px;
+    pointer-events: auto;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: #fff;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, .2);
+    color: #262626;
+    float: left
+
+}
+
+.departments__button .departments__button-arrow {
+
+    color: #bfbfbf
+
+}
+
+.departments__button .departments__button-icon {
+
+    color: #404040
+
+}
+
+.departments__button {
+
+    background: #fff;
+    color: #262626;
+    font-weight: 500
+
+}
+
+.departments__button {
+
+    position: relative;
+    fill: currentColor;
+    border: none;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 15px;
+    transition: background-color .2s, color .2s;
+    padding: 5px 11px 5px 35px;
+    text-align: left
+
+}
+
+.departments__button-arrow {
+
+    display: none;
+    fill: currentColor;
+    position: absolute;
+    top: calc(50% - 4px);
+    transition: transform .2s, color .2s;
+    right: 14px
+
+}
+
+.departments__button-arrow svg {
+
+    display: block
+
+}
+
+.departments__button-icon {
+
+    top: 10px;
+    position: absolute;
+    fill: currentColor;
+    display: inline-block;
+    transition: color .2s;
+    left: 10px;
+    transform: scaleX(1)
+
+}
+
+.departments__button-icon svg {
+
+    display: block
+
+}
+
+.departments__button:focus {
+
+    outline: none
+
+}
+
+.departments__item--hover .departments__item-link {
+
+    background: #f2f2f2;
+    color: inherit
+
+}
+
+.departments__item-arrow {
+
+    fill: #bfbfbf;
+    position: absolute;
+    top: calc(50% - 6px)
+
+}
+
+.departments__item-arrow svg {
+
+    display: block
+
+}
+
+.departments__item-link {
+
+    color: inherit;
+    display: block;
+    position: relative
+
+}
+
+.departments__item-menu {
+
+    display: none
+
+}
+
+.departments__list {
+
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 500
+
+}
+
+.departments__megamenu {
+
+    min-height: 100%;
+    display: none;
+    box-shadow: inset 1px 0 #ebebeb
+
+}
+
+.departments__menu {
+
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    top: 100%;
+    transform: translateY(-10px);
+    transition: opacity .2s, transform .2s, visibility 0s .2s
+
+}
+
+.departments--open .departments__button .departments__button-arrow,
+.departments__button:hover .departments__button-arrow {
+
+    color: rgba(0, 0, 0, .25)
+
+}
+
+.departments--open .departments__button .departments__button-icon,
+.departments__button:hover .departments__button-icon {
+
+    color: #fff
+
+}
+
+.departments--open .departments__button-arrow {
+
+    transform: rotate(180deg)
+
+}
+
+.departments--open .departments__button,
+.departments__button:hover {
+
+    background: #e52727;
+    color: #fff
+
+}
+
+.departments--open .departments__menu {
+
+    transition-delay: 0s;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0)
+
+}
+
+.dropcart__item-name a {
+
+    color: inherit;
+    transition: color .2s
+
+}
+
+.dropcart__item-name a:hover {
+
+    color: #cb1818
+
+}
+
+.header__navbar-departments,
+.header__navbar-menu {
+
+    z-index: 2
+
+}
+
+.indicator__icon svg {
+
+    display: block;
+    transform: scaleX(1)
+
+}
+
+.main-menu .main-menu__item--has-submenu .main-menu__link svg {
+
+    color: #bfbfbf
+
+}
+
+.main-menu__item--has-submenu .main-menu__link svg {
+
+    top: 14px;
+    position: absolute;
+    fill: currentColor;
+    right: 10px
+
+}
+
+.megamenu {
+
+    position: relative
+
+}
+
+.megamenu__image {
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform-origin: bottom right
+
+}
+
+.megamenu__image img,
+.megamenu__image picture {
+
+    display: block
+
+}
+
+.megamenu-links {
+
+    list-style: none;
+    padding: 0;
+    margin: 0
+
+}
+
+.megamenu-links__item {
+
+    line-height: 18px
+
+}
+
+.megamenu-links__item--has-submenu+.megamenu-links__item {
+
+    margin-top: 24px
+
+}
+
+.megamenu-links__item-link {
+
+    font-size: 16px;
+    color: inherit;
+    transition: color .15s;
+    font-weight: 500
+
+}
+
+.megamenu-links__item-link:hover {
+
+    color: #cb1818
+
+}
+
+.megamenu-links__item-link+.megamenu-links {
+
+    border-top: 1px solid #ebebeb;
+    padding-top: 12px;
+    margin-top: 5px
+
+}
+
+.megamenu-links__item+.megamenu-links__item {
+
+    margin-top: 10px
+
+}
+
+.megamenu-links:not(.megamenu-links--root) .megamenu-links__item {
+
+    line-height: 16px
+
+}
+
+.megamenu-links:not(.megamenu-links--root) .megamenu-links__item-link {
+
+    font-weight: 400;
+    font-size: 14px;
+    color: #6c757d
+
+}
+
+.megamenu-links:not(.megamenu-links--root) .megamenu-links__item-link:hover {
+
+    color: #cb1818
+
+}
+
+.megamenu-links:not(.megamenu-links--root) .megamenu-links__item+.megamenu-links__item {
+
+    margin-top: 9px
+
+}
+
+.menu__arrow svg {
+
+    display: block;
+    transform: scaleX(1)
+
+}
+
+.search__button-icon svg {
+
+    display: block
+
+}
+
+.search__car-selector-link a {
+
+    font-size: 14px;
+    color: #999
+
+}
+
+.search__car-selector-link a:hover {
+
+    text-decoration: underline
+
+}
+
+.topbar__button-arrow svg {
+
+    display: block
+
+}
+
+.topbar__menu-item img {
+
+    margin-right: 8px
+
+}
+
+.topbar__menu-item span {
+
+    position: relative;
+    top: 1px
+
+}
+
+.topbar--spaceship-end .topbar__button:hover .topbar__button-label,
+.topbar--spaceship-end .topbar__menu--open .topbar__menu-button .topbar__button-label {
+
+    color: #fff
+
+}
+
+.topbar--spaceship-end .topbar__button:hover,
+.topbar--spaceship-end .topbar__menu--open .topbar__menu-button {
+
+    background: hsla(0, 0%, 100%, .08)
+
+}
+
+.topbar--spaceship-start .topbar__button:hover .topbar__button-label,
+.topbar--spaceship-start .topbar__menu--open .topbar__menu-button .topbar__button-label {
+
+    color: #fff
+
+}
+
+.topbar--spaceship-start .topbar__button:hover,
+.topbar--spaceship-start .topbar__menu--open .topbar__menu-button {
+
+    background: rgba(0, 0, 0, .12)
+
+}
+
+.departments__button {
+
+        height: 32px;
+        display: block;
+        padding-right: 0
+    
+}
+
+.departments__button-title {
+
+        display: none
+    
+}
+
+.departments__list {
+
+        width: 210px
+    
+}
+
+.departments__list-padding {
+
+        height: 10px
+    
+}
+
+.departments__item-link {
+
+        padding: 6px 26px 6px 17px
+    
+}
+
+.departments__item-arrow {
+
+        right: 11px;
+        transform: scaleX(1)
+    
+}
+
+.departments__megamenu {
+
+        padding: 17px 20px 20px
+    
+}
+
+.departments__megamenu .row {
+
+        margin: 0 -10px
+    
+}
+
+.departments__megamenu .col,
+    .departments__megamenu .col-1,
+    .departments__megamenu .col-1of1,
+    .departments__megamenu .col-1of2,
+    .departments__megamenu .col-1of3,
+    .departments__megamenu .col-1of4,
+    .departments__megamenu .col-1of5,
+    .departments__megamenu .col-2,
+    .departments__megamenu .col-3,
+    .departments__megamenu .col-4,
+    .departments__megamenu .col-5,
+    .departments__megamenu .col-6,
+    .departments__megamenu .col-7,
+    .departments__megamenu .col-8,
+    .departments__megamenu .col-9,
+    .departments__megamenu .col-10,
+    .departments__megamenu .col-11,
+    .departments__megamenu .col-12 {
+
+        padding: 0 10px
+    
+}
+
+.departments__megamenu--size--xl {
+
+        width: 910px
+    
+}
+
+.departments__megamenu--size--lg {
+
+        width: 732px
+    
+}
+
+.departments__megamenu--size--md {
+
+        width: 554px
+    
+}
+
+.departments__megamenu--size--nl {
+
+        width: 376px
+    
+}
+
+.departments__megamenu--size--sm {
+
+        width: 198px
+    
+}
+
+.main-menu__link svg {
+
+        right: 9px
+    
+}
+
+.megamenu__image {
+
+        transform: scale(.81)
+    
+}
+
+.megamenu-links__item-link {
+
+        font-size: 15px
+    
+}
+
+.departments__list {
+
+        width: 230px
+    
+}
+
+.departments__list-padding {
+
+        height: 14px
+    
+}
+
+.departments__item-link {
+
+        padding: 7px 29px 7px 20px
+    
+}
+
+.departments__item-arrow {
+
+        right: 14px;
+        transform: scaleX(1)
+    
+}
+
+.departments__megamenu {
+
+        padding: 27px 30px 30px
+    
+}
+
+.departments__megamenu--size--xl {
+
+        width: 1120px
+    
+}
+
+.departments__megamenu--size--lg {
+
+        width: 902px
+    
+}
+
+.departments__megamenu--size--md {
+
+        width: 684px
+    
+}
+
+.departments__megamenu--size--nl {
+
+        width: 466px
+    
+}
+
+.departments__megamenu--size--sm {
+
+        width: 248px
+    
+}
+
