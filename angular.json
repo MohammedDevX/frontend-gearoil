@@ -31,6 +31,7 @@
             ],
             "styles": [
               "src/assets/template/css/bootstrap/css/bootstrap.css",
+              "src/tailwind.css",
               "src/styles.scss",
               "src/assets/template/css/style.css",
               "src/assets/template/css/fontawesome/css/all.min.css",
