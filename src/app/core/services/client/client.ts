@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { IClient } from '../../../models/IClient';
 
 @Injectable({
@@ -10,7 +11,11 @@ export class Client {
 
   constructor(private http: HttpClient) {}
 
-  getAllClients() {
+  getAllClients(): Observable<IClient[]> {
     return this.http.get<IClient[]>(`${this.url}/clients`);
+  }
+
+  blockClient(id: string): Observable<unknown> {
+    return this.http.patch(`${this.url}/client/blocked/${id}`, {});
   }
 }

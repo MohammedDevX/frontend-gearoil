@@ -75,6 +75,19 @@
   </div>
 
   <!-- Table -->
+  @if (selected.length > 0) {
+    <div class="border-b border-gray-200 px-3 py-2 text-sm text-gray-700 bg-gray-50 flex flex-wrap gap-2 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
+      <span class="font-medium">Selected ({{ selected.length }}):</span>
+      <div class="flex flex-wrap gap-1">
+        @for (client of selectedClients(); track client.userId) {
+          <span class="inline-flex items-center rounded-full bg-white px-2 py-0.5 text-xs border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            {{ client.userId }}
+          </span>
+        }
+      </div>
+    </div>
+  }
+
   <div class="overflow-x-auto custom-scrollbar">
     <table class="w-full">
       <thead>
@@ -137,9 +150,7 @@
             </div>
           </th>
           <th class="px-3 py-3 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
-            <div class="relative">
-              <span class="sr-only">Action</span>
-            </div>
+            <span>Block / Unblock</span>
           </th>
         </tr>
       </thead>
@@ -182,29 +193,13 @@
               <p class="text-sm text-gray-700 dark:text-gray-400">{{product.createdAt}}</p>
             </td>
             <td class="px-3 py-3 whitespace-nowrap">
-              <div class="relative inline-block">
-                 <app-table-dropdown>
-                  <div dropdown-button>
-                    <button class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-                     <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.99902 10.245C6.96552 10.245 7.74902 11.0285 7.74902 11.995V12.005C7.74902 12.9715 6.96552 13.755 5.99902 13.755C5.03253 13.755 4.24902 12.9715 4.24902 12.005V11.995C4.24902 11.0285 5.03253 10.245 5.99902 10.245ZM17.999 10.245C18.9655 10.245 19.749 11.0285 19.749 11.995V12.005C19.749 12.9715 18.9655 13.755 17.999 13.755C17.0325 13.755 16.249 12.9715 16.249 12.005V11.995C16.249 11.0285 17.0325 10.245 17.999 10.245ZM13.749 11.995C13.749 11.0285 12.9655 10.245 11.999 10.245C11.0325 10.245 10.249 11.0285 10.249 11.995V12.005C10.249 12.9715 11.0325 13.755 11.999 13.755C12.9655 13.755 13.749 12.9715 13.749 12.005V11.995Z" fill=""></path></svg>
-                    </button>
-                  </div>
-                  <div dropdown-content>
-                    <button
-                      (click)="handleViewMore()"
-                      class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2"
-                    >
-                      View More
-                    </button>
-                    <button
-                      (click)="handleDelete()"
-                      class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </app-table-dropdown>
-              </div>
+              <button
+                class="inline-flex items-center rounded-lg border border-gray-300 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-red-50 hover:border-red-400 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-red-500/15 dark:hover:border-red-500"
+                (click)="blockClient(client.userId)"
+                [disabled]="client.isBlocled"
+              >
+                {{ client.isBlocled ? 'Blocked' : 'Block' }}
+              </button>
             </td>
           </tr>
         }
@@ -238,29 +233,15 @@
               <span class="text-xs rounded-full px-2 py-0.5 font-medium" [ngClass]="{'bg-green-50 dark:bg-green-500/15 text-green-700 dark:text-green-500': !client.isBlocled, 'bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-500': client.isBlocled}">{{client.isBlocled ? 'Blocked' : 'Active'}}</span>
             </td>
             <td class="px-3 py-3 whitespace-nowrap">
-              <div class="relative inline-block">
-                 <app-table-dropdown>
-                  <div dropdown-button>
-                    <button class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-                     <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.99902 10.245C6.96552 10.245 7.74902 11.0285 7.74902 11.995V12.005C7.74902 12.9715 6.96552 13.755 5.99902 13.755C5.03253 13.755 4.24902 12.9715 4.24902 12.005V11.995C4.24902 11.0285 5.03253 10.245 5.99902 10.245ZM17.999 10.245C18.9655 10.245 19.749 11.0285 19.749 11.995V12.005C19.749 12.9715 18.9655 13.755 17.999 13.755C17.0325 13.755 16.249 12.9715 16.249 12.005V11.995C16.249 11.0285 17.0325 10.245 17.999 10.245ZM13.749 11.995C13.749 11.0285 12.9655 10.245 11.999 10.245C11.0325 10.245 10.249 11.0285 10.249 11.995V12.005C10.249 12.9715 11.0325 13.755 11.999 13.755C12.9655 13.755 13.749 12.9715 13.749 12.005V11.995Z" fill=""></path></svg>
-                    </button>
-                  </div>
-                  <div dropdown-content>
-                    <button
-                      (click)="handleViewMore()"
-                      class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2"
-                    >
-                      View More
-                    </button>
-                    <button
-                      (click)="handleDelete()"
-                      class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </app-table-dropdown>
-              </div>
+              <button
+                class="inline-flex items-center rounded-lg border px-3 py-1 text-xs font-medium transition-colors"
+                [ngClass]="client.isBlocled
+                  ? 'border-green-300 bg-green-50 text-green-700 hover:bg-green-100 dark:border-green-500/50 dark:bg-green-500/15 dark:text-green-500 dark:hover:bg-green-500/25'
+                  : 'border-red-300 bg-red-50 text-red-700 hover:bg-red-100 dark:border-red-500/50 dark:bg-red-500/15 dark:text-red-500 dark:hover:bg-red-500/25'"
+                (click)="toggleBlockClient(client.userId)"
+              >
+                {{ client.isBlocled ? 'Unblock' : 'Block' }}
+              </button>
             </td>
           </tr>
         }
