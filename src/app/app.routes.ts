@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
+import { EditProfile } from './pages/edit-profile/edit-profile';
 
 export const routes: Routes = [
-  { path: '', component: Home }
+  { path: '', component: Home },
+  { path: 'edit-profile', component: EditProfile }
 ];
