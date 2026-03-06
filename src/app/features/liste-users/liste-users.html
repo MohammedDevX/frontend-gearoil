@@ -18,10 +18,10 @@
   <div class="p-4 mx-auto max-w-full md:p-6">
 <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
   <!-- Header -->
-  <div class="flex flex-col justify-between gap-5 border-b border-gray-200 px-3 py-3 sm:flex-row sm:items-center dark:border-gray-800">
+  <div class="flex flex-col justify-between gap-3 border-b border-gray-200 px-3 py-2 sm:flex-row sm:items-center dark:border-gray-800">
     <div>
-      <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Products List</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400">Track your store's progress to boost your sales.</p>
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Clients List</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Manage your clients and their account status.</p>
     </div>
     <!-- <div class="flex gap-2">
       <app-button variant="outline">
@@ -91,60 +91,51 @@
               </span>
             </label>
           </th>
-          <th (click)="sortBy('name')" class="cursor-pointer px-5 whitespace-nowrap py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+          <th (click)="sortBy('nom')" class="cursor-pointer px-5 whitespace-nowrap py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
             <div class="flex items-center gap-2">
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Products</p>
+              <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Name</p>
               <span class="flex flex-col gap-0.5">
-                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'name' && sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'name' && sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'nom' && sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'nom' && sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z" fill="currentColor"/>
                 </svg>
-                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'name' && !sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'name' && !sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'nom' && !sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'nom' && !sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z" fill="currentColor"/>
                 </svg>
               </span>
             </div>
           </th>
-          <th (click)="sortBy('category')" class="cursor-pointer px-3 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+          <th (click)="sortBy('userName')" class="cursor-pointer px-3 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 dark:text-gray-400">
             <div class="flex items-center gap-2">
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Category</p>
+              <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Username</p>
               <span class="flex flex-col gap-0.5">
-                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'category' && sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'category' && sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'userName' && sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'userName' && sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z" fill="currentColor"/>
                 </svg>
-                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'category' && !sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'category' && !sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'userName' && !sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'userName' && !sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z" fill="currentColor"/>
                 </svg>
               </span>
             </div>
           </th>
-          <th (click)="sortBy('brand')" class="cursor-pointer px-3 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+          <th (click)="sortBy('email')" class="cursor-pointer px-3 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 dark:text-gray-400">
             <div class="flex items-center gap-2">
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Brand</p>
+              <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Email</p>
               <span class="flex flex-col gap-0.5">
-                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'brand' && sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'brand' && sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'email' && sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'email' && sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z" fill="currentColor"/>
                 </svg>
-                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'brand' && !sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'brand' && !sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'email' && !sort.asc, 'text-gray-300 dark:text-gray-400/50': !(sort.key === 'email' && !sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z" fill="currentColor"/>
                 </svg>
               </span>
             </div>
           </th>
-          <th (click)="sortBy('price')" class="cursor-pointer px-5 whitespace-nowrap py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+
+          <th (click)="sortBy('isBlocled')" class="cursor-pointer px-3 py-3 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
             <div class="flex items-center gap-2">
-              <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Price</p>
-              <span class="flex flex-col gap-0.5">
-                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'price' && sort.asc, 'text-gray-300': !(sort.key === 'price' && sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z" fill="currentColor"/>
-                </svg>
-                <svg [ngClass]="{'text-gray-500 dark:text-gray-400': sort.key === 'price' && !sort.asc, 'text-gray-300': !(sort.key === 'price' && !sort.asc)}" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z" fill="currentColor"/>
-                </svg>
-              </span>
+              <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Status</p>
             </div>
           </th>
-          <th class="px-3 py-3 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">Stock</th>
-          <th class="px-3 py-3 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">Created At</th>
           <th class="px-3 py-3 text-left whitespace-nowrap text-xs font-medium text-gray-500 dark:text-gray-400">
             <div class="relative">
               <span class="sr-only">Action</span>
@@ -152,7 +143,7 @@
           </th>
         </tr>
       </thead>
-      <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
+      <!-- <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
         @for (product of paginatedProducts(); track $index) {
           <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900">
             <td class="lg:w-14 px-3 py-3 whitespace-nowrap">
@@ -217,6 +208,62 @@
             </td>
           </tr>
         }
+      </tbody> -->
+      <tbody class="divide-x divide-y divide-gray-200 dark:divide-gray-800">
+        @for (client of paginatedUsers(); track $index) {
+          <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900">
+            <td class="lg:w-14 px-3 py-3 whitespace-nowrap">
+              <label class="cursor-pointer text-sm font-medium text-gray-700 select-none dark:text-gray-400">
+                <input type="checkbox" class="sr-only" [checked]="selected.includes(client.userId)" (change)="toggleSelect(client.userId)"/>
+                <span class="flex h-4 w-4 items-center justify-center rounded-sm border-[1.25px]" [ngClass]="{'border-brand-500 bg-brand-500': selected.includes(client.userId), 'bg-transparent border-gray-300 dark:border-gray-700': !selected.includes(client.userId)}">
+                  <span [ngClass]="{'opacity-0': !selected.includes(client.userId)}">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 3L4.5 8.5L2 6" stroke="white" strokeWidth="1.6666" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </span>
+              </label>
+            </td>
+            <td class="px-3 py-3 whitespace-nowrap">
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-400">{{client.prenom}} {{client.nom}}</span>
+            </td>
+            <td class="px-3 py-3 whitespace-nowrap">
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{client.userName}}</p>
+            </td>
+            <td class="px-3 py-3 whitespace-nowrap">
+              <p class="text-sm text-gray-700 dark:text-gray-400">{{client.email}}</p>
+            </td>
+
+            <td class="px-3 py-3 whitespace-nowrap">
+              <span class="text-xs rounded-full px-2 py-0.5 font-medium" [ngClass]="{'bg-green-50 dark:bg-green-500/15 text-green-700 dark:text-green-500': !client.isBlocled, 'bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-500': client.isBlocled}">{{client.isBlocled ? 'Blocked' : 'Active'}}</span>
+            </td>
+            <td class="px-3 py-3 whitespace-nowrap">
+              <div class="relative inline-block">
+                 <app-table-dropdown>
+                  <div dropdown-button>
+                    <button class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                     <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.99902 10.245C6.96552 10.245 7.74902 11.0285 7.74902 11.995V12.005C7.74902 12.9715 6.96552 13.755 5.99902 13.755C5.03253 13.755 4.24902 12.9715 4.24902 12.005V11.995C4.24902 11.0285 5.03253 10.245 5.99902 10.245ZM17.999 10.245C18.9655 10.245 19.749 11.0285 19.749 11.995V12.005C19.749 12.9715 18.9655 13.755 17.999 13.755C17.0325 13.755 16.249 12.9715 16.249 12.005V11.995C16.249 11.0285 17.0325 10.245 17.999 10.245ZM13.749 11.995C13.749 11.0285 12.9655 10.245 11.999 10.245C11.0325 10.245 10.249 11.0285 10.249 11.995V12.005C10.249 12.9715 11.0325 13.755 11.999 13.755C12.9655 13.755 13.749 12.9715 13.749 12.005V11.995Z" fill=""></path></svg>
+                    </button>
+                  </div>
+                  <div dropdown-content>
+                    <button
+                      (click)="handleViewMore()"
+                      class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2"
+                    >
+                      View More
+                    </button>
+                    <button
+                      (click)="handleDelete()"
+                      class="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 p-2"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </app-table-dropdown>
+              </div>
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>
@@ -225,7 +272,7 @@
   <div class="flex items-center flex-col sm:flex-row justify-between border-t border-gray-200 px-3 py-3 dark:border-gray-800">
     <div class="pb-3 sm:pb-0">
       <span class="block text-sm font-medium text-gray-500 dark:text-gray-400">
-        Showing <span class="text-gray-800 dark:text-white/90">{{startItem()}}</span> to <span class="text-gray-800 dark:text-white/90">{{endItem()}}</span> of <span class="text-gray-800 dark:text-white/90">{{products.length}}</span>
+        Showing <span class="text-gray-800 dark:text-white/90">{{startItem()}}</span> to <span class="text-gray-800 dark:text-white/90">{{endItem()}}</span> of <span class="text-gray-800 dark:text-white/90">{{listeClients?.length || 0}}</span>
       </span>
     </div>
     <div class="flex w-full items-center justify-between gap-2 rounded-lg bg-gray-50 p-4 sm:w-auto sm:justify-normal sm:rounded-none sm:bg-transparent sm:p-0 dark:bg-gray-900 dark:sm:bg-transparent">

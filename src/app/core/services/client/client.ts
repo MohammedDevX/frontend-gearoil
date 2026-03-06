@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IClient } from '../../../models/IClient';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,6 @@ export class Client {
   constructor(private http: HttpClient) {}
 
   getAllClients() {
-    return this.http.get(`${this.url}/clients`);
+    return this.http.get<IClient[]>(`${this.url}/clients`);
   }
 }

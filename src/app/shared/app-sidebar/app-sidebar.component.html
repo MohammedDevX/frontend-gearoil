@@ -11,7 +11,7 @@
   (mouseleave)="sidebarService.setHovered(false)"
 >
   <div
-    class="py-8 flex"
+    class="py-2 flex"
     [ngClass]="{
       'xl:justify-center': isCollapsed,
       'justify-start': !isCollapsed
@@ -40,12 +40,12 @@
   </div>
 
   <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
-    <nav class="mb-6">
-      <div class="flex flex-col gap-4">
+    <nav class="mb-0">
+      <div class="flex flex-col gap-0.5">
         <!-- Menu Section -->
         <div>
           <h2
-            class="mb-4 text-xs uppercase flex leading-[20px] text-gray-400"
+            class="mb-1 text-xs uppercase flex leading-[20px] text-gray-400"
             [ngClass]="{
               'xl:justify-center': isCollapsed,
               'justify-start': !isCollapsed
@@ -72,7 +72,7 @@
             </svg>
             }
           </h2>
-          <ul class="flex flex-col gap-1">
+          <ul class="flex flex-col gap-0.5">
             @for (nav of navItems; track $index;let i = $index) {
             <li>
               @if (nav.subItems) {
@@ -146,7 +146,7 @@
                         : '0px'
                   }"
                 >
-                  <ul class="mt-2 space-y-1 ml-9">
+                  <ul class="mt-1 space-y-1 ml-9">
                     @for (subItem of nav.subItems; track $index) {
                     <li>
                       <a
@@ -227,7 +227,7 @@
         <!-- Others Section -->
         <div>
           <h2
-            class="mb-4 text-xs uppercase flex leading-[20px] text-gray-400"
+            class="mb-1 text-xs uppercase flex leading-[20px] text-gray-400"
             [ngClass]="{
               'xl:justify-center': isCollapsed,
               'justify-start': !isCollapsed
@@ -255,7 +255,7 @@
             }
           </h2>
 
-          <ul class="flex flex-col gap-1">
+          <ul class="flex flex-col gap-0.5">
             @for (nav of othersItems; track $index;let i = $index) {
             <li>
               @if (nav.subItems) {
@@ -329,7 +329,7 @@
                         : '0px'
                   }"
                 >
-                  <ul class="mt-2 space-y-1 ml-9">
+                  <ul class="mt-1 space-y-1 ml-9">
                     @for (subItem of nav.subItems; track $index) {
                     <li>
                       <a
