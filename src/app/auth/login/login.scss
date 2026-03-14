@@ -1,0 +1,164 @@
+/* src/app/auth/login/login.scss */
+.login-card {
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    /* More refined Shadow */
+    border-radius: 16px;
+    /* Smoother corner */
+    overflow: hidden;
+    background: #ffffff;
+    max-width: 550px;
+    /* Force a wider minimum width */
+    margin: 0 auto;
+}
+
+.card-title {
+    font-weight: 800;
+    /* Bolder */
+    color: #111;
+    font-size: 2rem;
+    /* Larger */
+    letter-spacing: -1px;
+}
+
+.form-control {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 0.9rem 1.1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &::placeholder {
+        color: #9ca3af;
+    }
+
+    &:focus {
+        background-color: #fff;
+        border-color: #ef4444;
+        /* Brighter red */
+        box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+        outline: none;
+    }
+}
+
+.btn-primary {
+    background-color: #ef4444;
+    border: none;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        background-color: #dc2626;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.divider {
+    position: relative;
+    margin: 2.5rem 0;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #f3f4f6;
+        z-index: 1;
+    }
+
+    span {
+        background: #fff;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 2;
+        color: #9ca3af;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+    }
+}
+
+/* Container for Google Button */
+.google-btn-container {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+}
+
+/* Force internal asl-google-signin-button to center */
+::ng-deep asl-google-signin-button {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+
+    &>div {
+        margin: 0 auto !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+}
+
+/* Facebook Perfect Button */
+.btn-facebook {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    font-weight: 700;
+    padding: 0 1rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 350px !important;
+    /* FIXED WIDTH TO MATCH GOOGLE */
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+    height: 44px;
+    /* Matches Google Large button height */
+    margin: 0 auto;
+
+    &:hover {
+        background-color: #166fe5;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(24, 119, 242, 0.25);
+        color: #fff;
+    }
+
+    i {
+        font-size: 1.3rem;
+        margin-right: 12px;
+    }
+}
+
+.text-danger {
+    color: #ef4444 !important;
+    font-weight: 600;
+}
+
+.text-muted {
+    font-size: 1rem;
+}
+
+label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.6rem;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
