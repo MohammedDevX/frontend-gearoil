@@ -12,10 +12,10 @@ export class Client {
   constructor(private http: HttpClient) {}
 
   getAllClients(): Observable<IClient[]> {
-    return this.http.get<IClient[]>(`${this.url}/clients`);
+    return this.http.get<IClient[]>(`${this.url}/client`);
   }
 
   blockClient(id: string): Observable<unknown> {
-    return this.http.patch(`${this.url}/client/blocked/${id}`, {});
+    return this.http.patch(`${this.url}/client/${id}`, {});
   }
 }
