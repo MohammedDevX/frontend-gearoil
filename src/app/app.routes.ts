@@ -7,8 +7,9 @@ import { Home } from './features/home/home';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
-  // Default: redirect to login
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  // Default: redirect to home
+  // { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 
   // Public routes (no guard)
   { path: 'login', component: LoginComponent },
@@ -17,7 +18,7 @@ export const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
 
   // Protected routes — requires a valid token in localStorage
-  { path: 'home', component: Home, canActivate: [authGuard] },
+  { path: 'home', component: Home },
 
   // Fallback: anything unknown → login
   { path: '**', redirectTo: '/login' },
