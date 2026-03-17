@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { AppSidebarComponent } from '../../shared/app-sidebar/app-sidebar.component';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { AppHeaderComponent } from '../../shared/admin-header/app-header/app-header.component';
 import { Client } from '../../core/services/client/client';
 import { IClient } from '../../models/IClient';
+import { Subscription, BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 interface Sort {
   key: keyof IClient;
@@ -23,89 +25,95 @@ interface Sort {
   ],
   templateUrl: './liste-users.html',
   styleUrl: './liste-users.scss',
+  standalone: true,
 })
 
 
-export class ListeUsers {
+export class ListeUsers implements OnInit {
   selected: string[] = [];
   sort: Sort = { key: 'nom', asc: true };
   page: number = 1;
-  perPage: number = 7;
-  showFilter: boolean = false;
+  perPage: number = 10;
   
-  isExpanded$;
-  isHovered$;
-  isMobileOpen$;
+  isExpanded$!: Observable<boolean>;
+  isHovered$!: Observable<boolean>;
+  isMobileOpen$!: Observable<boolean>;
 
-  listeClients!: IClient[];
+  listeClients: IClient[] = [];
+  totalCount: number = 0;
+  
+  private refresh$ = new BehaviorSubject<void>(undefined);
+  private querySubscription!: Subscription;
 
-  constructor(public sidebarService: SidebarService, private client: Client) {
+  constructor(
+    public sidebarService: SidebarService, 
+    private client: Client,
+    private router: Router,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {
     this.isExpanded$ = this.sidebarService.isExpanded$;
     this.isHovered$ = this.sidebarService.isHovered$;
     this.isMobileOpen$ = this.sidebarService.isMobileOpen$;
   }
 
   ngOnInit() {
-    this.client.getAllClients().subscribe((data: IClient[]) => {
-      this.listeClients = data;
-      console.log(this.listeClients);
-    });
-  }
-
-  sortedUsers(): IClient[] {
-    if (!this.listeClients) return [];
-    return [...this.listeClients].sort((a, b) => {
-      const valA = a[this.sort.key];
-      const valB = b[this.sort.key];
-      
-      if (typeof valA === 'boolean' && typeof valB === 'boolean') {
-        return this.sort.asc ? (valA === valB ? 0 : valA ? 1 : -1) : (valA === valB ? 0 : valA ? -1 : 1);
+    this.querySubscription = combineLatest([
+      this.route.queryParams,
+      this.refresh$
+    ]).pipe(
+      tap(([params]) => {
+        this.page = +params['pageNumber'] || 1;
+        this.perPage = +params['pageSize'] || 10;
+        this.sort = {
+          key: (params['sortBy'] as keyof IClient) || 'nom',
+          asc: params['isAsc'] === undefined ? true : params['isAsc'] === 'true'
+        };
+      }),
+      switchMap(([params]) => {
+        const page = +params['pageNumber'] || 1;
+        const perPage = +params['pageSize'] || 10;
+        const sortBy = (params['sortBy'] as keyof IClient) || 'nom';
+        const isAsc = params['isAsc'] === undefined ? true : params['isAsc'] === 'true';
+        
+        return this.client.getAllClients(page, perPage, sortBy, isAsc);
+      })
+    ).subscribe({
+      next: (data) => {
+        this.listeClients = data.items;
+        this.totalCount = data.totalCount;
+        // FORCE change detection to fix the "double-click" bug
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load clients', err);
       }
-      
-      const strA = String(valA).toLowerCase();
-      const strB = String(valB).toLowerCase();
-      
-      if (strA < strB) return this.sort.asc ? -1 : 1;
-      if (strA > strB) return this.sort.asc ? 1 : -1;
-      return 0;
     });
   }
 
-  paginatedUsers(): IClient[] {
-    const start = (this.page - 1) * this.perPage;
-    return this.sortedUsers().slice(start, start + this.perPage);
+  ngOnDestroy() {
+    if (this.querySubscription) {
+      this.querySubscription.unsubscribe();
+    }
+  }
+
+  loadClients() {
+    this.refresh$.next();
   }
 
   totalPages(): number {
-    return this.listeClients ? Math.ceil(this.listeClients.length / this.perPage) : 0;
+    return Math.max(1, Math.ceil(this.totalCount / this.perPage));
   }
 
-  selectedClients(): IClient[] {
-    if (!this.listeClients) return [];
-    return this.listeClients.filter((client) => this.selected.includes(client.userId));
+  getPageNumbers(): number[] {
+    const pages = this.totalPages();
+    return Array.from({ length: pages }, (_, i) => i + 1);
   }
 
-  goToPage(n: number): void {
-    if (n >= 1 && n <= this.totalPages()) {
-      this.page = n;
-    }
-  }
-
-  prevPage(): void {
-    if (this.page > 1) {
-      this.page--;
-    }
-  }
-
-  nextPage(): void {
-    if (this.page < this.totalPages()) {
-      this.page++;
-    }
-  }
 
   isAllSelected(): boolean {
-    const ids = this.paginatedUsers().map((p) => p.userId);
-    return ids.length > 0 && ids.every((id) => this.selected.includes(id));
+    const ids = this.listeClients.map((p: IClient) => p.userId);
+    return ids.length > 0 && ids.every((id: string) => this.selected.includes(id));
   }
 
   toggleSelect(id: string): void {
@@ -121,22 +129,44 @@ export class ListeUsers {
   }
 
   toggleBlockClient(userId: string): void {
-    this.client.blockClient(userId).subscribe({
+    // Optimistic update
+    const originalList = [...this.listeClients];
+    this.listeClients = this.listeClients.map((client) =>
+      client.userId === userId ? { ...client, isBlocled: !client.isBlocled } : client
+    );
+
+    this.client.toggleBlockClient(userId).subscribe({
       next: () => {
-        this.listeClients = this.listeClients.map((client) =>
-          client.userId === userId ? { ...client, isBlocled: !client.isBlocled } : client
-        );
+        console.log('Status updated successfully for user:', userId);
       },
       error: (error: unknown) => {
         console.error('Failed to toggle block status', error);
+        // Revert on error
+        this.listeClients = originalList;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  toggleBulkBlock(): void {
+    if (this.selected.length === 0) return;
+
+    this.client.toggleBlockMultipleClients(this.selected).subscribe({
+      next: () => {
+        console.log('Bulk status update successful for users:', this.selected);
+        this.selected = []; // Clear selection
+        this.loadClients(); // Refresh list to get new statuses
+      },
+      error: (error: unknown) => {
+        console.error('Failed to toggle bulk block status', error);
       },
     });
   }
 
   toggleAll(): void {
-    const ids = this.paginatedUsers().map((p) => p.userId);
+    const ids = this.listeClients.map((p: IClient) => p.userId);
     this.selected = this.isAllSelected()
-      ? this.selected.filter((id) => !ids.includes(id))
+      ? this.selected.filter((id: string) => !ids.includes(id))
       : [...new Set([...this.selected, ...ids])];
   }
 
@@ -145,19 +175,9 @@ export class ListeUsers {
   }
 
   endItem(): number {
-    return this.listeClients ? Math.min(this.page * this.perPage, this.listeClients.length) : 0;
+    return Math.min(this.page * this.perPage, this.totalCount);
   }
 
-  sortBy(key: keyof IClient): void {
-    this.sort = {
-      key,
-      asc: this.sort.key === key ? !this.sort.asc : true,
-    };
-  }
-
-  toggleFilter(): void {
-    this.showFilter = !this.showFilter;
-  }
 
    handleViewMore() {
     console.log('View More clicked');

@@ -14,6 +14,7 @@ import { SidebarService } from '../../../core/services/sidebar.service';
     UserDropdownComponent,
   ],
   templateUrl: './app-header.component.html',
+  standalone: true,
 })
 export class AppHeaderComponent {
   isApplicationMenuOpen = false;

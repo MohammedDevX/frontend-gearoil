@@ -11,11 +11,22 @@ export class Client {
 
   constructor(private http: HttpClient) {}
 
-  getAllClients(): Observable<IClient[]> {
-    return this.http.get<IClient[]>(`${this.url}/client`);
+  getAllClients(pageNumber: number = 1, pageSize: number = 10, sortBy: string = 'nom', isAsc: boolean = true): Observable<{ items: IClient[], totalCount: number }> {
+    return this.http.get<{ items: IClient[], totalCount: number }>(`${this.url}/client`, {
+      params: {
+        pageNumber: pageNumber.toString(),
+        pageSize: pageSize.toString(),
+        sortBy: sortBy,
+        isAsc: isAsc.toString()
+      }
+    });
   }
 
-  blockClient(id: string): Observable<unknown> {
+  toggleBlockClient(id: string): Observable<unknown> {
     return this.http.patch(`${this.url}/client/${id}`, {});
+  }
+
+  toggleBlockMultipleClients(ids: string[]): Observable<unknown> {
+    return this.http.patch(`${this.url}/client`, ids);
   }
 }
