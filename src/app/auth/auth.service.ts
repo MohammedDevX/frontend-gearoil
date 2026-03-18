@@ -37,30 +37,38 @@ export class AuthService {
 
   // ── Token helpers ──────────────────────────────────────────────────────────
 
-  /** Persist the JWT in localStorage. */
-  setToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+  /**
+   * Persist the JWT.
+   * rememberMe=true  → localStorage  (survives browser close)
+   * rememberMe=false → sessionStorage (cleared on tab/browser close)
+   */
+  setToken(token: string, rememberMe = false): void {
+    if (rememberMe) {
+      localStorage.setItem(this.TOKEN_KEY, token);
+      sessionStorage.removeItem(this.TOKEN_KEY);
+    } else {
+      sessionStorage.setItem(this.TOKEN_KEY, token);
+      localStorage.removeItem(this.TOKEN_KEY);
+    }
   }
 
-  /** Retrieve the JWT from localStorage (null if absent). */
+  /** Retrieve the JWT — checks both storages. */
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return localStorage.getItem(this.TOKEN_KEY) ?? sessionStorage.getItem(this.TOKEN_KEY);
   }
 
-  /** Remove the JWT from localStorage. */
+  /** Remove the JWT from both storages. */
   removeToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    sessionStorage.removeItem(this.TOKEN_KEY);
   }
 
-  /**
-   * Returns true when a token is present in localStorage.
-   * Used by AuthGuard on every navigation and on page refresh.
-   */
+  /** Returns true when a token is present. Used by AuthGuard. */
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
-  /** Clear the token (call this on logout). */
+  /** Clear the token on logout. */
   logout(): void {
     this.removeToken();
   }
@@ -68,11 +76,13 @@ export class AuthService {
   // ── API calls ─────────────────────────────────────────────────────────────
 
   /** Email/password login – stores token on success. */
-  login(credentials: LoginDTO): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+  login(credentials: LoginDTO & { rememberMe?: boolean }): Observable<any> {
+    const rememberMe = credentials.rememberMe ?? false;
+    const { rememberMe: _, ...body } = credentials; // Don't send rememberMe to the backend
+    return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
       tap((response: any) => {
         if (response?.accessToken) {
-          this.setToken(response.accessToken);
+          this.setToken(response.accessToken, rememberMe);
         }
       }),
       catchError(this.handleError)
@@ -106,7 +116,7 @@ export class AuthService {
   /** User registration. */
   register(userData: RegisterDTO): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}/register`, userData)
+      .post<any>(`${this.apiUrl}/auth`, userData)  // Ocelot: POST /auth → /api/auth/register-client
       .pipe(catchError(this.handleError));
   }
 
@@ -129,11 +139,19 @@ export class AuthService {
   }
 
   /**
-   * Finalize password reset with email + token + new password.
-   * Frontend calls /api/reset-password → proxy forwards to http://localhost:5000/reset-password.
-   * API also returns plain text.
+   * Verify if the reset token is still valid.
    */
-  resetPassword(payload: ResetPasswordDTO): Observable<string> {
+  verifyResetToken(email: string, token: string): Observable<boolean> {
+    return this.http
+      .post<boolean>(`${this.apiUrl}/auth/verify-reset-token`, { email, token })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Finalize password reset with email + token + new password.
+   * Frontend calls /api/auth/reset-password.
+   */
+  resetPassword(payload: ResetPasswordDTO): Observable<any> {
     return this.http
       .post(`${this.apiUrl}/reset-password`, payload, { responseType: 'text' })
       .pipe(catchError(this.handleError));

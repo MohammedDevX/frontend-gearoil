@@ -48,7 +48,19 @@ export class RegisterComponent {
     this.submitted = true;
     if (this.registerForm.invalid) return;
 
-    this.authService.register(this.registerForm.value).subscribe({
+    const formValue = this.registerForm.value;
+
+    // Adapter les noms envoyés au backend (.NET)
+    const payload = {
+      Nom: formValue.FirstName,
+      Prenom: formValue.LastName,
+      User_name: formValue.UserName,
+      Email: formValue.Email,
+      Mot_passe: formValue.Password,
+      Confirm_pass: formValue.ConfirmPassword,
+    };
+
+    this.authService.register(payload as any).subscribe({
       next: (response: any) => {
         this.toastr.success('Account created successfully!', 'Success');
         this.router.navigate(['/login']);
