@@ -10,16 +10,22 @@ export class ProfileFacade {
   // State
   private profileState = signal<UserProfile | null>(null);
   private loadingState = signal(false);
+  private errorState = signal<string | null>(null);
 
   // Selectors
   readonly profile = this.profileState.asReadonly();
   readonly isLoading = this.loadingState.asReadonly();
+  readonly error = this.errorState.asReadonly();
 
   loadProfile() {
     this.loadingState.set(true);
+    this.errorState.set(null);
     this.repository.getProfile().pipe(
       finalize(() => this.loadingState.set(false))
-    ).subscribe(data => this.profileState.set(data));
+    ).subscribe({
+      next: (data) => this.profileState.set(data),
+      error: () => this.errorState.set('Failed to load profile.')
+    });
   }
 
   saveProfile(updatedData: UserProfile) {
