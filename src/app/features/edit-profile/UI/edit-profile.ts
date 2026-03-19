@@ -1,7 +1,9 @@
 import { Component, inject, OnInit, DestroyRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ProfileFacade } from '../data-access/profile.facade';
 import { UserProfile } from '../models/user-profile.model';
+import { NotificationService } from '../../../core/services/notification.service';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -9,50 +11,62 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
   standalone: true,
   templateUrl: './edit-profile.html',
   styleUrls: ['./edit-profile.scss'],
-  imports: [ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class EditProfileComponent implements OnInit {
   private fb = inject(FormBuilder);
   protected facade = inject(ProfileFacade);
+  private notify = inject(NotificationService);
   private destroyRef = inject(DestroyRef);
   private profile$ = toObservable(this.facade.profile);
 
-  // 1. Initialize empty form
   profileForm = this.fb.group({
-    Nom: ['', [Validators.required]],
-    Prenom: ['', [Validators.required]],
-    Email: ['', [Validators.required, Validators.email]],
-    UserName: ['', [Validators.required]]
+    nom: ['', [Validators.required]],
+    prenom: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    userName: ['', [Validators.required]]
   });
 
   ngOnInit() {
-    // 2. Request old data when component loads
     this.facade.loadProfile();
 
-    // 3. Fill the form when data arrives
     this.profile$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(data => {
       if (data) {
+        // Now matches camelCase from backend: nom, prenom, email, userName
         this.profileForm.patchValue(data);
       }
     });
   }
 
-  onSave() {
-    if (this.profileForm.valid) {
-      const payload = { ...this.facade.profile(), ...this.profileForm.value } as UserProfile;
+  /**
+   * Returns true if the current form field value differs from the original data in the facade.
+   * This is more accurate than control.dirty, as it handles the "change back to original" case.
+   */
+  isModified(field: keyof UserProfile): boolean {
+    const current = this.profileForm.get(field)?.value;
+    const original = (this.facade.profile() as any)?.[field];
+    
+    // Simple comparison for strings/numbers. 
+    // If the data is null/undefined, treat it as empty string for comparison.
+    return (current ?? '') !== (original ?? '');
+  }
 
-      this.facade.saveProfile(payload).pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe({
-        next: () => {
-          alert('Saved successfully!');
-          this.profileForm.markAsPristine(); // Reset "changed" indicators
-        },
-        error: (err) => {
-          console.error(err);
-          alert('Failed to save profile!');
-        }
-      });
-    }
+  onSave() {
+    if (this.profileForm.invalid) return;
+
+    // Merge form values with existing profile data
+    const payload = { ...this.facade.profile(), ...this.profileForm.value } as UserProfile;
+
+    this.facade.saveProfile(payload).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: () => {
+        this.notify.success('Profile saved successfully!');
+        this.profileForm.markAsPristine();
+      },
+      error: (err: any) => {
+        this.notify.error(err);
+      }
+    });
   }
 }

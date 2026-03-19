@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -21,7 +21,7 @@ export class ForgotPasswordComponent {
   constructor(
     private fb: FormBuilder,
     @Inject(AuthService) private authService: AuthService,
-    private toastr: ToastrService,
+    private notify: NotificationService,
     private router: Router
   ) {
     this.forgotPasswordForm = this.fb.group({
@@ -41,11 +41,11 @@ export class ForgotPasswordComponent {
       next: () => {
         this.loading = false;
         this.emailSentStatus = true;
-        this.toastr.success('Check your email to reset your password.');
+        this.notify.success('Check your email to reset your password.');
       },
-      error: (err: Error) => {
+      error: (err: any) => {
         this.loading = false;
-        this.toastr.error(err.message ?? 'Something went wrong. Please try again.');
+        this.notify.error(err);
       }
     });
   }

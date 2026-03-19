@@ -1,11 +1,7 @@
 <div class="container account-page">
-
   <div class="row justify-content-center">
-
     <div class="col-lg-8">
-
       <div class="account-card">
-
         <div class="account-card-title">
           Edit Profile
         </div>
@@ -19,23 +15,43 @@
         <form class="account-card-body" [formGroup]="profileForm" (ngSubmit)="onSave()">
 
           <div class="form-group">
-            <label>First Name</label>
-            <input type="text" formControlName="Prenom" placeholder="First Name">
+            <label>
+              First Name
+              @if (isModified('prenom')) {
+                <span class="modified-indicator">Modifié</span>
+              }
+            </label>
+            <input type="text" formControlName="prenom" placeholder="First Name">
           </div>
 
           <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" formControlName="Nom" placeholder="Last Name">
+            <label>
+              Last Name
+              @if (isModified('nom')) {
+                <span class="modified-indicator">Modifié</span>
+              }
+            </label>
+            <input type="text" formControlName="nom" placeholder="Last Name">
           </div>
 
           <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" formControlName="Email" placeholder="Email Address">
+            <label>
+              Email Address
+              @if (isModified('email')) {
+                <span class="modified-indicator">Modifié</span>
+              }
+            </label>
+            <input type="email" formControlName="email" placeholder="Email Address">
           </div>
 
           <div class="form-group">
-            <label>Username</label>
-            <input type="text" formControlName="UserName" placeholder="Username">
+            <label>
+              Username
+              @if (isModified('userName')) {
+                <span class="modified-indicator">Modifié</span>
+              }
+            </label>
+            <input type="text" formControlName="userName" placeholder="Username">
           </div>
 
           <button type="submit" class="btn-save" [disabled]="profileForm.invalid || facade.isLoading()">
@@ -43,11 +59,7 @@
           </button>
 
         </form>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

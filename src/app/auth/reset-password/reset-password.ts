@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../core/services/notification.service';
 import { AuthService, ResetPasswordDTO } from '../auth.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     @Inject(AuthService) private authService: AuthService,
-    private toastr: ToastrService,
+    private notify: NotificationService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {
@@ -46,13 +46,13 @@ export class ResetPasswordComponent implements OnInit {
       // ASP.NET Core generates base64 tokens with '+' signs. If the email template
       // doesn't URL-encode the token, browsers convert '+' to ' ' (space) in query params.
       // We must restore the '+' before sending it back to the server.
-      let rawToken = params.get('token') ?? '';
+      const rawToken = params.get('token') ?? '';
       this.token = rawToken.replace(/ /g, '+');
 
       if (!this.email || !this.token) {
         this.checkingToken = false;
         this.validToken = false;
-        this.toastr.error('Lien de réinitialisation invalide ou expiré.', 'Erreur');
+        this.notify.error({ message: 'Lien de réinitialisation invalide ou expiré.' }, 'Erreur');
         return;
       }
 
@@ -72,14 +72,14 @@ export class ResetPasswordComponent implements OnInit {
   //         this.validToken = true;
   //       } else {
   //         this.validToken = false;
-  //         this.toastr.error('Ce lien de réinitialisation est expiré ou invalide', 'Erreur');
+  //         this.notify.error({ message: 'Ce lien de réinitialisation est expiré ou invalide' }, 'Erreur');
   //       }
   //       this.cdr.detectChanges();
   //     },
   //     error: (err: any) => {
   //       this.checkingToken = false;
   //       this.validToken = false;
-  //       this.toastr.error('Impossible de vérifier le lien de réinitialisation.', 'Erreur');
+  //       this.notify.error(err, 'Erreur');
   //       this.cdr.detectChanges();
   //     }
   //   });
@@ -108,19 +108,18 @@ export class ResetPasswordComponent implements OnInit {
       newPassword: this.resetForm.get('newPassword')?.value,
     };
 
-    // DEBUG — à supprimer après debug
     console.log('📤 Payload envoyé:', JSON.stringify(payload, null, 2));
 
     this.authService.resetPassword(payload).subscribe({
       next: () => {
         this.loading = false;
-        this.toastr.success('Mot de passe réinitialisé avec succès', 'Succès');
+        this.notify.success('Mot de passe réinitialisé avec succès', 'Succès');
         this.cdr.detectChanges();
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
-      error: (err: Error) => {
+      error: (err: any) => {
         this.loading = false;
-        this.toastr.error(err.message ?? 'Impossible de réinitialiser le mot de passe.', 'Erreur');
+        this.notify.error(err, 'Erreur');
         this.cdr.detectChanges();
       },
     });

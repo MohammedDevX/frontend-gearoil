@@ -1,6 +1,6 @@
 export interface UserProfile {
-    Nom: string;
-    Prenom: string;
-    Email: string;
-    UserName: string;
+    nom: string;
+    prenom: string;
+    email: string;
+    userName: string;
 }

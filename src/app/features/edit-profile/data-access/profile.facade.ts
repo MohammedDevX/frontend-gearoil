@@ -2,10 +2,12 @@ import { Injectable, inject, signal } from "@angular/core";
 import { finalize } from "rxjs";
 import { UserProfile } from "../models/user-profile.model";
 import { ProfileRepository } from "./profile.repository";
+import { NotificationService } from "../../../core/services/notification.service";
 
 @Injectable({ providedIn: 'root' })
 export class ProfileFacade {
   private repository = inject(ProfileRepository);
+  private notify = inject(NotificationService);
 
   // State
   private profileState = signal<UserProfile | null>(null);
@@ -24,7 +26,11 @@ export class ProfileFacade {
       finalize(() => this.loadingState.set(false))
     ).subscribe({
       next: (data) => this.profileState.set(data),
-      error: () => this.errorState.set('Failed to load profile.')
+      error: (err) => {
+        const msg = 'Failed to load profile.';
+        this.errorState.set(msg);
+        this.notify.error(err, 'Profile Error');
+      }
     });
   }
 
