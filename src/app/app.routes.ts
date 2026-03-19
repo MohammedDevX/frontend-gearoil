@@ -3,12 +3,14 @@ import { LoginComponent } from './auth/login/login';
 import { RegisterComponent } from './auth/register/register';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password';
+import { EditProfileComponent } from './features/edit-profile/UI/edit-profile';
 import { Home } from './features/home/home';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   // Default: redirect to login
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', component: Home },
+  { path: 'edit-profile', component: EditProfileComponent },
 
   // Public routes (no guard)
   { path: 'login', component: LoginComponent },
