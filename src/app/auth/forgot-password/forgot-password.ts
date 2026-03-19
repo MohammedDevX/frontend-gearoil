@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -20,7 +20,7 @@ export class ForgotPasswordComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    @Inject(AuthService) private authService: AuthService,
     private toastr: ToastrService,
     private router: Router
   ) {

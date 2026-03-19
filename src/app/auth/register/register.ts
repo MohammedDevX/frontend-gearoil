@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
@@ -28,7 +28,7 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    @Inject(AuthService) private authService: AuthService,
     private toastr: ToastrService,
     private router: Router
   ) {

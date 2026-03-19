@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -25,7 +25,7 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private authService: AuthService,
+    @Inject(AuthService) private authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
     private cdr: ChangeDetectorRef
