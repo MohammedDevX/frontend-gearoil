@@ -1,0 +1,33 @@
+<div class="activation-container">
+
+  <h2>Activate your admin account</h2>
+
+  <form (ngSubmit)="activate()" #form="ngForm">
+
+    <div>
+      <label>Password</label>
+      <input 
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+      />
+    </div>
+
+    <div>
+      <label>Confirm Password</label>
+      <input 
+        type="password"
+        name="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        required
+      />
+    </div>
+
+    <button type="submit">
+      Activate account
+    </button>
+
+  </form>
+
+</div>

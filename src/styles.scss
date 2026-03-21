@@ -7,6 +7,13 @@ body {
 
 }
 
+/* Override template dropdown arrows */
+.dropdown-toggle::after,
+.dropdown-toggle:after {
+  display: none !important;
+  content: none !important;
+}
+
 .account-menu {
   width: 280px;
   background-color: #fff;
