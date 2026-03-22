@@ -14,8 +14,7 @@ export const routes: Routes = [
   { path: '', component: Home },
   // {path: 'sidebar', component: AppSidebarComponent},
   {path: 'liste-users', component: ListeUsers},
-  {path: 'activate-admin', component: ActivateAdminComponent}
-  { path: '', component: Home },
+  {path: 'activate-admin', component: ActivateAdminComponent},
   
   { path: 'edit-profile', component: EditProfileComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },

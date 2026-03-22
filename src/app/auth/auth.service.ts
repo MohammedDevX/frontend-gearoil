@@ -79,7 +79,7 @@ export class AuthService {
   login(credentials: LoginDTO & { rememberMe?: boolean }): Observable<any> {
     const rememberMe = credentials.rememberMe ?? false;
     const { rememberMe: _, ...body } = credentials; // Don't send rememberMe to the backend
-    return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, body).pipe(
       tap((response: any) => {
         if (response?.accessToken) {
           this.setToken(response.accessToken, rememberMe);
@@ -91,7 +91,7 @@ export class AuthService {
 
   /** Google OAuth login – stores token on success. */
   googleLogin(idToken: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login/google`, { IdToken: idToken }).pipe(
+    return this.http.post<any>(`${this.apiUrl}/auth/login/google`, { IdToken: idToken }).pipe(
       tap((response: any) => {
         if (response?.accessToken) {
           this.setToken(response.accessToken);
@@ -103,7 +103,7 @@ export class AuthService {
 
   /** Facebook OAuth login – stores token on success. */
   facebookLogin(accessToken: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login/facebook`, { AccessToken: accessToken }).pipe(
+    return this.http.post<any>(`${this.apiUrl}/auth/login/facebook`, { AccessToken: accessToken }).pipe(
       tap((response: any) => {
         if (response?.accessToken) {
           this.setToken(response.accessToken);

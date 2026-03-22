@@ -8,6 +8,7 @@ import { Client } from '../../core/services/client/client';
 import { IClient } from '../../models/IClient';
 import { Subscription, BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+import { NotificationService } from '../../core/services/notification.service';
 
 interface Sort {
   key: keyof IClient;
@@ -50,7 +51,8 @@ export class ListeUsers implements OnInit {
     private client: Client,
     private router: Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private notification: NotificationService
   ) {
     this.isExpanded$ = this.sidebarService.isExpanded$;
     this.isHovered$ = this.sidebarService.isHovered$;
@@ -87,6 +89,7 @@ export class ListeUsers implements OnInit {
       },
       error: (err) => {
         console.error('Failed to load clients', err);
+        this.notification.error(err, 'Loading Error');
       }
     });
   }
@@ -138,9 +141,13 @@ export class ListeUsers implements OnInit {
     this.client.toggleBlockClient(userId).subscribe({
       next: () => {
         console.log('Status updated successfully for user:', userId);
+        const client = this.listeClients.find(c => c.userId === userId);
+        const action = client?.isBlocled ? 'Blocked' : 'Unblocked';
+        this.notification.success(`User ${action} successfully`);
       },
       error: (error: unknown) => {
         console.error('Failed to toggle block status', error);
+        this.notification.error(error, 'Update Failed');
         // Revert on error
         this.listeClients = originalList;
         this.cdr.detectChanges();
@@ -154,11 +161,13 @@ export class ListeUsers implements OnInit {
     this.client.toggleBlockMultipleClients(this.selected).subscribe({
       next: () => {
         console.log('Bulk status update successful for users:', this.selected);
+        this.notification.success('Selected users updated successfully');
         this.selected = []; // Clear selection
         this.loadClients(); // Refresh list to get new statuses
       },
       error: (error: unknown) => {
         console.error('Failed to toggle bulk block status', error);
+        this.notification.error(error, 'Bulk Update Failed');
       },
     });
   }
