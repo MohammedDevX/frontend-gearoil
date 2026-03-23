@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../core/services/notification.service';
 import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider, GoogleSigninButtonModule } from "@abacritt/angularx-social-login";
 
 @Component({
@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private toastr: ToastrService,
+    @Inject(AuthService) private authService: AuthService,
+    private notify: NotificationService,
     private router: Router,
     private socialAuthService: SocialAuthService
   ) {
@@ -41,12 +41,12 @@ export class LoginComponent implements OnInit {
           if (socialUser.provider === 'GOOGLE') {
             this.authService.googleLogin(socialUser.idToken).subscribe({
               next: (res: any) => this.handleSuccess(res),
-              error: (err: any) => this.toastr.error(err.message || 'Google Backend Error', 'Google Fail')
+              error: (err: any) => this.notify.error(err, 'Google Fail')
             });
           } else if (socialUser.provider === 'FACEBOOK') {
             this.authService.facebookLogin(socialUser.authToken).subscribe({
               next: (res: any) => this.handleSuccess(res),
-              error: (err: any) => this.toastr.error(err.message || 'Facebook Backend Error', 'Facebook Fail')
+              error: (err: any) => this.notify.error(err, 'Facebook Fail')
             });
           }
         }
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
       next: (res: any) => this.handleSuccess(res),
       error: (err: any) => {
         console.error('[LoginComponent] Login Error:', err);
-        this.toastr.error(err.message || 'Login failed', 'Error');
+        this.notify.error(err);
       }
     });
   }
@@ -80,16 +80,14 @@ export class LoginComponent implements OnInit {
       })
       .catch(err => {
         console.error('[LoginComponent] Facebook Sign-In Error:', err);
-        const errorMsg = err.error || err.message || JSON.stringify(err);
-        alert('Facebook Sign-In Fail: ' + errorMsg);
-        this.toastr.error('Facebook Sign-In Error: ' + errorMsg, 'Facebook Fail');
+        this.notify.error(err, 'Facebook Fail');
       });
   }
 
   private handleSuccess(response: any) {
     const token = localStorage.getItem('auth_token');
     console.log('[LoginComponent] handleSuccess called. Token in localStorage:', token ? '✅ EXISTS' : '❌ MISSING');
-    this.toastr.success('Success! You are now logged in.', 'Success');
+    this.notify.success('You are now logged in.');
     this.router.navigate(['/home']);
   }
 }

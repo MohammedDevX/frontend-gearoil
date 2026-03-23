@@ -3,7 +3,7 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "befc58c2-5a52-4b86-9b5f-80fc689fb7e6"
+    "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -31,7 +31,9 @@
               }
             ],
             "styles": [
+              "node_modules/ngx-toastr/toastr.css",
               "src/assets/template/css/bootstrap/css/bootstrap.css",
+              "src/tailwind.css",
               "src/styles.scss",
               "src/assets/template/css/style.css",
               "src/assets/template/css/fontawesome/css/all.min.css",
@@ -40,11 +42,7 @@
               "src/assets/template/css//photoswipe/default-skin/default-skin.css",
               "src/assets/template/css/photoswipe/photoswipe.css"
             ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "outputMode": "static"
           },
           "configurations": {
             "production": {

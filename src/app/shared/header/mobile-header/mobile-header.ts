@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-mobile-header',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './mobile-header.html',
   styleUrl: './mobile-header.scss',
 })

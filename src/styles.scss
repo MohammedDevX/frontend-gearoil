@@ -1,6 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'ngx-toastr/toastr';
+
 body {
   font-family: 'Roboto', sans-serif;
+  background:#f5f5f5;
+
+}
+
+/* Override template dropdown arrows */
+.dropdown-toggle::after,
+.dropdown-toggle:after {
+  display: none !important;
+  content: none !important;
 }
 
 .account-menu {

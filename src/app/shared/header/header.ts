@@ -5,6 +5,7 @@ import { Search } from "./search/search";
 import { MainMenu } from './main-menu/main-menu';
 import { CartDropdown } from './cart-dropdown/cart-dropdown';
 import { AccountDropdown } from './account-dropdown/account-dropdown';
+
 @Component({
   selector: 'app-header',
   standalone: true,

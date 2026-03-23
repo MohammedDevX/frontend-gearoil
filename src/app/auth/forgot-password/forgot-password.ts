@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -16,11 +16,12 @@ export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
   submitted = false;
   emailSentStatus = false;
+  loading = false;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private toastr: ToastrService,
+    @Inject(AuthService) private authService: AuthService,
+    private notify: NotificationService,
     private router: Router
   ) {
     this.forgotPasswordForm = this.fb.group({
@@ -35,13 +36,16 @@ export class ForgotPasswordComponent {
     if (this.forgotPasswordForm.invalid) return;
 
     const email = this.forgotPasswordForm.get('Email')?.value as string;
+    this.loading = true;
     this.authService.forgotPassword(email).subscribe({
       next: () => {
+        this.loading = false;
         this.emailSentStatus = true;
-        this.toastr.success('Check your email to reset your password.');
+        this.notify.success('Check your email to reset your password.');
       },
-      error: (err: Error) => {
-        this.toastr.error(err.message ?? 'Something went wrong. Please try again.');
+      error: (err: any) => {
+        this.loading = false;
+        this.notify.error(err);
       }
     });
   }

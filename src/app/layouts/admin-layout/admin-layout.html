@@ -1,0 +1,15 @@
+<app-sidebar></app-sidebar>
+
+<!-- Mobile Sidebar Overlay -->
+<div *ngIf="isMobileOpen$ | async" (click)="sidebarService.setMobileOpen(false)"
+  class="fixed inset-0 z-40 bg-gray-900/50 transition-opacity duration-300 xl:hidden"></div>
+
+<div class="min-h-screen transition-all duration-300 ease-in-out" [ngClass]="{
+    'xl:ml-[290px]': (isExpanded$ | async) || (isHovered$ | async),
+    'xl:ml-[80px]': !((isExpanded$ | async) || (isHovered$ | async))
+  }">
+  <app-admin-header></app-admin-header>
+  <div class="p-4 mx-auto max-w-full md:p-6">
+    <router-outlet></router-outlet>
+  </div>
+</div>

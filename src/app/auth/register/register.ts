@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../core/services/notification.service';
 
 export function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('Password');
@@ -28,8 +28,8 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private toastr: ToastrService,
+    @Inject(AuthService) private authService: AuthService,
+    private notify: NotificationService,
     private router: Router
   ) {
     this.registerForm = this.fb.group({
@@ -48,13 +48,25 @@ export class RegisterComponent {
     this.submitted = true;
     if (this.registerForm.invalid) return;
 
-    this.authService.register(this.registerForm.value).subscribe({
+    const formValue = this.registerForm.value;
+
+    // Adapter les noms envoyés au backend (.NET)
+    const payload = {
+      Nom: formValue.FirstName,
+      Prenom: formValue.LastName,
+      User_name: formValue.UserName,
+      Email: formValue.Email,
+      Mot_passe: formValue.Password,
+      Confirm_pass: formValue.ConfirmPassword,
+    };
+
+    this.authService.register(payload as any).subscribe({
       next: (response: any) => {
-        this.toastr.success('Account created successfully!', 'Success');
+        this.notify.success('Account created successfully!');
         this.router.navigate(['/login']);
       },
       error: (err: any) => {
-        this.toastr.error(err.message || 'Registration failed', 'Error');
+        this.notify.error(err);
       }
     });
   }

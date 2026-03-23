@@ -1,7 +1,9 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import {
@@ -14,9 +16,12 @@ import {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([loadingInterceptor, authInterceptor])),
     provideAnimations(),
-    provideToastr(),
+    provideToastr({
+      positionClass: 'toast-bottom-left',
+      preventDuplicates: true,
+    }),
     {
       provide: SOCIAL_AUTH_CONFIG,
       useValue: {
@@ -25,7 +30,7 @@ export const appConfig: ApplicationConfig = {
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '624796833211-7v1i2n9uqs29n84kd689p912j6888.apps.googleusercontent.com',
+              '834491397839-rci98mdsfvnl10mdgbfl1elm7ui94hcm.apps.googleusercontent.com',
               { oneTapEnabled: false, prompt: 'select_account' }
             )
           },
