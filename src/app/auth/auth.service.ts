@@ -54,7 +54,9 @@ export class AuthService {
 
   /** Retrieve the JWT — checks both storages. */
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY) ?? sessionStorage.getItem(this.TOKEN_KEY);
+    // return localStorage.getItem(this.TOKEN_KEY) ?? sessionStorage.getItem(this.TOKEN_KEY);
+    // FORCE HARDCODED TOKEN FOR TESTING
+    return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMWVlMTczNy03NDQ3LTRmYTQtYWZiYS0xZWYwODhmNGZjMDEiLCJlbWFpbCI6ImF5b3ViYXphbXJpMEBnbWFpbC5jb20iLCJSb2xlIjoiQWRtaW4iLCJleHAiOjE3NzQzMDY2MzgsImlzcyI6IlVzZXJTZXJ2aWNlIiwiYXVkIjoiVXNlclNlcnZpY2VDbGllbnQifQ.7vyTBBkLynKuPRPpIzl9Mc-xQl9th2sc1Jv40-q3iEA';
   }
 
   /** Remove the JWT from both storages. */
@@ -91,7 +93,7 @@ export class AuthService {
 
   /** Google OAuth login – stores token on success. */
   googleLogin(idToken: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login/google`, { IdToken: idToken }).pipe(
+    return this.http.post<any>(`${this.apiUrl}/auth/google-login`, { IdToken: idToken }).pipe(
       tap((response: any) => {
         if (response?.accessToken) {
           this.setToken(response.accessToken);

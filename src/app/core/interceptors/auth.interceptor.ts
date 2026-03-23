@@ -2,20 +2,23 @@ import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpErrorResponse } from
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import { AuthService } from '../../auth/auth.service';
 
 /**
- * Auth Interceptor — automatically attaches the JWT token from localStorage or sessionStorage
+ * Auth Interceptor — automatically attaches the JWT token from storage (or hardcoded for test)
  * to every outgoing HTTP request as an Authorization: Bearer header.
- * Also handles 401 Unauthorized responses by clearing the session and
- * redirecting the user to the login page.
  */
 export const authInterceptor: HttpInterceptorFn = (
     req: HttpRequest<unknown>,
     next: HttpHandlerFn
 ) => {
     const router = inject(Router);
-    // Check both potential storage locations for the JWT
-    const token = localStorage.getItem('auth_token') ?? sessionStorage.getItem('auth_token');
+    const authService = inject(AuthService);
+    
+    // Get the token from the centralized AuthService
+    const token = authService.getToken();
+
+        // const token = localStorage.getItem('auth_token') ?? sessionStorage.getItem('auth_token') ?? testToken;
 
     // Clone the request and add the Authorization header if a token is present
     const authReq = token

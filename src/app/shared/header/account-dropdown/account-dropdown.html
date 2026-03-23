@@ -1,4 +1,4 @@
-<div class="indicator indicator--trigger--click" [class.indicator--open]="isOpen"><a href="account-login.html"
+<div class="indicator indicator--trigger--click" [class.indicator--open]="isOpen"><a routerLink="/login"
 		class="indicator__button" (click)="toggle($event)"><span class="indicator__icon"><svg width="32" height="32">
 				<path d="M16,18C9.4,18,4,23.4,4,30H2c0-6.2,4-11.5,9.6-13.3C9.4,15.3,8,12.8,8,10c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.8-1.5,5.3-3.6,6.7
 	C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6,6s2.7,6,6,6S22,13.3,22,10z" />
@@ -19,7 +19,7 @@
 				</div>
 				<div class="form-group account-menu__form-button"><button type="submit"
 						class="btn btn-primary btn-sm">Login</button></div>
-				<div class="account-menu__form-link"><a href="account-login.html">Create An
+				<div class="account-menu__form-link"><a routerLink="/login">Create An
 						Account</a></div>
 			</form>
 			<div class="account-menu__divider"></div><a href="#" class="account-menu__user">
@@ -32,15 +32,15 @@
 			</a>
 			<div class="account-menu__divider"></div>
 			<ul class="account-menu__links">
-				<li><a href="account-dashboard.html">Dashboard</a></li>
-				<li><a href="account-dashboard.html">Garage</a></li>
+				<li><a routerLink="/admin/liste-users">Dashboard</a></li>
+				<li><a routerLink="/home">Garage</a></li>
 				<li><a routerLink="/edit-profile">Edit Profile</a></li>
-				<li><a href="account-orders.html">Order History</a></li>
-				<li><a href="account-addresses.html">Addresses</a></li>
+				<li><a routerLink="/home">Order History</a></li>
+				<li><a routerLink="/home">Addresses</a></li>
 			</ul>
 			<div class="account-menu__divider"></div>
 			<ul class="account-menu__links">
-				<li><a href="account-login.html">Logout</a></li>
+				<li><a routerLink="/login">Logout</a></li>
 			</ul>
 		</div>
 	</div>
