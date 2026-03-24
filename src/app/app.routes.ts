@@ -41,6 +41,7 @@ export const routes: Routes = [
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'edit-profile', component: EditProfileComponent, canActivate: [authGuard] },
+      { path: 'cart', component: CartComponent},
 
       // Placeholder routes to prevent redirection for missing pages
       { path: 'wishlist', component: Home },
