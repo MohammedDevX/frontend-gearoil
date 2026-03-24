@@ -35,7 +35,7 @@ export const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       { path: '', component: Home, pathMatch: 'full' },
-      { path: 'home', component: Home, canActivate: [authGuard] },
+      { path: 'home', component: Home },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
