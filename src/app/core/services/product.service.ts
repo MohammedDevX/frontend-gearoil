@@ -14,7 +14,12 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   getAllProducts(page: number = 1, pageSize: number = 100): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}?page=${page}&itemsPerPage=${pageSize}`);
+    return this.http.get<any>(`${this.apiUrl}?page=${page}&itemsPerPage=${pageSize}`).pipe(
+      map((res: any) => ({
+        ...res,
+        items: res['hydra:member'] || res['member'] || res
+      }))
+    );
   }
 
   getProductById(id: string): Observable<Product> {
@@ -42,13 +47,13 @@ export class ProductService {
   // Helper methods for category/supplier
   getCategories(): Observable<any[]> {
     return this.http.get<any>(`${environment.apiUrl}/categories`).pipe(
-      map((res: any) => res['hydra:member'] || res)
+      map((res: any) => res['hydra:member'] || res['member'] || res)
     );
   }
 
   getSuppliers(): Observable<any[]> {
     return this.http.get<any>(`${environment.apiUrl}/suppliers`).pipe(
-      map((res: any) => res['hydra:member'] || res)
+      map((res: any) => res['hydra:member'] || res['member'] || res)
     );
   }
 }

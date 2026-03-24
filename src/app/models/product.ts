@@ -1,8 +1,7 @@
 export interface Product {
   id?: string;
   name: string;
-  price: number;
-  quantity: number;
+  sku: string;
   volume?: number;
   category: Category;
   supplier: Supplier;
@@ -19,4 +18,5 @@ export interface Category {
 export interface Supplier {
   id: string;
   name: string;
+  '@id'?: string;
 }

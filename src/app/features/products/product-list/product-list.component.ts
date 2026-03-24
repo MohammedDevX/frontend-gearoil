@@ -32,7 +32,7 @@ export class ProductListComponent implements OnInit {
     this.loading = true;
     this.productService.getAllProducts(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
-        this.allProducts = res['hydra:member'] || res.items || res;
+        this.allProducts = res['hydra:member'] || res['member'] || res.items || res;
         this.loading = false;
       },
       error: (err) => {

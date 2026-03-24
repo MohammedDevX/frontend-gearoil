@@ -14,13 +14,13 @@ import { ProductService } from '../../../core/services/product.service';
   selector: 'app-product-form',
   standalone: true,
   imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
-    RouterModule, 
-    ComponentCardComponent, 
-    LabelComponent, 
-    InputFieldComponent, 
-    SelectComponent, 
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ComponentCardComponent,
+    LabelComponent,
+    InputFieldComponent,
+    SelectComponent,
     MultiSelectComponent,
     DropzoneComponent
   ],
@@ -33,14 +33,14 @@ export class ProductFormComponent implements OnInit {
   productId: string | null = null;
   loading = false;
   uploadedImageUrl: string | null = null;
-  
+
   categoryOptions: SelectOption[] = [
     { value: 'oil', label: 'Oil / Huile' },
     { value: 'equipment', label: 'Equipment' }
   ];
 
   supplierOptions: SelectOption[] = [];
-  
+
   carTypeOptions: MultiSelectOption[] = [
     { value: 'car', text: 'Car' },
     { value: 'truck', text: 'Truck' },
@@ -158,7 +158,7 @@ export class ProductFormComponent implements OnInit {
     const selectedKeys = this.specifications.controls
       .map((ctrl, i) => i !== currentIndex ? ctrl.get('key')?.value : null)
       .filter(k => k !== null);
-    
+
     return allKeys.filter(opt => !selectedKeys.includes(opt.value));
   }
 
@@ -176,7 +176,7 @@ export class ProductFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id');
@@ -191,7 +191,7 @@ export class ProductFormComponent implements OnInit {
   loadDependencies() {
     this.productService.getSuppliers().subscribe(res => {
       this.supplierOptions = res.map(s => ({
-        value: s['@id'] || `/api/suppliers/${s.id}`,
+        value: s['@id'] || `/api/suppliers/${s.id || s._id}`,
         label: s.nameSupplier || s.name || 'Unknown Supplier'
       }));
     });
@@ -200,8 +200,7 @@ export class ProductFormComponent implements OnInit {
   initForm() {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
-      price: [null, [Validators.required, Validators.min(0.01)]],
-      quantity: [null, [Validators.required, Validators.min(0)]],
+      sku: ['', Validators.required],
       volume: [null, [Validators.min(0)]],
       category: ['', Validators.required],
       supplier: ['', Validators.required],
@@ -251,30 +250,31 @@ export class ProductFormComponent implements OnInit {
   }
 
   loadProduct() {
-     if (!this.productId) return;
-     this.productService.getProductById(this.productId).subscribe(product => {
-       this.productForm.patchValue({
-         name: product.name,
-         price: product.price,
-         quantity: product.quantity,
-         volume: product.volume,
-         category: product.category,
-         supplier: product.supplier,
-         brand: product.specifications?.['Marque'] || '',
-         carType: product.carType || []
-       });
+    if (!this.productId) return;
+    this.productService.getProductById(this.productId).subscribe(product => {
+        this.productForm.patchValue({
+          name: product.name,
+          sku: product.sku,
+          volume: product.volume,
+          category: product.category,
+          supplier: product.supplier?.['@id'] || product.supplier,
+          brand: product.specifications?.['Marque'] || '',
+          carType: product.carType || []
+        });
 
-       this.specifications.clear();
-       if (product.specifications) {
-         Object.keys(product.specifications).forEach(key => {
-           if (key !== 'Marque') {
-             this.addSpecificationWith(key, product.specifications[key]);
-           }
-         });
-       }
+        this.uploadedImageUrl = product.urlImage || null;
 
-       this.uploadedImageUrl = product.urlImage ?? null;
-     });
+      this.specifications.clear();
+      if (product.specifications) {
+        Object.keys(product.specifications).forEach(key => {
+          if (key !== 'Marque') {
+            this.addSpecificationWith(key, product.specifications[key]);
+          }
+        });
+      }
+
+      this.uploadedImageUrl = product.urlImage ?? null;
+    });
   }
 
   onFileDropped(files: File[]) {
@@ -304,7 +304,7 @@ export class ProductFormComponent implements OnInit {
     const checkbox = event.target as HTMLInputElement;
     const value = checkbox.value;
     const isChecked = checkbox.checked;
-    
+
     let currentTypes = this.productForm.get('carType')?.value as string[];
     if (!currentTypes) currentTypes = [];
 
@@ -351,23 +351,24 @@ export class ProductFormComponent implements OnInit {
     if (formValues.brand) {
       specificationsHash['Marque'] = formValues.brand;
     }
-    
+
     formValues.specifications.forEach((spec: { key: string, value: string }) => {
       if (spec.key && spec.value) {
         specificationsHash[spec.key] = spec.value;
       }
     });
 
-    const payload = {
-      ...formValues,
+    // Build the clean payload for the backend (STRICT compliance with Product.php)
+    const payload: any = {
+      name: formValues.name,
+      sku: formValues.sku,
       category: formValues.category,
+      volume: formValues.volume ? Number(formValues.volume) : null,
+      carType: formValues.carType || [],
+      supplier: formValues.supplier,
       specifications: specificationsHash,
       urlImage: this.uploadedImageUrl || ''
     };
-
-    // Clean up UI-only field
-    delete (payload as any).specifications;
-    delete (payload as any).brand;
 
     this.loading = true;
 
