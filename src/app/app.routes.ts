@@ -15,6 +15,13 @@ import { CartComponent } from './features/cart/cart';
 
 export const routes: Routes = [
   { path: 'liste-users', redirectTo: 'admin/liste-users', pathMatch: 'full' },
+  {
+    path: 'suppliers',
+    component: AdminLayoutComponent,
+    children: [
+      { path: '', component: SuppliersComponent }
+    ]
+  },
 
   // Admin Routes (Dashboard)
   {
@@ -22,8 +29,8 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'liste-users', component: ListeUsers },
       { path: 'suppliers', component: SuppliersComponent },
+      { path: 'liste-users', component: ListeUsers },
       { path: 'activate-admin', component: ActivateAdminComponent },
       { path: '', redirectTo: 'liste-users', pathMatch: 'full' }
     ]
