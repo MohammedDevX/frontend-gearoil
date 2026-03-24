@@ -13,24 +13,30 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(page: number, pageSize: number): Observable<{ items: Product[], totalCount: number }> {
-    return this.http.get<{ items: Product[], totalCount: number }>(`${this.apiUrl}?pageNumber=${page}&pageSize=${pageSize}`);
+  getAllProducts(page: number = 1, pageSize: number = 100): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}?page=${page}&itemsPerPage=${pageSize}`);
   }
 
   getProductById(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  addProduct(product: Product): Observable<Product> {
+  createProduct(product: any): Observable<Product> {
     return this.http.post<Product>(this.apiUrl, product);
   }
 
-  updateProduct(id: string, product: Product): Observable<Product> {
+  updateProduct(id: string, product: any): Observable<Product> {
     return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
   }
 
   deleteProduct(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  uploadImage(file: File): Observable<{ path: string }> {
+    const formData = new FormData();
+    formData.append('image', file);
+    return this.http.post<{ path: string }>(`${environment.apiUrl}/upload`, formData);
   }
 
   // Helper methods for category/supplier

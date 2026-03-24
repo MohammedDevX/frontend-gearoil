@@ -8,6 +8,7 @@ export interface Product {
   supplier: Supplier;
   carType: string[]; // Enum values: "SUV", "Sedan", etc.
   specifications: { [key: string]: string };
+  urlImage?: string;
 }
 
 export interface Category {

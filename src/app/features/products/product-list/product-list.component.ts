@@ -30,19 +30,13 @@ export class ProductListComponent implements OnInit {
 
   loadProducts() {
     this.loading = true;
-    
-    // Attempt to load from real API. If backend isn't ready or fails, fallback to highly populated mock data.
-    this.productService.getProducts(1, 100).subscribe({
+    this.productService.getAllProducts(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
         this.allProducts = res['hydra:member'] || res.items || res;
         this.loading = false;
-        if (!this.allProducts || this.allProducts.length === 0) {
-           this.populateMockData();
-        }
       },
-      error: () => {
-        console.warn('Backend API not ready for GET /products. Falling back to local mock data for UX demonstration.');
-        this.populateMockData();
+      error: (err) => {
+        console.error('Error loading products', err);
         this.loading = false;
       }
     });
