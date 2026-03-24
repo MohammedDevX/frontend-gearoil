@@ -1,9 +1,9 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-account-dropdown',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterModule],
   standalone: true,
   templateUrl: './account-dropdown.html',
   styleUrl: './account-dropdown.scss',

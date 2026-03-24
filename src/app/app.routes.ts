@@ -9,6 +9,7 @@ import { AppSidebarComponent } from './shared/app-sidebar/app-sidebar.component'
 import { ListeUsers } from './features/liste-users/liste-users';
 import { ActivateAdminComponent } from './test/test';
 import { authGuard } from './auth/auth.guard';
+import { CartComponent } from './features/cart/cart';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -22,6 +23,9 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'home', component: Home, canActivate: [authGuard] },
+  //{ path: 'cart', component: CartComponent, canActivate: [authGuard] },
+  { path: 'cart', component: CartComponent},
+
 
   // Protected routes — requires a valid token in localStorage
 
