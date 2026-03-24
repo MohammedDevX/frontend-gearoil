@@ -66,13 +66,13 @@
       </div>
       @if (isOpen) {
       <div
-        class="absolute left-0 z-40 w-full overflow-y-auto bg-white rounded-lg shadow-sm top-full max-h-select dark:bg-gray-900"
+        class="absolute left-0 z-50 mt-1 w-full overflow-y-auto bg-white rounded border border-stroke shadow-default top-full max-h-64 dark:border-strokedark dark:bg-boxdark"
         (click)="$event.stopPropagation()"
       >
         <div class="flex flex-col">
           @for (option of options; track $index) {
           <div
-            class="hover:bg-primary/5 w-full cursor-pointer rounded-t border-b border-gray-200 dark:border-gray-800"
+            class="hover:bg-primary/5 w-full cursor-pointer border-b border-stroke last:border-b-0 dark:border-strokedark"
             (click)="handleSelect(option.value)"
           >
             <div

@@ -17,184 +17,168 @@
   </div>
   <!-- Breadcrumb End -->
 
-  <app-component-card>
+<app-component-card [title]="isEditMode ? 'Edit Product Form' : 'Product Form'">
     <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <div class="grid grid-cols-1 gap-9 sm:grid-cols-2">
-
-        <!-- Left Column -->
-        <div class="flex flex-col gap-9">
-
-          <!-- Basic Information Card -->
-          <div>
-            <h4 class="mb-6 text-title-sm font-bold text-black dark:text-white mb-2">Basic Information</h4>
-
-            <!-- Name -->
-            <div class="mb-6">
-              <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                Product Name
-              </label>
-              <app-input-field type="text" [value]="productForm.get('name')?.value || ''"
-                (valueChange)="productForm.get('name')?.setValue($event)" placeholder="Enter product name"
-                [error]="isInvalid('name')" [success]="isValid('name')"
-                [hint]="isInvalid('name') ? 'Please enter a valid product name.' : (isValid('name') ? 'Looks good!' : '')"></app-input-field>
-            </div>
-
-            <!-- Price -->
-            <div class="mb-6">
-              <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                Price ($)
-              </label>
-              <app-input-field type="number" [value]="productForm.get('price')?.value || ''"
-                (valueChange)="productForm.get('price')?.setValue($event)" placeholder="0.00" [error]="isInvalid('price')"
-                [success]="isValid('price')"
-                [hint]="isInvalid('price') ? 'Please enter a valid price.' : ''"></app-input-field>
-            </div>
-
-            <!-- Category -->
-            <div class="mb-6">
-              <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                Category
-              </label>
-              <app-select [options]="categoryOptions" placeholder="Select an option"
-                [value]="productForm.get('category')?.value"
-                (valueChange)="productForm.get('category')?.setValue($event)"></app-select>
-              <p *ngIf="isInvalid('category')" class="mt-1 text-xs text-error-500">Please select a category.</p>
-            </div>
-
-            <!-- Supplier -->
-            <div class="mb-6">
-              <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                Supplier
-              </label>
-              <app-select [options]="supplierOptions" placeholder="Select supplier"
-                [value]="productForm.get('supplier')?.value"
-                (valueChange)="productForm.get('supplier')?.setValue($event)"></app-select>
-            </div>
-          </div>
-
-          <!-- Specifications Card -->
-          <div>
-            <h4 class="mb-6 text-title-sm font-bold text-black dark:text-white mb-2">Technical Specifications</h4>
-
-            <div class="mb-6">
-              <div class="flex justify-between items-center mb-3">
-                <label class="block text-sm font-medium text-black dark:text-white">
-                  Dynamic Specifications
-                </label>
-              </div>
-
-              <div formArrayName="specifications" class="space-y-4">
-                <div *ngFor="let spec of specifications.controls; let i = index" [formGroupName]="i"
-                  class="flex flex-col gap-3 p-4 border border-gray-200 rounded-lg dark:border-strokedark bg-gray-50 dark:bg-meta-4">
-                  <div class="flex items-center justify-between">
-                    <h5 class="text-sm font-medium text-black dark:text-white">Specification #{{ i + 1 }}</h5>
-                    <button type="button" (click)="removeSpecification(i)"
-                      class="text-red-500 hover:text-red-700 font-medium text-xs transition dark:text-red-400">
-                      Remove
-                    </button>
-                  </div>
-
-                  <div>
-                    <label class="mb-2 block text-xs font-medium text-black dark:text-white">Key</label>
-                    <app-input-field type="text" [value]="spec.get('key')?.value || ''"
-                      (valueChange)="spec.get('key')?.setValue($event)" placeholder="e.g. Viscosity"></app-input-field>
-                  </div>
-
-                  <div>
-                    <label class="mb-2 block text-xs font-medium text-black dark:text-white">Value</label>
-                    <app-input-field type="text" [value]="spec.get('value')?.value || ''"
-                      (valueChange)="spec.get('value')?.setValue($event)" placeholder="e.g. 10W-40"></app-input-field>
-                  </div>
-                </div>
-              </div>
-
-              <button type="button" (click)="addSpecification()"
-                class="mt-4 flex w-full justify-center rounded-lg border border-dashed border-brand-500 py-3 text-sm font-medium text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition">
-                + Add Another Specification
-              </button>
-            </div>
-          </div>
+      
+      <!-- Row 1: Name and Price -->
+      <div class="mb-6 flex flex-col gap-6 xl:flex-row">
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Product Name
+          </label>
+          <app-input-field type="text" [value]="productForm.get('name')?.value || ''"
+            (valueChange)="productForm.get('name')?.setValue($event)" placeholder="Enter product name"
+            [error]="isInvalid('name')" [success]="isValid('name')"
+            [hint]="isInvalid('name') ? 'Please enter a valid product name.' : (isValid('name') ? 'Looks good!' : '')"></app-input-field>
         </div>
 
-        <!-- Right Column -->
-        <div class="flex flex-col gap-9">
-
-          <!-- Inventory Details -->
-          <div>
-            <h4 class="mb-6 text-title-sm font-bold text-black dark:text-white mb-2">Inventory & Logistics</h4>
-
-            <!-- Quantity -->
-            <div class="mb-6">
-              <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                Stock Quantity
-              </label>
-              <app-input-field type="number" [value]="productForm.get('quantity')?.value || ''"
-                (valueChange)="productForm.get('quantity')?.setValue($event)" placeholder="100"
-                [error]="isInvalid('quantity')" [success]="isValid('quantity')"
-                [hint]="isInvalid('quantity') ? 'Please enter a valid stock value.' : ''"></app-input-field>
-            </div>
-
-            <!-- Volume -->
-            <div class="mb-6">
-              <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                Volume (Liters)
-              </label>
-              <app-input-field type="number" [value]="productForm.get('volume')?.value || ''"
-                (valueChange)="productForm.get('volume')?.setValue($event)" placeholder="e.g. 1.5"></app-input-field>
-             </div>
-          </div>
-
-          <!-- Dropzone -->
-          <div>
-            <h4 class="mb-6 text-title-sm font-bold text-black dark:text-white mb-2">Product Images</h4>
-            <div class="mb-6">
-              <app-dropzone (filesDropped)="onFileDropped($event)"></app-dropzone>
-            </div>
-          </div>
-
-          <!-- Checkbox group -->
-          <div>
-            <h4 class="mb-6 text-title-sm font-bold text-black dark:text-white mb-2">Compatible Car Types</h4>
-            <div class="mb-6">
-              <div class="flex flex-col gap-4">
-                <label *ngFor="let type of carTypeOptions"
-                  class="flex items-center gap-3 cursor-pointer text-sm text-black dark:text-white">
-                  <div class="relative flex items-center justify-center">
-                    <input type="checkbox" [value]="type.value" [checked]="isCarTypeSelected(type.value)"
-                      (change)="onCarTypeChange($event)" class="peer sr-only" />
-                    <div
-                      class="box mr-3 flex h-5 w-5 items-center justify-center rounded border border-stroke dark:border-strokedark peer-checked:border-brand-500 peer-checked:bg-brand-500">
-                      <span class="opacity-0 peer-checked:opacity-100">
-                        <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M10.0915 0.951972L10.0867 0.946075L10.0813 0.940568C9.90076 0.753564 9.61034 0.753146 9.42927 0.939309L4.16201 6.22962L1.58507 3.63469C1.40401 3.44841 1.11351 3.44879 0.932892 3.63584C0.755703 3.81933 0.755703 4.10875 0.932892 4.29224L0.932878 4.29225L0.934851 4.29424L3.58046 6.95832C3.73676 7.11955 3.94983 7.2 4.1473 7.2C4.36196 7.2 4.55963 7.11773 4.71406 6.9584L10.0468 1.60234C10.2436 1.4199 10.2421 1.1339 10.0915 0.951972ZM4.2327 6.30081L4.2317 6.2998C4.23206 6.30015 4.23237 6.30049 4.23269 6.30082L4.2327 6.30081Z"
-                            fill="white" stroke="white" stroke-width="0.4"></path>
-                        </svg>
-                      </span>
-                    </div>
-                    {{ type.text }}
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <!-- Actions -->
-          <div>
-            <div class="flex gap-4 mb-2 mt-4">
-              <button type="button" routerLink="/admin/products"
-                class="flex w-full justify-center rounded-lg border border-stroke p-3 font-medium text-black hover:bg-gray-50 transition dark:border-strokedark dark:text-white dark:hover:bg-meta-4">
-                Cancel
-              </button>
-              <button type="submit" [disabled]="productForm.invalid || loading"
-                class="flex w-full justify-center rounded-lg bg-brand-500 p-3 font-medium text-gray hover:bg-opacity-90 transition disabled:opacity-50 text-white">
-                {{ loading ? 'Saving...' : 'Save Product' }}
-              </button>
-            </div>
-          </div>
-
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Price ($)
+          </label>
+          <app-input-field type="number" [value]="productForm.get('price')?.value || ''"
+            (valueChange)="productForm.get('price')?.setValue($event)" placeholder="0.00" [error]="isInvalid('price')"
+            [success]="isValid('price')"
+            [hint]="isInvalid('price') ? 'Please enter a valid price.' : ''"></app-input-field>
         </div>
       </div>
+
+      <!-- Row 2: Category and Supplier -->
+      <div class="mb-6 flex flex-col gap-6 xl:flex-row">
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Category
+          </label>
+          <app-select [options]="categoryOptions" placeholder="Select an option"
+            [value]="productForm.get('category')?.value"
+            (valueChange)="productForm.get('category')?.setValue($event)"></app-select>
+          <p *ngIf="isInvalid('category')" class="mt-1 text-xs text-error-500">Please select a category.</p>
+        </div>
+
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Supplier
+          </label>
+          <app-select [options]="supplierOptions" placeholder="Select supplier"
+            [value]="productForm.get('supplier')?.value"
+            (valueChange)="productForm.get('supplier')?.setValue($event)"></app-select>
+        </div>
+      </div>
+
+      <!-- Row 3: Stock Quantity and Volume -->
+      <div class="mb-6 flex flex-col gap-6 xl:flex-row">
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Stock Quantity
+          </label>
+          <app-input-field type="number" [value]="productForm.get('quantity')?.value || ''"
+            (valueChange)="productForm.get('quantity')?.setValue($event)" placeholder="100"
+            [error]="isInvalid('quantity')" [success]="isValid('quantity')"
+            [hint]="isInvalid('quantity') ? 'Please enter a valid stock value.' : ''"></app-input-field>
+        </div>
+
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Volume (Liters)
+          </label>
+          <app-input-field type="number" [value]="productForm.get('volume')?.value || ''"
+            (valueChange)="productForm.get('volume')?.setValue($event)" placeholder="e.g. 1.5"></app-input-field>
+        </div>
+      </div>
+
+      <!-- Row 4: Dynamic Specifications -->
+      <div class="mb-6">
+        <div class="flex justify-between items-center mb-3">
+          <label class="block text-sm font-medium text-black dark:text-white">
+            Dynamic Specifications
+          </label>
+        </div>
+
+        <div formArrayName="specifications" class="space-y-4">
+          <div *ngFor="let spec of specifications.controls; let i = index" [formGroupName]="i"
+            class="flex flex-col gap-4 p-4 border border-gray-200 rounded-lg dark:border-strokedark bg-gray-50 dark:bg-meta-4">
+            <div class="flex items-center justify-between border-b border-stroke pb-2 dark:border-strokedark">
+              <h5 class="text-sm font-medium text-black dark:text-white">Specification #{{ i + 1 }}</h5>
+              <button type="button" (click)="removeSpecification(i)"
+                class="text-red-500 hover:text-red-700 font-medium text-xs transition dark:text-red-400">
+                Remove
+              </button>
+            </div>
+
+            <div class="flex flex-col gap-4 sm:flex-row">
+              <div class="w-full sm:w-1/2">
+                <label class="mb-2 block text-xs font-medium text-black dark:text-white">Key</label>
+                <app-input-field type="text" [value]="spec.get('key')?.value || ''"
+                  (valueChange)="spec.get('key')?.setValue($event)" placeholder="e.g. Viscosity"></app-input-field>
+              </div>
+
+              <div class="w-full sm:w-1/2">
+                <label class="mb-2 block text-xs font-medium text-black dark:text-white">Value</label>
+                <app-input-field type="text" [value]="spec.get('value')?.value || ''"
+                  (valueChange)="spec.get('value')?.setValue($event)" placeholder="e.g. 10W-40"></app-input-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" (click)="addSpecification()"
+          class="mt-4 flex w-full justify-center rounded border border-dashed border-brand-500 py-3 text-sm font-medium text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition">
+          + Add Another Specification
+        </button>
+      </div>
+
+      <!-- Row 5: Product Images -->
+      <div class="mb-6">
+        <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+          Product Images (Dropzone)
+        </label>
+        <app-dropzone (filesDropped)="onFileDropped($event)"></app-dropzone>
+      </div>
+
+      <!-- Row 6: Compatible Car Types -->
+      <div class="mb-6">
+        <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+          Compatible Car Types
+        </label>
+        <div class="flex flex-wrap gap-x-8 gap-y-4 mt-3">
+          <div *ngFor="let type of carTypeOptions" class="relative flex items-center select-none">
+            <input 
+              [id]="'carType-' + type.value"
+              type="checkbox" 
+              [value]="type.value" 
+              [checked]="isCarTypeSelected(type.value)"
+              (change)="onCarTypeChange($event)" 
+              class="peer sr-only" />
+            
+            <label 
+              [for]="'carType-' + type.value"
+              class="flex cursor-pointer items-center text-sm font-medium text-black dark:text-white"
+            >
+              <div class="mr-3 flex h-5 w-5 items-center justify-center rounded border border-stroke bg-white transition-all peer-checked:border-brand-500 peer-checked:bg-brand-500 dark:border-strokedark dark:bg-boxdark dark:peer-checked:bg-brand-500">
+                <span class="opacity-0 peer-checked:opacity-100">
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.0915 0.951972L10.0867 0.946075L10.0813 0.940568C9.90076 0.753564 9.61034 0.753146 9.42927 0.939309L4.16201 6.22962L1.58507 3.63469C1.40401 3.44841 1.11351 3.44879 0.932892 3.63584C0.755703 3.81933 0.755703 4.10875 0.932892 4.29224L0.932878 4.29225L0.934851 4.29424L3.58046 6.95832C3.73676 7.11955 3.94983 7.2 4.1473 7.2C4.36196 7.2 4.55963 7.11773 4.71406 6.9584L10.0468 1.60234C10.2436 1.4199 10.2421 1.1339 10.0915 0.951972Z" fill="white" />
+                  </svg>
+                </span>
+              </div>
+              {{ type.text }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col gap-4 sm:flex-row mt-8">
+        <button type="button" routerLink="/admin/products"
+          class="flex w-full sm:w-auto justify-center rounded border border-stroke p-3 font-medium text-black hover:bg-gray-50 transition dark:border-strokedark dark:text-white dark:hover:bg-meta-4">
+          Cancel
+        </button>
+        <button type="submit" [disabled]="productForm.invalid || loading"
+          class="flex w-full justify-center rounded bg-brand-500 p-3 font-medium text-gray hover:bg-opacity-90 transition disabled:opacity-50 text-white">
+          {{ loading ? 'Saving...' : 'Save Product' }}
+        </button>
+      </div>
+
     </form>
   </app-component-card>
 </div>
