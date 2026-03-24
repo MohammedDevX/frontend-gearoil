@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { AppSidebarComponent } from '../../shared/app-sidebar/app-sidebar.component';
-import { SidebarService } from '../../core/services/sidebar.service';
-import { AppHeaderComponent } from '../../shared/admin-header/app-header/app-header.component';
 import { Client } from '../../core/services/client/client';
 import { IClient } from '../../models/IClient';
 import { Subscription, BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -21,8 +18,6 @@ interface Sort {
   imports: [
     CommonModule,
     RouterModule,
-    AppSidebarComponent,
-    AppHeaderComponent,
   ],
   templateUrl: './liste-users.html',
   styleUrl: './liste-users.scss',
@@ -36,9 +31,6 @@ export class ListeUsers implements OnInit {
   page: number = 1;
   perPage: number = 10;
   
-  isExpanded$!: Observable<boolean>;
-  isHovered$!: Observable<boolean>;
-  isMobileOpen$!: Observable<boolean>;
 
   listeClients: IClient[] = [];
   totalCount: number = 0;
@@ -47,16 +39,12 @@ export class ListeUsers implements OnInit {
   private querySubscription!: Subscription;
 
   constructor(
-    public sidebarService: SidebarService, 
     private client: Client,
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private notification: NotificationService
   ) {
-    this.isExpanded$ = this.sidebarService.isExpanded$;
-    this.isHovered$ = this.sidebarService.isHovered$;
-    this.isMobileOpen$ = this.sidebarService.isMobileOpen$;
   }
 
   ngOnInit() {
