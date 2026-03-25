@@ -9,6 +9,12 @@ import { LoadingService } from '../services/loading.service';
  */
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const loading = inject(LoadingService);
+
+  // Skip global loader for cart-related requests to prevent UI blocking if the service is down
+  if (req.url.includes('/api/carts')) {
+    return next(req);
+  }
+
   loading.show();
   return next(req).pipe(finalize(() => loading.hide()));
 };

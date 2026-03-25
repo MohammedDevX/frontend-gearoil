@@ -375,33 +375,9 @@ h6 {
     outline: none
 }
 
-.arrow__button:before {
-    position: absolute;
-    display: block;
-    content: "";
-    height: 100%;
-    transform-origin: center center;
-    z-index: -1;
-    border-radius: 2px;
-    pointer-events: auto;
-    transition: background .15s
-}
 
-.arrow__button:hover {
-    color: #fff
-}
 
-.arrow__button:hover:before {
-    background: #333
-}
 
-.arrow__button:active {
-    color: #fff
-}
-
-.arrow__button:active:before {
-    background: #474747
-}
 
 .arrow__button:active,
 .arrow__button:active:before {
@@ -446,6 +422,19 @@ h6 {
     width: calc(100% - 8.37131px);
     left: 4.18566px;
     transform: skewX(-20deg)
+}
+
+.arrow__button:before {
+    background: #e52727 !important;
+}
+
+.arrow__button:hover:before,
+.arrow__button:active:before {
+    background: #e52727 !important;
+}
+
+.arrow__button {
+    clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
 }
 
 .breadcrumb {
@@ -6313,7 +6302,8 @@ select.form-control-sm {
     flex-grow: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
-    width: 33.3333%; /* Default to 3 columns for posts */
+    width: 33.3333%;
+    /* Default to 3 columns for posts */
 }
 
 .block-posts-carousel__item {
@@ -6925,7 +6915,8 @@ select.form-control-sm {
     flex-shrink: 0;
     display: -ms-flexbox;
     display: flex;
-    width: 20%; /* Default to 5 columns for products */
+    width: 20%;
+    /* Default to 5 columns for products */
 }
 
 .block-products-carousel[data-layout=grid-5] .owl-item {
@@ -6943,6 +6934,7 @@ select.form-control-sm {
 }
 
 @media (max-width: 991px) {
+
     .block-products-carousel[data-layout=grid-5] .owl-item,
     .block-products-carousel[data-layout=grid-4] .owl-item {
         width: 33.3333%;
@@ -6950,6 +6942,7 @@ select.form-control-sm {
 }
 
 @media (max-width: 767px) {
+
     .block-products-carousel[data-layout=grid-5] .owl-item,
     .block-products-carousel[data-layout=grid-4] .owl-item {
         width: 50%;
@@ -6957,6 +6950,7 @@ select.form-control-sm {
 }
 
 @media (max-width: 479px) {
+
     .block-products-carousel[data-layout=grid-5] .owl-item,
     .block-products-carousel[data-layout=grid-4] .owl-item {
         width: 100%;
@@ -8505,7 +8499,8 @@ select.form-control-sm {
 .block-zone__carousel-item .product-card {
     display: -ms-flexbox;
     display: flex;
-    width: 25%; /* Default to 4 columns for zone products */
+    width: 25%;
+    /* Default to 4 columns for zone products */
 }
 
 .block-zone__carousel-item .product-card {
@@ -17481,6 +17476,7 @@ select.form-control-sm {
     font-size: 15px;
     margin-bottom: 24px
 }
+
 .owl-carousel {
     display: flex !important;
     overflow-x: auto !important;
@@ -17489,10 +17485,134 @@ select.form-control-sm {
     padding: 10px 0;
     -ms-overflow-style: none;
     scrollbar-width: none;
+
     &::-webkit-scrollbar {
         display: none;
     }
-    & > * {
+
+    &>* {
         flex: 0 0 auto;
+    }
+}
+
+/* Swiper Styles */
+.swiper {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+    display: block;
+}
+
+.swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    transition-property: transform;
+    box-sizing: content-box;
+}
+
+.swiper-slide {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition-property: transform;
+}
+
+.swiper-android .swiper-slide,
+.swiper-wrapper {
+    transform: translate3d(0px, 0, 0);
+}
+
+.custom-carousel-header {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    margin-bottom: 40px;
+    height: 52px;
+    position: relative;
+    z-index: 10;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    transform: skewX(25deg);
+    /* Angle for the \ slant */
+
+    .cch__arrow {
+        background-color: #eb2f2f;
+        /* Vibrant Red from reference */
+        width: 65px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+
+        &--prev {
+            margin-right: -2px;
+            border-radius: 4px 0 0 4px;
+        }
+
+        &--next {
+            margin-left: -2px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .arrow__button {
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            transform: none;
+            /* Counter-skew for icon */
+            outline: none;
+
+            svg {
+                fill: currentColor;
+                width: 12px;
+                height: 18px;
+            }
+        }
+    }
+
+    .cch__body {
+        background: #fff;
+        padding: 0 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        position: relative;
+        z-index: 1;
+
+        .cch__title {
+            color: #111;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            white-space: nowrap;
+            transform: skewX(-10deg);
+            /* Counter-skew for text */
+
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+
+            /* cibler UNIQUEMENT les boutons dans le slider */
+
+        }
     }
 }

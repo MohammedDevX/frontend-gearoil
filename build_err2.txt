@@ -1,0 +1,48 @@
+﻿[33mÔØ»[39m Building...
+[32mÔ£ö[39m Building...
+Application bundle generation failed. [4.471 seconds] - 2026-03-25T10:33:27.442Z
+
+node.exe : [1m[31m[31mX 
+[41;31m[[41;97mERROR[41;31m][0m 
+[1mNG8001: 'app-header' is not a 
+known element:
+Au caractère Ligne:1 : 1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+NotSpecifie    d: ([1m[31m[31mX... 
+known element:    :String) [], 
+RemoteException
+    + FullyQualifiedErrorId : 
+NativeComma    ndError
+ 
+1. If 'app-header' is an Angular 
+component, then verify that it is 
+included in the '@Component.imports' 
+of this component.
+2. If 'app-header' is a Web Component 
+then add 'CUSTOM_ELEMENTS_SCHEMA' to 
+the '@Component.schemas' of this 
+component to suppress this 
+message.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    
+src/app/features/home/home.html:0:0:
+[37m      0 Ôöé [32m[37m
+        ÔòÁ [32m^[0m
+
+  Error occurs in the template of 
+component Home.
+
+    
+src/app/features/home/home.ts:13:15:
+[37m      13 Ôöé   templateUrl: 
+[32m'./home.html'[37m,
+         ÔòÁ                
+[32m~~~~~~~~~~~~~[0m
+
+[39m[22m

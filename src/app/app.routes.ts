@@ -15,6 +15,7 @@ import { CartComponent } from './features/cart/cart';
 
 export const routes: Routes = [
   { path: 'liste-users', redirectTo: 'admin/liste-users', pathMatch: 'full' },
+  { path: 'activate-admin', component: ActivateAdminComponent },
 
   // Admin Routes (Dashboard)
   {
@@ -24,7 +25,6 @@ export const routes: Routes = [
     children: [
       { path: 'liste-users', component: ListeUsers },
       { path: 'suppliers', component: SuppliersComponent },
-      { path: 'activate-admin', component: ActivateAdminComponent },
       { path: '', redirectTo: 'liste-users', pathMatch: 'full' }
     ]
   },
