@@ -9,6 +9,6 @@ export interface Supplier {
 }
 
 export interface SupplierResponse {
-  items: Supplier[];
-  totalCount: number;
+  member: Supplier[];
+  totalItems: number;
 }

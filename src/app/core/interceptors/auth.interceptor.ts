@@ -59,6 +59,8 @@ export const authInterceptor: HttpInterceptorFn = (
 
   // Attach the current access token
   const token = tokenService.getAccessToken();
+  console.log(`[AuthInterceptor] Requesting: ${req.url}. Token found: ${!!token}`);
+  
   const authReq = token
     ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
     : req;
@@ -99,8 +101,11 @@ function handle401(
   return authService.refreshTokens().pipe(
     switchMap((tokens) => {
       isRefreshing = false;
-      refreshSubject.next(tokens.accessToken);
-      return next(addToken(req, tokens.accessToken));
+      if (tokens.accessToken) {
+        refreshSubject.next(tokens.accessToken);
+        return next(addToken(req, tokens.accessToken));
+      }
+      return throwError(() => new Error('Refresh failed'));
     }),
     catchError((refreshError) => {
       isRefreshing = false;

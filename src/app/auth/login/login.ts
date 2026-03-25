@@ -16,6 +16,10 @@ import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider, GoogleSi
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
+  requiresTwoFactor = false;
+  userIdFor2fa: string | null = null;
+  twoFactorForm: FormGroup;
+  twoFactorSubmitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -28,6 +32,10 @@ export class LoginComponent implements OnInit {
       Email: ['', [Validators.required, Validators.email]],
       Password: ['', [Validators.required]],
       rememberMe: [false]
+    });
+
+    this.twoFactorForm = this.fb.group({
+      Code: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]]
     });
   }
 
@@ -56,16 +64,39 @@ export class LoginComponent implements OnInit {
   }
 
   get f() { return this.loginForm.controls; }
+  get f2fa() { return this.twoFactorForm.controls; }
 
   onSubmit() {
     this.submitted = true;
     if (this.loginForm.invalid) return;
 
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res: any) => this.handleSuccess(res),
+      next: (res: any) => {
+        if (res.requiresTwoFactor) {
+          this.requiresTwoFactor = true;
+          this.userIdFor2fa = res.userId;
+          this.notify.info('Two-factor authentication required.', '2FA Required');
+        } else {
+          this.handleSuccess(res);
+        }
+      },
       error: (err: any) => {
         console.error('[LoginComponent] Login Error:', err);
         this.notify.error(err);
+      }
+    });
+  }
+
+  onVerify2fa() {
+    this.twoFactorSubmitted = true;
+    if (this.twoFactorForm.invalid || !this.userIdFor2fa) return;
+
+    const rememberMe = this.loginForm.value.rememberMe ?? false;
+    this.authService.verify2fa(this.userIdFor2fa, this.twoFactorForm.value.Code, rememberMe).subscribe({
+      next: (res: any) => this.handleSuccess(res),
+      error: (err: any) => {
+        console.error('[LoginComponent] 2FA Verification Error:', err);
+        this.notify.error(err, 'Verification Fail');
       }
     });
   }

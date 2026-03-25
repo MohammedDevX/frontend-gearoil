@@ -28,8 +28,10 @@ export interface ResetPasswordDTO {
 
 /** Shape returned by the backend on login / refresh. */
 export interface AuthTokens {
-  accessToken: string;
-  refreshToken: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+  requiresTwoFactor?: boolean;
+  userId?: string;
 }
 
 // ─── Service ──────────────────────────────────────────────────────────────────
@@ -83,6 +85,17 @@ export class AuthService {
   facebookLogin(accessToken: string): Observable<AuthTokens> {
     return this.http.post<AuthTokens>(`${this.apiUrl}/auth/login/facebook`, { AccessToken: accessToken }).pipe(
       tap((res) => this.storeTokens(res)),
+      catchError(this.handleError),
+    );
+  }
+
+  /**
+   * Finalize login with a 2FA code.
+   * If successful, it stores the returned tokens.
+   */
+  verify2fa(userId: string, code: string, rememberMe?: boolean): Observable<AuthTokens> {
+    return this.http.post<AuthTokens>(`${this.apiUrl}/auth/verify-2fa`, { UserId: userId, Code: code }).pipe(
+      tap((res) => this.storeTokens(res, rememberMe)),
       catchError(this.handleError),
     );
   }

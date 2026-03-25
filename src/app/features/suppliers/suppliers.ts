@@ -36,9 +36,15 @@ export class SuppliersComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
     this.supplierService.getSuppliers().subscribe({
-      next: (response) => {
-        this.suppliers = response.items;
-        this.totalPages = Math.ceil(this.suppliers.length / this.pageSize) || 1;
+      next: (response: any) => {
+        if (Array.isArray(response)) {
+          this.suppliers = response;
+        } else if (response && Array.isArray(response.member)) {
+          this.suppliers = response.member;
+        } else {
+          this.suppliers = [];
+        }
+        this.totalPages = Math.ceil((this.suppliers?.length || 0) / this.pageSize) || 1;
         this.isLoading = false;
       },
       error: (err) => {
@@ -50,6 +56,7 @@ export class SuppliersComponent implements OnInit {
   }
 
   get currentItems(): Supplier[] {
+    if (!this.suppliers) return [];
     const startIndex = (this.currentPage - 1) * this.pageSize;
     return this.suppliers.slice(startIndex, startIndex + this.pageSize);
   }
@@ -76,7 +83,7 @@ export class SuppliersComponent implements OnInit {
     this.selectedSupplier = undefined;
   }
 
-  handleSaveSupplier(supplierData: Partial<Supplier>): void {
+  handleSaveSupplier(supplierData: any): void {
     if (this.selectedSupplier) {
       // Update existing supplier
       this.supplierService.updateSupplier(this.selectedSupplier.id, supplierData).subscribe({

@@ -8,7 +8,8 @@
             <h2 class="card-title text-center mb-1">Login</h2>
             <p class="text-muted text-center mb-4 small">Enter your credentials to continue</p>
 
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Normal Login Form -->
+            <form *ngIf="!requiresTwoFactor" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
               <!-- Email -->
               <div class="form-group mb-3">
                 <label for="signin-email">Email address</label>
@@ -52,10 +53,10 @@
               <!-- Social Logins -->
               <div class="social-logins">
                 <!-- Google Button Wrapper -->
-                <div class="google-btn-container mb-3 d-flex justify-content-center">
+                <!-- <div class="google-btn-container mb-3 d-flex justify-content-center">
                   <asl-google-signin-button type="standard" size="large" text="signin_with" [width]="350"
                     locale="en"></asl-google-signin-button>
-                </div>
+                </div> -->
 
                 <!-- Facebook Brand Button -->
                 <button type="button" (click)="loginWithFacebook()" class="btn-facebook w-100 border-0 shadow-sm">
@@ -67,6 +68,31 @@
               <div class="mt-5 text-center small text-muted">
                 Don't have an account?
                 <a routerLink="/register" class="text-danger fw-bold text-decoration-none">Create Account</a>
+              </div>
+            </form>
+
+            <!-- 2FA Form -->
+            <form *ngIf="requiresTwoFactor" [formGroup]="twoFactorForm" (ngSubmit)="onVerify2fa()">
+              <div class="form-group mb-4">
+                <label for="2fa-code">Verification Code</label>
+                <input id="2fa-code" type="text" class="form-control text-center" formControlName="Code"
+                  placeholder="000000" maxlength="6" [ngClass]="{ 'is-invalid': twoFactorSubmitted && f2fa['Code'].errors }"
+                  style="font-size: 1.5rem; letter-spacing: 0.5rem; font-weight: bold;">
+                <div *ngIf="twoFactorSubmitted && f2fa['Code'].errors" class="invalid-feedback text-danger mt-1 small text-center">
+                  <div *ngIf="f2fa['Code'].errors['required']">Code is required</div>
+                  <div *ngIf="f2fa['Code'].errors['pattern']">Must be a 6-digit number</div>
+                </div>
+                <p class="text-muted text-center mt-3 small">Enter the 6-digit code sent to your email.</p>
+              </div>
+
+              <div class="form-group mb-4">
+                <button type="submit" class="btn btn-primary w-100 shadow-sm border-0 py-2">Verify Code</button>
+              </div>
+
+              <div class="text-center">
+                <button type="button" (click)="requiresTwoFactor = false" class="btn btn-link text-muted small p-0">
+                  <i class="fas fa-arrow-left"></i> Back to login
+                </button>
               </div>
             </form>
           </div>
