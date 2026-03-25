@@ -11,6 +11,7 @@ import { SuppliersComponent } from './features/suppliers/suppliers';
 import { authGuard } from './auth/auth.guard';
 import { ClientLayoutComponent } from './layouts/client-layout/client-layout';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout';
+import { ProductDetail } from './features/products/product-detail/product-detail';
 
 export const routes: Routes = [
   { path: 'liste-users', redirectTo: 'admin/liste-users', pathMatch: 'full' },
@@ -50,6 +51,7 @@ export const routes: Routes = [
       { path: 'track-order', component: Home },
       { path: 'compare', component: Home },
       { path: 'shop', component: Home },
+      {path: 'detail/:id', component: ProductDetail}
     ]
   },
 
