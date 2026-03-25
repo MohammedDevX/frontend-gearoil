@@ -15,6 +15,12 @@ import { SidebarService } from '../../../core/services/sidebar.service';
   ],
   templateUrl: './app-header.component.html',
   standalone: true,
+  styles: [`
+    header.sticky {
+      will-change: transform;
+      contain: layout;
+    }
+  `]
 })
 export class AppHeaderComponent {
   isApplicationMenuOpen = false;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { TokenService } from '../core/services/token.service';
 
 // ─── DTOs ────────────────────────────────────────────────────────────────────
 
@@ -25,141 +26,128 @@ export interface ResetPasswordDTO {
   newPassword: string;
 }
 
+/** Shape returned by the backend on login / refresh. */
+export interface AuthTokens {
+  accessToken: string | null;
+  refreshToken: string | null;
+  requiresTwoFactor?: boolean;
+  userId?: string;
+}
+
 // ─── Service ──────────────────────────────────────────────────────────────────
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
   private readonly apiUrl = '/api';
-  private readonly TOKEN_KEY = 'auth_token';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+  ) {}
 
-  // ── Token helpers ──────────────────────────────────────────────────────────
+  // ── Token delegation ──────────────────────────────────────────────────────
 
-  /**
-   * Persist the JWT.
-   * rememberMe=true  → localStorage  (survives browser close)
-   * rememberMe=false → sessionStorage (cleared on tab/browser close)
-   */
-  setToken(token: string, rememberMe = false): void {
-    if (rememberMe) {
-      localStorage.setItem(this.TOKEN_KEY, token);
-      sessionStorage.removeItem(this.TOKEN_KEY);
-    } else {
-      sessionStorage.setItem(this.TOKEN_KEY, token);
-      localStorage.removeItem(this.TOKEN_KEY);
-    }
-  }
-
-  /** Retrieve the JWT — checks both storages. */
+  /** Convenience proxy — so callers don't need to import TokenService. */
   getToken(): string | null {
-    // return localStorage.getItem(this.TOKEN_KEY) ?? sessionStorage.getItem(this.TOKEN_KEY);
-    // FORCE HARDCODED TOKEN FOR TESTING
-    return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMWVlMTczNy03NDQ3LTRmYTQtYWZiYS0xZWYwODhmNGZjMDEiLCJlbWFpbCI6ImF5b3ViYXphbXJpMEBnbWFpbC5jb20iLCJSb2xlIjoiQWRtaW4iLCJleHAiOjE3NzQzMDY2MzgsImlzcyI6IlVzZXJTZXJ2aWNlIiwiYXVkIjoiVXNlclNlcnZpY2VDbGllbnQifQ.7vyTBBkLynKuPRPpIzl9Mc-xQl9th2sc1Jv40-q3iEA';
+    return this.tokenService.getAccessToken();
   }
 
-  /** Remove the JWT from both storages. */
-  removeToken(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    sessionStorage.removeItem(this.TOKEN_KEY);
-  }
-
-  /** Returns true when a token is present. Used by AuthGuard. */
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    return this.tokenService.isLoggedIn();
   }
 
-  /** Clear the token on logout. */
   logout(): void {
-    this.removeToken();
+    this.tokenService.clear();
   }
 
   // ── API calls ─────────────────────────────────────────────────────────────
 
-  /** Email/password login – stores token on success. */
-  login(credentials: LoginDTO & { rememberMe?: boolean }): Observable<any> {
+  /** Email / password login — stores both tokens on success. */
+  login(credentials: LoginDTO & { rememberMe?: boolean }): Observable<AuthTokens> {
     const rememberMe = credentials.rememberMe ?? false;
-    const { rememberMe: _, ...body } = credentials; // Don't send rememberMe to the backend
-    return this.http.post<any>(`${this.apiUrl}/auth/login`, body).pipe(
-      tap((response: any) => {
-        if (response?.accessToken) {
-          this.setToken(response.accessToken, rememberMe);
-        }
-      }),
-      catchError(this.handleError)
+    const { rememberMe: _, ...body } = credentials;
+    return this.http.post<AuthTokens>(`${this.apiUrl}/auth/login`, body).pipe(
+      tap((res) => this.storeTokens(res, rememberMe)),
+      catchError(this.handleError),
     );
   }
 
-  /** Google OAuth login – stores token on success. */
-  googleLogin(idToken: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/google-login`, { IdToken: idToken }).pipe(
-      tap((response: any) => {
-        if (response?.accessToken) {
-          this.setToken(response.accessToken);
-        }
-      }),
-      catchError(this.handleError)
+  /** Google OAuth login — stores both tokens on success. */
+  googleLogin(idToken: string): Observable<AuthTokens> {
+    return this.http.post<AuthTokens>(`${this.apiUrl}/auth/google-login`, { IdToken: idToken }).pipe(
+      tap((res) => this.storeTokens(res)),
+      catchError(this.handleError),
     );
   }
 
-  /** Facebook OAuth login – stores token on success. */
-  facebookLogin(accessToken: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login/facebook`, { AccessToken: accessToken }).pipe(
-      tap((response: any) => {
-        if (response?.accessToken) {
-          this.setToken(response.accessToken);
-        }
-      }),
-      catchError(this.handleError)
+  /** Facebook OAuth login — stores both tokens on success. */
+  facebookLogin(accessToken: string): Observable<AuthTokens> {
+    return this.http.post<AuthTokens>(`${this.apiUrl}/auth/login/facebook`, { AccessToken: accessToken }).pipe(
+      tap((res) => this.storeTokens(res)),
+      catchError(this.handleError),
+    );
+  }
+
+  /**
+   * Finalize login with a 2FA code.
+   * If successful, it stores the returned tokens.
+   */
+  verify2fa(userId: string, code: string, rememberMe?: boolean): Observable<AuthTokens> {
+    return this.http.post<AuthTokens>(`${this.apiUrl}/auth/verify-2fa`, { UserId: userId, Code: code }).pipe(
+      tap((res) => this.storeTokens(res, rememberMe)),
+      catchError(this.handleError),
+    );
+  }
+
+  /**
+   * Silent token refresh.
+   * Sends the refresh token to the backend and persists the new pair on success.
+   */
+  refreshTokens(): Observable<AuthTokens> {
+    const refreshToken = this.tokenService.getRefreshToken();
+    return this.http.post<AuthTokens>(`${this.apiUrl}/auth/refresh-token`, { refreshToken }).pipe(
+      tap((res) => this.storeTokens(res)),
+      catchError(this.handleError),
     );
   }
 
   /** User registration. */
   register(userData: RegisterDTO): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}/auth`, userData)  // Ocelot: POST /auth → /api/auth/register-client
-      .pipe(catchError(this.handleError));
-  }
-
-  /** Send a password-reset email. */
-  sendResetPasswordEmail(email: string): Observable<any> {
-    return this.http
-      .post<any>(`${this.apiUrl}/forgot-password`, { Email: email })
+      .post<any>(`${this.apiUrl}/auth`, userData)
       .pipe(catchError(this.handleError));
   }
 
   /**
    * Request a password reset link.
-   * Frontend calls /api/forgot-password → proxy forwards to http://localhost:5000/forgot-password.
    * The API returns plain text (not JSON), so we use responseType: 'text'.
    */
   forgotPassword(email: string): Observable<string> {
     return this.http
-      .post(`${this.apiUrl}/forgot-password`, { email }, { responseType: 'text' })
+      .post(`${this.apiUrl}/auth/forgot-password`, { email }, { responseType: 'text' })
       .pipe(catchError(this.handleError));
   }
 
-  /**
-   * Verify if the reset token is still valid.
-   */
-  verifyResetToken(email: string, token: string): Observable<boolean> {
-    return this.http
-      .post<boolean>(`${this.apiUrl}/auth/verify-reset-token`, { email, token })
-      .pipe(catchError(this.handleError));
-  }
-
-  /**
-   * Finalize password reset with email + token + new password.
-   * Frontend calls /api/auth/reset-password.
-   */
+  /** Finalize password reset with email + token + new password. */
   resetPassword(payload: ResetPasswordDTO): Observable<any> {
     return this.http
-      .post(`${this.apiUrl}/reset-password`, payload, { responseType: 'text' })
+      .post(`${this.apiUrl}/auth/reset-password`, payload, { responseType: 'text' })
       .pipe(catchError(this.handleError));
   }
 
-  // ── Error handler ─────────────────────────────────────────────────────────
+  // ── Private helpers ───────────────────────────────────────────────────────
+
+  /** Persist tokens if the response contains them. */
+  private storeTokens(res: AuthTokens, rememberMe?: boolean): void {
+    if (res?.accessToken && res?.refreshToken) {
+      this.tokenService.setTokens(
+        res.accessToken,
+        res.refreshToken,
+        rememberMe ?? this.tokenService.rememberMe,
+      );
+    }
+  }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let message = 'An unexpected error occurred.';

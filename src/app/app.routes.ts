@@ -11,10 +11,18 @@ import { SuppliersComponent } from './features/suppliers/suppliers';
 import { authGuard } from './auth/auth.guard';
 import { ClientLayoutComponent } from './layouts/client-layout/client-layout';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout';
+import { CartComponent } from './features/cart/cart';
 import { ProductDetail } from './features/products/product-detail/product-detail';
 
 export const routes: Routes = [
   { path: 'liste-users', redirectTo: 'admin/liste-users', pathMatch: 'full' },
+  {
+    path: 'suppliers',
+    component: AdminLayoutComponent,
+    children: [
+      { path: '', component: SuppliersComponent }
+    ]
+  },
 
   // Admin Routes (Dashboard)
   {
@@ -22,8 +30,8 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'liste-users', component: ListeUsers },
       { path: 'suppliers', component: SuppliersComponent },
+      { path: 'liste-users', component: ListeUsers },
       { path: 'activate-admin', component: ActivateAdminComponent },
       { path: '', redirectTo: 'liste-users', pathMatch: 'full' }
     ]
@@ -41,6 +49,7 @@ export const routes: Routes = [
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'edit-profile', component: EditProfileComponent, canActivate: [authGuard] },
+      { path: 'cart', component: CartComponent},
 
       // Placeholder routes to prevent redirection for missing pages
       { path: 'wishlist', component: Home },

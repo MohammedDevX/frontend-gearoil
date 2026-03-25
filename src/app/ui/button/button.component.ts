@@ -4,6 +4,7 @@ import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-button',
+  standalone: true,
   imports: [
     CommonModule,
     SafeHtmlPipe,
@@ -16,19 +17,23 @@ import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
 })
 export class ButtonComponent {
 
-  @Input() size: 'sm' | 'md' = 'md';
+  @Input() size: 'xs' | 'sm' | 'md' = 'md';
   @Input() variant: 'primary' | 'outline' = 'primary';
   @Input() disabled = false;
   @Input() className = '';
   @Input() startIcon?: string; // SVG or icon class, or use ng-content for more flexibility
   @Input() endIcon?: string;
+  @Input() type: 'button' | 'submit' | 'reset' = 'button';
 
   @Output() btnClick = new EventEmitter<Event>();
 
   get sizeClasses(): string {
-    return this.size === 'sm'
-      ? 'px-4 py-3 text-sm'
-      : 'px-5 py-3.5 text-sm';
+    const sizes = {
+      xs: 'px-3 py-1.5 text-xs h-[36px]',
+      sm: 'px-4 py-3 text-sm h-[42px]',
+      md: 'px-5 py-3.5 text-sm h-[48px]'
+    };
+    return sizes[this.size];
   }
 
   get variantClasses(): string {

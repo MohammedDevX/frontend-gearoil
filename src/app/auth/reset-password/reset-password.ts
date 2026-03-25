@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -18,8 +18,6 @@ export class ResetPasswordComponent implements OnInit {
   email = '';
   token = '';
 
-  checkingToken = true;
-  validToken = false;
   loading = false;
 
   constructor(
@@ -28,7 +26,6 @@ export class ResetPasswordComponent implements OnInit {
     @Inject(AuthService) private authService: AuthService,
     private notify: NotificationService,
     private router: Router,
-    private cdr: ChangeDetectorRef
   ) {
     this.resetForm = this.fb.group(
       {
@@ -50,41 +47,12 @@ export class ResetPasswordComponent implements OnInit {
       this.token = rawToken.replace(/ /g, '+');
 
       if (!this.email || !this.token) {
-        this.checkingToken = false;
-        this.validToken = false;
         this.notify.error({ message: 'Lien de réinitialisation invalide ou expiré.' }, 'Erreur');
+        this.router.navigate(['/forgot-password']);
         return;
       }
-
-      // Backend verify-reset-token is commented out and not in Ocelot.
-      // We assume the token is valid, and handle errors upon submission.
-      this.checkingToken = false;
-      this.validToken = true;
     });
   }
-
-  // private verifyToken(): void {
-  //   this.checkingToken = true;
-  //   this.authService.verifyResetToken(this.email, this.token).subscribe({
-  //     next: (isValid: boolean) => {
-  //       this.checkingToken = false;
-  //       if (isValid) {
-  //         this.validToken = true;
-  //       } else {
-  //         this.validToken = false;
-  //         this.notify.error({ message: 'Ce lien de réinitialisation est expiré ou invalide' }, 'Erreur');
-  //       }
-  //       this.cdr.detectChanges();
-  //     },
-  //     error: (err: any) => {
-  //       this.checkingToken = false;
-  //       this.validToken = false;
-  //       this.notify.error(err, 'Erreur');
-  //       this.cdr.detectChanges();
-  //     }
-  //   });
-  // }
-
   get f() {
     return this.resetForm.controls;
   }
@@ -97,7 +65,7 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    if (this.resetForm.invalid || !this.validToken) {
+    if (this.resetForm.invalid) {
       return;
     }
 
@@ -114,13 +82,11 @@ export class ResetPasswordComponent implements OnInit {
       next: () => {
         this.loading = false;
         this.notify.success('Mot de passe réinitialisé avec succès', 'Succès');
-        this.cdr.detectChanges();
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
       error: (err: any) => {
         this.loading = false;
         this.notify.error(err, 'Erreur');
-        this.cdr.detectChanges();
       },
     });
   }
