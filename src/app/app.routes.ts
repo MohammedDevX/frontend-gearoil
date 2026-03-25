@@ -13,6 +13,8 @@ import { ClientLayoutComponent } from './layouts/client-layout/client-layout';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout';
 import { CartComponent } from './features/cart/cart';
 import { ProductDetail } from './features/products/product-detail/product-detail';
+import { ProductListComponent } from './features/products/product-list/product-list.component';
+import { ProductFormComponent } from './features/products/product-form/product-form.component';
 
 export const routes: Routes = [
   { path: 'liste-users', redirectTo: 'admin/liste-users', pathMatch: 'full' },
@@ -23,16 +25,21 @@ export const routes: Routes = [
       { path: '', component: SuppliersComponent }
     ]
   },
-
+        { path: 'products', component: ProductListComponent },
+      { path: 'products/add', component: ProductFormComponent },
+      { path: 'products/:id/edit', component: ProductFormComponent },
   // Admin Routes (Dashboard)
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       { path: 'suppliers', component: SuppliersComponent },
       { path: 'liste-users', component: ListeUsers },
       { path: 'activate-admin', component: ActivateAdminComponent },
+      { path: 'products', component: ProductListComponent },
+      { path: 'products/add', component: ProductFormComponent },
+      { path: 'products/:id/edit', component: ProductFormComponent },
       { path: '', redirectTo: 'liste-users', pathMatch: 'full' }
     ]
   },

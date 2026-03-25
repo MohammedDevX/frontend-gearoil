@@ -1,11 +1,23 @@
 {
+    "/api/auth": {
+        "target": "http://localhost:5000",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": { "^/api": "" },
+        "logLevel": "debug"
+    },
+    "/api/profile": {
+        "target": "http://localhost:5000",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": { "^/api": "" },
+        "logLevel": "debug"
+    },
     "/api": {
         "target": "http://127.0.0.1:5000",
         "secure": false,
         "changeOrigin": true,
-        "pathRewrite": {
-            "^/api": ""
-        },
+        "pathRewrite": { "^/api": "" },
         "logLevel": "debug"
     }
 }

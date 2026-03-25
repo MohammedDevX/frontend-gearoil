@@ -1,0 +1,189 @@
+<div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+  <!-- Breadcrumb Start -->
+  <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-title-md2 font-bold text-black dark:text-white">
+      {{ isEditMode ? 'Edit Product' : 'Add New Product' }}
+    </h2>
+    <nav>
+      <ol class="flex items-center gap-2">
+        <li>
+          <a class="font-medium hover:text-brand-500" routerLink="/admin/products">Products /</a>
+        </li>
+        <li class="font-medium text-brand-500">{{ isEditMode ? 'Edit' : 'Add' }}</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- Breadcrumb End -->
+
+  <app-component-card [title]="isEditMode ? 'Edit Product Form' : 'Product Form'">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+      <!-- Row 1: Name and SKU -->
+      <div class="mb-6 flex flex-col gap-6 xl:flex-row">
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Product Name
+          </label>
+          <app-input-field type="text" [value]="productForm.get('name')?.value || ''"
+            (valueChange)="productForm.get('name')?.setValue($event)" placeholder="Enter product name"
+            [error]="isInvalid('name')" [success]="isValid('name')"
+            [hint]="isInvalid('name') ? 'Please enter a valid product name.' : (isValid('name') ? 'Looks good!' : '')"></app-input-field>
+        </div>
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            SKU (Stock Keeping Unit)
+          </label>
+          <app-input-field type="text" [value]="productForm.get('sku')?.value || ''"
+            (valueChange)="productForm.get('sku')?.setValue($event)" placeholder="e.g. OIL-5W30-1L"
+            [error]="isInvalid('sku')" [success]="isValid('sku')"
+            [hint]="isInvalid('sku') ? 'SKU is required for unique identification.' : ''"></app-input-field>
+        </div>
+      </div>
+
+      <!-- Row 2: Category and Supplier -->
+      <div class="mb-6 flex flex-col gap-6 xl:flex-row">
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Category
+          </label>
+          <app-select [options]="categoryOptions" placeholder="Select an option"
+            [value]="productForm.get('category')?.value"
+            (valueChange)="productForm.get('category')?.setValue($event)"></app-select>
+          <p *ngIf="isInvalid('category')" class="mt-1 text-xs text-error-500">Please select a category.</p>
+        </div>
+        <div class="w-full xl:w-1/2">
+          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+            Supplier
+          </label>
+          <app-select [options]="supplierOptions" placeholder="Select supplier"
+            [value]="productForm.get('supplier')?.value"
+            (valueChange)="productForm.get('supplier')?.setValue($event)"></app-select>
+        </div>
+      </div>
+
+      <!-- Row 3: Volume (Liters) — Only for Oil -->
+      <div *ngIf="productForm.get('category')?.value === 'oil'" class="mb-6">
+        <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+          Volume (Liters)
+        </label>
+        <app-input-field type="number" [value]="productForm.get('volume')?.value || ''"
+          (valueChange)="productForm.get('volume')?.setValue($event)" placeholder="e.g. 1.5"></app-input-field>
+      </div>
+
+      <!-- Row 4: Brand Selection (Standalone) -->
+      <div *ngIf="productForm.get('category')?.value" class="mb-6">
+        <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+          Marque (Brand)
+        </label>
+        <app-select [options]="brandOptions" placeholder="Choisir la marque" [value]="productForm.get('brand')?.value"
+          (valueChange)="productForm.get('brand')?.setValue($event)"></app-select>
+      </div>
+
+      <!-- Specifications Section (Dynamic List) -->
+      <div *ngIf="productForm.get('category')?.value"
+        class="mb-6 p-6 border border-brand-500/20 rounded-lg bg-gray-50 dark:bg-meta-4">
+        <div class="flex items-center justify-between mb-6">
+          <h4 class="text-base font-bold text-brand-500 dark:text-brand-400 flex items-center gap-2">
+            <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18">
+              <path
+                d="M15 4V14C15 15.1046 14.1046 16 13 16H5C3.89543 16 3 15.1046 3 14V4C3 2.89543 3.89543 2 5 2H13C14.1046 2 15 2.89543 15 4Z"
+                stroke="currentColor" stroke-width="2" />
+            </svg>
+            Spécifications Techniques
+          </h4>
+          <button *ngIf="canAddSpecification" type="button" (click)="addSpecification()"
+            class="text-sm font-medium text-brand-500 hover:underline">
+            + Ajouter une spécification technique
+          </button>
+        </div>
+
+        <div #specContainer formArrayName="specifications"
+          class="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+          <div *ngFor="let spec of specifications.controls; let i = index" [formGroupName]="i"
+            class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end p-4 bg-white dark:bg-boxdark border border-stroke dark:border-strokedark rounded-md shadow-sm">
+
+            <div class="md:col-span-5">
+              <label class="mb-2 block text-xs font-medium text-black dark:text-white">Spécificité</label>
+              <app-select [options]="getAvailableSpecKeys(i)" placeholder="Choisir..." [value]="spec.get('key')?.value"
+                (valueChange)="spec.get('key')?.setValue($event)"></app-select>
+            </div>
+
+            <div class="md:col-span-6" [ngSwitch]="!!getValueOptions(spec.get('key')?.value)">
+              <label class="mb-2 block text-xs font-medium text-black dark:text-white">Valeur</label>
+
+              <!-- If predefined options exist -->
+              <app-select *ngSwitchCase="true" [options]="getValueOptions(spec.get('key')?.value)!"
+                placeholder="Choisir la valeur" [value]="spec.get('value')?.value"
+                (valueChange)="spec.get('key')?.value ? spec.get('value')?.setValue($event) : null"></app-select>
+
+              <!-- Standard text input otherwise -->
+              <app-input-field *ngSwitchDefault type="text" [value]="spec.get('value')?.value || ''"
+                (valueChange)="spec.get('value')?.setValue($event)" placeholder="Entrer la valeur"></app-input-field>
+            </div>
+
+            <div class="md:col-span-1 flex justify-center pb-2">
+              <button type="button" (click)="removeSpecification(i)" class="text-red-500 hover:text-red-700 transition">
+                <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18">
+                  <path
+                    d="M13.7535 5.12022C13.5932 4.93512 13.3132 4.93512 13.1529 5.12022L9.00615 9.89714L4.85935 5.12022C4.69911 4.93512 4.41911 4.93512 4.25887 5.12022C4.09864 5.30531 4.09864 5.60224 4.25887 5.78734L8.70591 10.8971L4.25887 16.0069C4.09864 16.1919 4.09864 16.4889 4.25887 16.674C4.41911 16.8591 4.69911 16.8591 4.85935 16.674L9.00615 11.8971L13.1529 16.674C13.3132 16.8591 13.5932 16.8591 13.7535 16.674C13.9137 16.4889 13.9137 16.1919 13.7535 16.0069L9.30639 10.8971L13.7535 5.78734C13.9137 5.60224 13.9137 5.30531 13.7535 5.12022Z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 5: Product Images -->
+      <div class="mb-6">
+        <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+          Product Images (Dropzone)
+        </label>
+        <app-dropzone (filesDropped)="onFileDropped($event)"></app-dropzone>
+        <div *ngIf="uploadedImageUrl" class="mt-4 flex items-center gap-4 p-4 border border-stroke rounded-lg dark:border-strokedark">
+           <div class="h-20 w-20 overflow-hidden rounded-md border border-stroke dark:border-strokedark">
+              <img [src]="uploadedImageUrl" alt="Product Preview" class="h-full w-full object-cover" />
+           </div>
+           <div>
+              <p class="text-sm font-medium text-black dark:text-white">Image uploaded</p>
+              <p class="text-xs text-brand-500 truncate max-w-[200px]">{{ uploadedImageUrl }}</p>
+           </div>
+        </div>
+      </div>
+
+      <!-- Row 6: Compatible Car Types — Usually only for oil, but keeping it flexible if needed -->
+      <div *ngIf="productForm.get('category')?.value === 'oil'" class="mb-6">
+        <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+          Compatible Car Types
+        </label>
+        <div class="flex flex-wrap gap-x-8 gap-y-4 mt-3">
+          <div *ngFor="let type of carTypeOptions" class="flex items-center gap-3 cursor-pointer" (click)="onCarTypeChangeManual(type.value)">
+            <div
+              class="flex h-5 w-5 items-center justify-center rounded-full border border-stroke bg-white transition-all dark:border-strokedark dark:bg-boxdark"
+              [class.border-brand-500]="isCarTypeSelected(type.value)">
+              <span
+                class="h-2.5 w-2.5 rounded-full bg-brand-500 transition-opacity"
+                [class.opacity-0]="!isCarTypeSelected(type.value)"
+                [class.opacity-100]="isCarTypeSelected(type.value)"></span>
+            </div>
+            <span class="text-sm font-medium text-black dark:text-white">
+              {{ type.text }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col gap-4 sm:flex-row mt-8">
+        <button type="button" routerLink="/admin/products"
+          class="flex w-full sm:w-auto justify-center rounded border border-stroke p-3 font-medium text-black hover:bg-gray-50 transition dark:border-strokedark dark:text-white dark:hover:bg-meta-4">
+          Cancel
+        </button>
+        <button type="submit" [disabled]="productForm.invalid || loading"
+          class="flex w-full justify-center rounded bg-brand-500 p-3 font-medium text-gray hover:bg-opacity-90 transition disabled:opacity-50 text-white">
+          {{ loading ? 'Saving...' : 'Save Product' }}
+        </button>
+      </div>
+
+    </form>
+  </app-component-card>
+</div>
