@@ -16,7 +16,9 @@ import { ProductFormComponent } from './features/products/product-form/product-f
 
 export const routes: Routes = [
   { path: 'liste-users', redirectTo: 'admin/liste-users', pathMatch: 'full' },
-
+        { path: 'products', component: ProductListComponent },
+      { path: 'products/add', component: ProductFormComponent },
+      { path: 'products/:id/edit', component: ProductFormComponent },
   // Admin Routes (Dashboard)
   {
     path: 'admin',

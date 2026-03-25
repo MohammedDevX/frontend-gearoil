@@ -9,6 +9,8 @@ import { SelectComponent, Option as SelectOption } from '../../../ui/select/sele
 import { MultiSelectComponent, Option as MultiSelectOption } from '../../../ui/multi-select/multi-select.component';
 import { DropzoneComponent } from '../../../ui/dropzone/dropzone.component';
 import { ProductService } from '../../../core/services/product.service';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-product-form',
@@ -175,7 +177,8 @@ export class ProductFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -189,12 +192,21 @@ export class ProductFormComponent implements OnInit {
   }
 
   loadDependencies() {
-    this.productService.getSuppliers().subscribe(res => {
-      this.supplierOptions = res.map(s => ({
-        value: s['@id'] || `/api/suppliers/${s.id || s._id}`,
-        label: s.nameSupplier || s.name || 'Unknown Supplier'
-      }));
+    this.productService.getSuppliers().subscribe({
+      next: (res) => {
+        this.supplierOptions = res.map(s => ({
+          value: s['@id'] || `/api/suppliers/${s.id || s._id}`,
+          label: s.nameSupplier || s.name || 'Unknown Supplier'
+        }));
+      },
+      error: (err) => {
+        console.error('Error loading suppliers', err);
+        // Fallback or message if needed
+      }
     });
+
+    // Note: Categories (ProductType) are currently matching the hardcoded categoryOptions.
+    // If the backend exposes a list of enums, we could fetch them here.
   }
 
   initForm() {
@@ -210,8 +222,14 @@ export class ProductFormComponent implements OnInit {
     });
 
     // Category changes clear specs to avoid mixing Oil/Equipment data
-    this.productForm.get('category')?.valueChanges.subscribe(() => {
+    this.productForm.get('category')?.valueChanges.subscribe((cat) => {
       this.specifications.clear();
+      if (cat === 'equipment') {
+        this.productForm.patchValue({
+          volume: null,
+          carType: []
+        });
+      }
     });
   }
 
@@ -283,7 +301,7 @@ export class ProductFormComponent implements OnInit {
       this.loading = true;
       this.productService.uploadImage(file).subscribe({
         next: (res) => {
-          this.uploadedImageUrl = res.path ?? null;
+          this.uploadedImageUrl = (environment as any).minioUrl + (res.path ?? '');
           this.loading = false;
         },
         error: (err) => {
@@ -363,12 +381,16 @@ export class ProductFormComponent implements OnInit {
       name: formValues.name,
       sku: formValues.sku,
       category: formValues.category,
-      volume: formValues.volume ? Number(formValues.volume) : null,
-      carType: formValues.carType || [],
+      carType: formValues.category === 'oil' ? (formValues.carType || []) : [],
       supplier: formValues.supplier,
       specifications: specificationsHash,
       urlImage: this.uploadedImageUrl || ''
     };
+
+    // Only include volume if it's provided and category is oil
+    if (formValues.category === 'oil' && formValues.volume !== null && formValues.volume !== '') {
+      payload.volume = Number(formValues.volume);
+    }
 
     this.loading = true;
 
@@ -376,22 +398,26 @@ export class ProductFormComponent implements OnInit {
       this.productService.updateProduct(this.productId, payload).subscribe({
         next: () => {
           this.loading = false;
+          this.toastr.success('Product updated successfully!', 'Success');
           this.router.navigate(['/admin/products']);
         },
         error: (err) => {
           console.error('Error updating product', err);
           this.loading = false;
+          this.toastr.error(err.error?.detail || 'Error updating product', 'Error');
         }
       });
     } else {
       this.productService.createProduct(payload).subscribe({
         next: () => {
           this.loading = false;
+          this.toastr.success('Product added successfully!', 'Success');
           this.router.navigate(['/admin/products']);
         },
         error: (err) => {
           console.error('Error adding product', err);
           this.loading = false;
+          this.toastr.error(err.error?.detail || 'Error adding product', 'Error');
         }
       });
     }

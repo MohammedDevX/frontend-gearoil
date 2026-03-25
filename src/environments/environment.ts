@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    apiUrl: '/api'
+    apiUrl: '/api',
+    minioUrl: 'http://localhost:9000/oil-photos/'
 };

@@ -14,9 +14,10 @@
         "logLevel": "debug"
     },
     "/api": {
-        "target": "http://localhost",
+        "target": "http://localhost:5000",
         "secure": false,
         "changeOrigin": true,
+        "pathRewrite": { "^/api": "" },
         "logLevel": "debug"
     }
 }

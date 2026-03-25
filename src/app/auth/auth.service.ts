@@ -56,7 +56,7 @@ export class AuthService {
   getToken(): string | null {
     // return localStorage.getItem(this.TOKEN_KEY) ?? sessionStorage.getItem(this.TOKEN_KEY);
     // FORCE HARDCODED TOKEN FOR TESTING
-    return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMWVlMTczNy03NDQ3LTRmYTQtYWZiYS0xZWYwODhmNGZjMDEiLCJlbWFpbCI6ImF5b3ViYXphbXJpMEBnbWFpbC5jb20iLCJSb2xlIjoiQWRtaW4iLCJleHAiOjE3NzQzMDY2MzgsImlzcyI6IlVzZXJTZXJ2aWNlIiwiYXVkIjoiVXNlclNlcnZpY2VDbGllbnQifQ.7vyTBBkLynKuPRPpIzl9Mc-xQl9th2sc1Jv40-q3iEA';
+    return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMjEyZDIxOC1jZDAzLTQ4ZGQtYTIyMi03OWUwMTkyYzYwZTUiLCJlbWFpbCI6ImxhbGFtb2hhbW1lZDc4OUBnbWFpbC5jb20iLCJSb2xlIjoiQWRtaW4iLCJleHAiOjE3NzQ0NTcwMDQsImlzcyI6IlVzZXJTZXJ2aWNlIiwiYXVkIjoiVXNlclNlcnZpY2VDbGllbnQifQ.AKr3WZxmWorXFyyVpcJqh4cBPH4I2unKZ_1xRWO03oA';
   }
 
   /** Remove the JWT from both storages. */

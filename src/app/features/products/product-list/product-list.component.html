@@ -26,10 +26,10 @@
       <table class="min-w-full">
         <thead class="border-y border-gray-100 dark:border-white/[0.05]">
           <tr>
-            <th class="py-3 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400">Name</th>
-            <th class="px-4 py-3 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400">Added Date</th>
-            <th class="px-4 py-3 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400">Price</th>
+            <th class="py-3 px-4 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400">Name</th>
+            <th class="px-4 py-3 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400">SKU</th>
             <th class="px-4 py-3 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400">Category</th>
+            <th class="px-4 py-3 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400">Volume</th>
             <th class="px-4 py-3 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400">Status</th>
             <th class="px-4 py-3 text-start text-theme-sm font-normal text-gray-500 dark:text-gray-400"><span class="sr-only">Action</span></th>
           </tr>
@@ -37,13 +37,22 @@
         <tbody class="divide-y divide-gray-100 dark:divide-white/[0.05]">
           <tr *ngFor="let item of currentItems; let i = index">
             <td class="py-4 px-4">
-              <span class="block text-theme-sm font-medium text-gray-700 dark:text-gray-400">{{ item.name }}</span>
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md border border-gray-100 dark:border-white/[0.05]">
+                  <img [src]="item.urlImage || 'assets/images/product/product-placeholder.png'" [alt]="item.name" class="h-full w-full object-cover object-center" />
+                </div>
+                <span class="block text-theme-sm font-medium text-gray-700 dark:text-gray-400">{{ item.name }}</span>
+              </div>
             </td>
-            <td class="whitespace-nowrap px-4 py-4 text-theme-sm text-gray-700 dark:text-gray-400">{{ item.date }}</td>
-            <td class="px-4 py-4 text-theme-sm text-gray-700 dark:text-gray-400">{{ item.price }}</td>
-            <td class="px-4 py-4 text-theme-sm text-gray-700 dark:text-gray-400">{{ item.category }}</td>
+            <td class="px-4 py-4 text-theme-sm text-gray-700 dark:text-gray-400">{{ item.sku }}</td>
             <td class="px-4 py-4 text-theme-sm text-gray-700 dark:text-gray-400">
-              <app-badge size="sm" [color]="getBadgeColor(item.status)">{{ item.status }}</app-badge>
+               <span class="capitalize">{{ item.category }}</span>
+            </td>
+            <td class="px-4 py-4 text-theme-sm text-gray-700 dark:text-gray-400">{{ item.volume ? item.volume + ' L' : '-' }}</td>
+            <td class="px-4 py-4 text-theme-sm text-gray-700 dark:text-gray-400">
+              <app-badge size="sm" [color]="item.isActive ? 'success' : 'error'">
+                {{ item.isActive ? 'Active' : 'Inactive' }}
+              </app-badge>
             </td>
             <td class="px-4 py-4 text-theme-sm text-gray-700 dark:text-gray-400">
               <div class="flex items-center gap-3">

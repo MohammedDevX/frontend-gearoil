@@ -139,32 +139,35 @@
           Product Images (Dropzone)
         </label>
         <app-dropzone (filesDropped)="onFileDropped($event)"></app-dropzone>
-        <div *ngIf="uploadedImageUrl" class="mt-4">
-          <span class="text-sm text-brand-500">Image uploaded: {{uploadedImageUrl}}</span>
+        <div *ngIf="uploadedImageUrl" class="mt-4 flex items-center gap-4 p-4 border border-stroke rounded-lg dark:border-strokedark">
+           <div class="h-20 w-20 overflow-hidden rounded-md border border-stroke dark:border-strokedark">
+              <img [src]="uploadedImageUrl" alt="Product Preview" class="h-full w-full object-cover" />
+           </div>
+           <div>
+              <p class="text-sm font-medium text-black dark:text-white">Image uploaded</p>
+              <p class="text-xs text-brand-500 truncate max-w-[200px]">{{ uploadedImageUrl }}</p>
+           </div>
         </div>
       </div>
 
-      <!-- Row 6: Compatible Car Types -->
-      <div class="mb-6">
+      <!-- Row 6: Compatible Car Types — Usually only for oil, but keeping it flexible if needed -->
+      <div *ngIf="productForm.get('category')?.value === 'oil'" class="mb-6">
         <label class="mb-3 block text-sm font-medium text-black dark:text-white">
           Compatible Car Types
         </label>
         <div class="flex flex-wrap gap-x-8 gap-y-4 mt-3">
-          <div *ngFor="let type of carTypeOptions" class="relative flex items-center mb-2">
-            <input [id]="'carType-' + type.value" type="checkbox" [value]="type.value"
-              [checked]="isCarTypeSelected(type.value)" (change)="onCarTypeChange($event)" class="peer sr-only" />
-
+          <div *ngFor="let type of carTypeOptions" class="flex items-center gap-3 cursor-pointer" (click)="onCarTypeChangeManual(type.value)">
             <div
-              class="mr-3 flex h-5 w-5 items-center justify-center rounded-full border border-stroke bg-white transition-all peer-checked:border-brand-500 dark:border-strokedark dark:bg-boxdark cursor-pointer"
-              (click)="onCarTypeChangeManual(type.value)">
+              class="flex h-5 w-5 items-center justify-center rounded-full border border-stroke bg-white transition-all dark:border-strokedark dark:bg-boxdark"
+              [class.border-brand-500]="isCarTypeSelected(type.value)">
               <span
-                class="h-2.5 w-2.5 rounded-full bg-brand-500 opacity-0 peer-checked:opacity-100 transition-opacity"></span>
+                class="h-2.5 w-2.5 rounded-full bg-brand-500 transition-opacity"
+                [class.opacity-0]="!isCarTypeSelected(type.value)"
+                [class.opacity-100]="isCarTypeSelected(type.value)"></span>
             </div>
-
-            <label [for]="'carType-' + type.value"
-              class="cursor-pointer text-sm font-medium text-black dark:text-white">
+            <span class="text-sm font-medium text-black dark:text-white">
               {{ type.text }}
-            </label>
+            </span>
           </div>
         </div>
       </div>

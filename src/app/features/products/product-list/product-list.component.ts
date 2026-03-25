@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../../ui/button/button.component';
 import { BadgeComponent } from '../../../ui/badge/badge.component';
 import { ProductService } from '../../../core/services/product.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-list',
@@ -22,7 +23,10 @@ export class ProductListComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 5;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
     this.loadProducts();
@@ -32,7 +36,12 @@ export class ProductListComponent implements OnInit {
     this.loading = true;
     this.productService.getAllProducts(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
-        this.allProducts = res['hydra:member'] || res['member'] || res.items || res;
+        const items = res['hydra:member'] || res['member'] || res.items || res;
+        this.allProducts = items.map((p: any) => ({
+          ...p,
+          // Extract numeric ID from IRI for clean routing (e.g. /api/products/12 --> 12)
+          id: p.id || p['@id']?.split('/').pop() || p['@id']
+        }));
         this.loading = false;
       },
       error: (err) => {
@@ -95,24 +104,34 @@ export class ProductListComponent implements OnInit {
 
   deleteProduct(id: string) {
     if (confirm('Are you sure you want to delete this product?')) {
+      const productToDelete = this.allProducts.find(p => p.id === id);
+      const originalProducts = [...this.allProducts];
+
       // Optimistic delete for UX
       this.allProducts = this.allProducts.filter(p => p.id !== id);
       
       this.productService.deleteProduct(id).subscribe({
-        error: () => console.warn('Mock optimistic delete: Backend API not reachable for DELETE.')
+        next: () => {
+          this.toastr.success('Product deleted successfully!', 'Success');
+          // Recalculate pagination if needed
+          if (this.currentPage > this.totalPages && this.currentPage > 1) {
+             this.currentPage = this.totalPages;
+          }
+        },
+        error: (err) => {
+          console.error('Error deleting product', err);
+          this.toastr.error('Failed to delete product.', 'Error');
+          // Rollback optimistic delete
+          this.allProducts = originalProducts;
+        }
       });
-
-      // Recalculate pagination if needed
-      if (this.currentPage > this.totalPages) {
-         this.currentPage = this.totalPages;
-      }
     }
   }
 
   getBadgeColor(status: string): 'success' | 'warning' | 'error' | 'light' {
-    if (status === 'In Stock') return 'success';
+    if (status === 'In Stock' || status === 'Active') return 'success';
     if (status === 'Low Stock') return 'warning';
-    if (status === 'Out of Stock') return 'error';
+    if (status === 'Out of Stock' || status === 'Inactive') return 'error';
     return 'light';
   }
 }

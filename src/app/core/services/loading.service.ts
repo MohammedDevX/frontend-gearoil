@@ -3,9 +3,24 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LoadingService {
+  private activeRequests = 0;
   private _loading = new BehaviorSubject<boolean>(false);
   readonly isLoading$ = this._loading.asObservable();
 
-  show(): void { this._loading.next(true); }
-  hide(): void  { this._loading.next(false); }
+  show(): void {
+    this.activeRequests++;
+    if (this.activeRequests === 1) {
+      this._loading.next(true);
+    }
+  }
+
+  hide(): void {
+    if (this.activeRequests > 0) {
+      this.activeRequests--;
+    }
+    
+    if (this.activeRequests === 0) {
+      this._loading.next(false);
+    }
+  }
 }
