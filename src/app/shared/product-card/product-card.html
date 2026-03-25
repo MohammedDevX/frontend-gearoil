@@ -1,0 +1,42 @@
+<div class="product-card product-card--layout--grid">
+    <div class="product-card__image">
+        <div class="image image--type--product">
+            <a class="image__body">
+                <img
+                    class="image__tag"
+                    [src]="product.urlImage || 'images/products/product-1-245x245.jpg'"
+                    [alt]="product.name"
+                />
+            </a>
+        </div>
+    </div>
+    <div class="product-card__info">
+        <div class="product-card__name">
+            <div>
+                <a>{{ product.name }}</a>
+            </div>
+        </div>
+        <div class="product-card__rating">
+            <div class="rating product-card__rating-stars">
+                <div class="rating__body">
+                    @for (active of stars; track $index) {
+                        <div
+                            class="rating__star"
+                            [class.rating__star--active]="active"
+                        ></div>
+                    }
+                </div>
+            </div>
+            <div class="product-card__rating-label">
+                {{ product.averageRating | number:'1.1-1' }}
+            </div>
+        </div>
+    </div>
+    <div class="product-card__footer">
+        <div class="product-card__prices">
+            <div class="product-card__price product-card__price--current">
+                {{ product.price | currency:'USD':'symbol':'1.2-2' }}
+            </div>
+        </div>
+    </div>
+</div>
