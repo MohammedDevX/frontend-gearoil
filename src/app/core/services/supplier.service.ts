@@ -112,14 +112,30 @@ export class SupplierService {
    * Creates a new supplier.
    * Note: This usually requires a FormData object if an image is involved.
    */
-  createSupplier(supplierData: FormData | Partial<Supplier>): Observable<Supplier> {
-    return this.http.post<Supplier>(this.apiUrl, supplierData);
+  createSupplier(supplierData: Partial<Supplier>): Observable<Supplier> {
+    const newSupplier: Supplier = {
+      id: this.mockSuppliers.length + 1,
+      nameSupplier: supplierData.nameSupplier || 'New Supplier',
+      email: supplierData.email || '',
+      phone: supplierData.phone || '',
+      address: supplierData.address || '',
+      status: 'Active',
+      imageUrl: `https://i.pravatar.cc/150?u=${this.mockSuppliers.length + 1}`
+    };
+    this.mockSuppliers.unshift(newSupplier); // Add to the beginning
+    return of(newSupplier);
+    // return this.http.post<Supplier>(this.apiUrl, supplierData);
   }
 
   /**
    * Updates an existing supplier.
    */
-  updateSupplier(id: string | number, supplierData: FormData | Partial<Supplier>): Observable<Supplier> {
+  updateSupplier(id: string | number, supplierData: Partial<Supplier>): Observable<Supplier> {
+    const index = this.mockSuppliers.findIndex(s => s.id === id);
+    if (index !== -1) {
+      this.mockSuppliers[index] = { ...this.mockSuppliers[index], ...supplierData };
+      return of(this.mockSuppliers[index]);
+    }
     return this.http.patch<Supplier>(`${this.apiUrl}/${id}`, supplierData);
   }
 

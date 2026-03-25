@@ -5,11 +5,12 @@ import { ButtonComponent } from '../../ui/button/button.component';
 import { TableDropdownComponent } from '../../ui/table-dropdown/table-dropdown.component';
 import { SupplierService } from '../../core/services/supplier.service';
 import { Supplier } from '../../models/supplier.model';
+import { SupplierModalComponent } from './components/supplier-modal/supplier-modal.component';
 
 @Component({
   selector: 'app-suppliers',
   standalone: true,
-  imports: [CommonModule, BadgeComponent, ButtonComponent, TableDropdownComponent],
+  imports: [CommonModule, BadgeComponent, ButtonComponent, TableDropdownComponent, SupplierModalComponent],
   templateUrl: './suppliers.html',
   styleUrl: './suppliers.scss'
 })
@@ -21,6 +22,9 @@ export class SuppliersComponent implements OnInit {
   currentPage = 1;
   pageSize = 5;
   totalPages = 1;
+
+  isModalOpen = false;
+  selectedSupplier?: Supplier;
 
   constructor(private supplierService: SupplierService) {}
 
@@ -62,8 +66,41 @@ export class SuppliersComponent implements OnInit {
     return 'info';
   }
 
+  openModal(): void {
+    this.selectedSupplier = undefined;
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedSupplier = undefined;
+  }
+
+  handleSaveSupplier(supplierData: Partial<Supplier>): void {
+    if (this.selectedSupplier) {
+      // Update existing supplier
+      this.supplierService.updateSupplier(this.selectedSupplier.id, supplierData).subscribe({
+        next: () => {
+          this.fetchSuppliers();
+          this.closeModal();
+        },
+        error: (err) => console.error('Error updating supplier:', err)
+      });
+    } else {
+      // Create new supplier
+      this.supplierService.createSupplier(supplierData).subscribe({
+        next: () => {
+          this.fetchSuppliers();
+          this.closeModal();
+        },
+        error: (err) => console.error('Error creating supplier:', err)
+      });
+    }
+  }
+
   onEdit(supplier: Supplier) {
-    console.log('Edit supplier:', supplier);
+    this.selectedSupplier = supplier;
+    this.isModalOpen = true;
   }
 
   onDelete(supplier: Supplier) {

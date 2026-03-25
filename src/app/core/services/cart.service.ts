@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Cart, CartItem, AddItemInput } from '../../models/cart.model';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,10 @@ export class CartService {
   private cartSubject = new BehaviorSubject<Cart | null>(null);
   public cart$ = this.cartSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.refreshCart();
+  constructor(private http: HttpClient, private tokenService: TokenService) {
+    if (this.tokenService.isLoggedIn()) {
+      this.refreshCart();
+    }
   }
 
   /**
