@@ -9,7 +9,7 @@ import { IProduct } from '../../../models/IProduct';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './product-detail.html',
-  styleUrl: './product-detail.css'
+  styleUrl: './product-detail.scss'
 })
 export class ProductDetail implements OnInit {
   product: IProduct | null = null;
