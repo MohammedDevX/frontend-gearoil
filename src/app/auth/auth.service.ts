@@ -54,9 +54,7 @@ export class AuthService {
 
   /** Retrieve the JWT — checks both storages. */
   getToken(): string | null {
-    // return localStorage.getItem(this.TOKEN_KEY) ?? sessionStorage.getItem(this.TOKEN_KEY);
-    // FORCE HARDCODED TOKEN FOR TESTING
-    return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMWVlMTczNy03NDQ3LTRmYTQtYWZiYS0xZWYwODhmNGZjMDEiLCJlbWFpbCI6ImF5b3ViYXphbXJpMEBnbWFpbC5jb20iLCJSb2xlIjoiQWRtaW4iLCJleHAiOjE3NzQzMDY2MzgsImlzcyI6IlVzZXJTZXJ2aWNlIiwiYXVkIjoiVXNlclNlcnZpY2VDbGllbnQifQ.7vyTBBkLynKuPRPpIzl9Mc-xQl9th2sc1Jv40-q3iEA';
+    return localStorage.getItem(this.TOKEN_KEY) ?? sessionStorage.getItem(this.TOKEN_KEY);
   }
 
   /** Remove the JWT from both storages. */
