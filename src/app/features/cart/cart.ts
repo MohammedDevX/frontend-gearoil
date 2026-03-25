@@ -2,12 +2,11 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
-import { Header } from '../../shared/header/header';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, Header],
+  imports: [CommonModule, RouterModule],
   templateUrl: './cart.html',
   styleUrl: './cart.scss'
 })

@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { CartService } from '../../core/services/cart.service';
 import { SocialAuthService, GoogleLoginProvider, FacebookLoginProvider, GoogleSigninButtonModule } from "@abacritt/angularx-social-login";
 
 @Component({
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
     @Inject(AuthService) private authService: AuthService,
     private notify: NotificationService,
     private router: Router,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    private cartService: CartService
   ) {
     this.loginForm = this.fb.group({
       Email: ['', [Validators.required, Validators.email]],
@@ -118,6 +120,10 @@ export class LoginComponent implements OnInit {
   private handleSuccess(response: any) {
     const token = localStorage.getItem('auth_token');
     console.log('[LoginComponent] handleSuccess called. Token in localStorage:', token ? '✅ EXISTS' : '❌ MISSING');
+    
+    // Refresh the cart right after login so it reflects the logged in user's state
+    this.cartService.refreshCart();
+    
     this.notify.success('You are now logged in.');
     this.router.navigate(['/home']);
   }
