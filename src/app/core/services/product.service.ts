@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Product } from '../../models/product';
+import { IProduct } from '../../models/IProduct';
+import { ProductHome } from '../models/product-home.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -10,7 +12,7 @@ import { environment } from '../../../environments/environment';
 })
 export class ProductService {
   private apiUrl = `${environment.apiUrl}/products`;
-  private supplierUrl = `${environment.apiUrl}/suppliers`;
+  private homeProductsCache$: Observable<ProductHome[]> | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -32,6 +34,40 @@ export class ProductService {
     );
   }
 
+  getActiveProducts(): Observable<IProduct[]> {
+    return this.http.get<IProduct[]>(`${this.apiUrl}/active`);
+  }
+
+  getHomeProducts(): Observable<ProductHome[]> {
+    if (!this.homeProductsCache$) {
+      this.homeProductsCache$ = this.http.get<any>(`${environment.apiUrl}/products/active`).pipe(
+        map(response => {
+          const items = response.member || response['hydra:member'] || [];
+          return items.map((item: any) => {
+            // Extract ID from @id if necessary (e.g., '/api/products/123' -> '123')
+            let id = item.id;
+            if (!id && item['@id']) {
+              const parts = item['@id'].split('/');
+              id = parts[parts.length - 1];
+            }
+            
+            return {
+              id: id || '',
+              sku: item.sku || '',
+              name: item.name || '',
+              urlImage: item.urlImage || null,
+              price: item.price || 0,
+              averageRating: item.averageRating || 0,
+              reviewsCount: item.reviewsCount || 0
+            } as ProductHome;
+          });
+        }),
+        shareReplay(1) // Cache the latest response for future valid subscribers
+      );
+    }
+    return this.homeProductsCache$;
+  }
+
   getProductById(id: string): Observable<Product> {
     return this.http.get<Product>(this.resolveUrl(id));
   }
@@ -43,8 +79,8 @@ export class ProductService {
   }
 
   updateProduct(id: string, product: any): Observable<Product> {
-    return this.http.put<Product>(this.resolveUrl(id), product, {
-      headers: { 'Content-Type': 'application/ld+json' }
+    return this.http.patch<Product>(this.resolveUrl(id), product, {
+      headers: { 'Content-Type': 'application/merge-patch+json' }
     });
   }
 
@@ -58,59 +94,10 @@ export class ProductService {
     return this.http.post<{ path: string }>(`${environment.apiUrl}/upload`, formData);
   }
 
-  // Helper methods for category/supplier
+  // Helper methods for category
   getCategories(): Observable<any[]> {
     return this.http.get<any>(`${environment.apiUrl}/categories`).pipe(
       map((res: any) => res['hydra:member'] || res['member'] || res)
-    );
-  }
-
-  getSuppliers(): Observable<any[]> {
-    return this.http.get<any>(`${environment.apiUrl}/suppliers`).pipe(
-      map((res: any) => res['hydra:member'] || res['member'] || res)
-    );
-  }
-}
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { IProduct } from '../../models/IProduct';
-
-@Injectable({
-  providedIn: 'root',
-})
-export class ProductService {
-  private url = "http://localhost:5000/products";
-
-  constructor(private http: HttpClient) {}
-
-  getAllProducts(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(this.url);
-  }
-
-  getActiveProducts(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(`${this.url}/active`);
-  }
-
-  getProductById(id: string): Observable<IProduct> {
-    return this.http.get<IProduct>(`${this.url}/${id}`);
-  }
-}
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ProductHome } from '../models/product-home.model';
-
-@Injectable({
-  providedIn: 'root',
-})
-export class ProductService {
-  private http = inject(HttpClient);
-
-  getHomeProducts(): Observable<ProductHome[]> {
-    return this.http.get<any>('/api/products/home').pipe(
-      map(response => response.member || response['hydra:member'] || [])
     );
   }
 }

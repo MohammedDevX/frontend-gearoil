@@ -12,7 +12,7 @@ import { IProduct } from '../../../models/IProduct';
   styleUrl: './product-detail.scss'
 })
 export class ProductDetail implements OnInit {
-  product: IProduct | null = null;
+  product: any | null = null;
   activeTab: string = 'description';
   quantity: number = 1;
   activeImageIndex: number = 0;
@@ -49,7 +49,7 @@ export class ProductDetail implements OnInit {
     });
   }
 
-  setupGallery(product: IProduct): void {
+  setupGallery(product: any): void {
     // Backend only has one image for now, so we create an array with just that one
     // In a real scenario, we might have multiple images in the backend
     this.images = [

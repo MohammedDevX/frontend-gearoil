@@ -2,7 +2,7 @@ import { Component, ViewChildren, QueryList, ElementRef, AfterViewInit, OnInit, 
 import { ProductCardComponent } from '../../shared/product-card/product-card';
 import { ProductService } from '../../core/services/product.service';
 import { ProductHome } from '../../core/models/product-home.model';
-import Swiper from 'swiper';
+import Swiper from 'swiper/bundle';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 import { CommonModule, CurrencyPipe } from '@angular/common';

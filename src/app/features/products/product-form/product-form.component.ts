@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ComponentCardComponent } from '../../../ui/component-card/component-card.component';
-import { LabelComponent } from '../../../ui/label/label.component';
 import { InputFieldComponent } from '../../../ui/input/input-field.component';
 import { SelectComponent, Option as SelectOption } from '../../../ui/select/select.component';
-import { MultiSelectComponent, Option as MultiSelectOption } from '../../../ui/multi-select/multi-select.component';
+import { Option as MultiSelectOption } from '../../../ui/multi-select/multi-select.component';
 import { DropzoneComponent } from '../../../ui/dropzone/dropzone.component';
 import { ProductService } from '../../../core/services/product.service';
+import { SupplierService } from '../../../core/services/supplier.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 
@@ -20,10 +20,8 @@ import { environment } from '../../../../environments/environment';
     ReactiveFormsModule,
     RouterModule,
     ComponentCardComponent,
-    LabelComponent,
     InputFieldComponent,
     SelectComponent,
-    MultiSelectComponent,
     DropzoneComponent
   ],
   templateUrl: './product-form.component.html'
@@ -178,6 +176,7 @@ export class ProductFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
+    private supplierService: SupplierService,
     private toastr: ToastrService
   ) { }
 
@@ -192,7 +191,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   loadDependencies() {
-    this.productService.getSuppliers().subscribe({
+    this.supplierService.getSuppliers().subscribe({
       next: (res) => {
         this.supplierOptions = res.map(s => ({
           value: s['@id'] || `/api/suppliers/${s.id || s._id}`,

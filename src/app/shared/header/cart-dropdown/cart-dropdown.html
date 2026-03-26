@@ -1,5 +1,5 @@
 <div class="indicator indicator--trigger--click" [class.indicator--open]="isOpen" *ngIf="cart$ | async as cart">
-	<a routerLink="/cart" class="indicator__button" (click)="toggle($event)">
+	<a class="indicator__button" style="cursor: pointer;" (click)="toggle($event)">
 		<span class="indicator__icon">
 			<svg width="32" height="32">
 				<circle cx="10.5" cy="27.5" r="2.5" />

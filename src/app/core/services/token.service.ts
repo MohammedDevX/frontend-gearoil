@@ -44,9 +44,50 @@ export class TokenService {
       ?? sessionStorage.getItem(REFRESH_TOKEN_KEY);
   }
 
-  /** Returns true when an access token is present. */
+  /** Returns true when an access token is present (and optionally not expired). */
   isLoggedIn(): boolean {
-    return !!this.getAccessToken();
+    const token = this.getAccessToken();
+    return !!token && !this.isTokenExpired(token);
+  }
+
+  /** Decodes the JWT and checks if it is expired (or about to expire within 60s). */
+  isTokenExpired(token: string | null): boolean {
+    if (!token) return true;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (!payload || !payload.exp) {
+        return false; // If no exp claim, assume it doesn't expire
+      }
+      const expTimeInSeconds = payload.exp;
+      const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+      return expTimeInSeconds < currentTimeInSeconds + 60; // 60 seconds buffer
+    } catch (e) {
+      return true; // Parse error -> treat as expired
+    }
+  }
+
+  /** Extracts the Role claim from the JWT token. */
+  getUserRole(): string | null {
+    const token = this.getAccessToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.Role || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** Extracts the Email claim from the JWT token. */
+  getUserEmail(): string | null {
+    const token = this.getAccessToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.email || null;
+    } catch (e) {
+      return null;
+    }
   }
 
   // ── Delete ────────────────────────────────────────────────────────────────

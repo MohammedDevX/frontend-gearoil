@@ -1,5 +1,7 @@
-<div class="indicator indicator--trigger--click" [class.indicator--open]="isOpen"><a routerLink="/login"
-		class="indicator__button" (click)="toggle($event)"><span class="indicator__icon"><svg width="32" height="32">
+<div class="indicator indicator--trigger--click" [class.indicator--open]="isOpen">
+	<a class="indicator__button" style="cursor: pointer;" (click)="toggle($event)">
+		<span class="indicator__icon">
+			<svg width="32" height="32">
 				<path d="M16,18C9.4,18,4,23.4,4,30H2c0-6.2,4-11.5,9.6-13.3C9.4,15.3,8,12.8,8,10c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.8-1.5,5.3-3.6,6.7
 	C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6,6s2.7,6,6,6S22,13.3,22,10z" />
 			</svg> </span><span class="indicator__title">Hello, Log In</span> <span class="indicator__value">My
@@ -7,7 +9,7 @@
 	<div class="indicator__content"
 		style="visibility: hidden; opacity: 0; position: absolute; top: 100%; right: 0; transform: rotateX(60deg); transform-origin: top;">
 		<div class="account-menu">
-			<form class="account-menu__form">
+			<form class="account-menu__form" *ngIf="!tokenService.isLoggedIn()">
 				<div class="account-menu__form-title">Log In to Your Account</div>
 				<div class="form-group"><label for="header-signin-email" class="sr-only">Email
 						address</label> <input id="header-signin-email" type="email"
@@ -22,26 +24,31 @@
 				<div class="account-menu__form-link"><a routerLink="/register">Create An
 						Account</a></div>
 			</form>
-			<div class="account-menu__divider"></div><a href="#" class="account-menu__user">
-				<div class="account-menu__user-avatar"><img src="../../../assets/template/images/avatars/avatar-4.jpg"
-						alt=""></div>
-				<div class="account-menu__user-info">
-					<div class="account-menu__user-name">Ryan Ford</div>
-					<div class="account-menu__user-email">red-parts@example.com</div>
-				</div>
-			</a>
-			<div class="account-menu__divider"></div>
-			<ul class="account-menu__links">
-				<li><a routerLink="/admin/liste-users">Dashboard</a></li>
-				<li><a routerLink="/home">Garage</a></li>
-				<li><a routerLink="/edit-profile">Edit Profile</a></li>
-				<li><a routerLink="/home">Order History</a></li>
-				<li><a routerLink="/home">Addresses</a></li>
-			</ul>
-			<div class="account-menu__divider"></div>
-			<ul class="account-menu__links">
-				<li><a routerLink="/login">Logout</a></li>
-			</ul>
+			<ng-container *ngIf="tokenService.isLoggedIn()">
+				<div class="account-menu__divider"></div><a href="#" class="account-menu__user" style="display: flex; align-items: center; gap: 10px;">
+					<div class="account-menu__user-avatar">
+						<svg width="24" height="24" viewBox="0 0 32 32" style="fill: currentColor;">
+							<path d="M16,18C9.4,18,4,23.4,4,30H2c0-6.2,4-11.5,9.6-13.3C9.4,15.3,8,12.8,8,10c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.8-1.5,5.3-3.6,6.7
+				C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6,6s2.7,6,6,6S22,13.3,22,10z" />
+						</svg>
+					</div>
+					<div class="account-menu__user-info">
+						<div class="account-menu__user-name">{{ tokenService.getUserEmail() }}</div>
+					</div>
+				</a>
+				<div class="account-menu__divider"></div>
+				<ul class="account-menu__links">
+					<li><a routerLink="/admin/liste-users">Dashboard</a></li>
+					<li><a routerLink="/home">Garage</a></li>
+					<li><a routerLink="/edit-profile">Edit Profile</a></li>
+					<li><a routerLink="/home">Order History</a></li>
+					<li><a routerLink="/home">Addresses</a></li>
+				</ul>
+				<div class="account-menu__divider"></div>
+				<ul class="account-menu__links">
+					<li><a href="javascript:void(0)" (click)="tokenService.clear(); isOpen = false;">Logout</a></li>
+				</ul>
+			</ng-container>
 		</div>
 	</div>
 </div>

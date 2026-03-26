@@ -15,12 +15,15 @@ import { CartComponent } from './features/cart/cart';
 import { ProductDetail } from './features/products/product-detail/product-detail';
 import { ProductListComponent } from './features/products/product-list/product-list.component';
 import { ProductFormComponent } from './features/products/product-form/product-form.component';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   { path: 'liste-users', redirectTo: 'admin/liste-users', pathMatch: 'full' },
   {
     path: 'suppliers',
     component: AdminLayoutComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { expectedRoles: ['Admin'] },
     children: [
       { path: '', component: SuppliersComponent }
     ]
@@ -32,7 +35,8 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { expectedRoles: ['Admin'] },
     children: [
       { path: 'suppliers', component: SuppliersComponent },
       { path: 'liste-users', component: ListeUsers },
@@ -49,25 +53,25 @@ export const routes: Routes = [
     path: '',
     component: ClientLayoutComponent,
     children: [
-      { path: '', component: Home, pathMatch: 'full' },
-      { path: 'home', component: Home },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'reset-password', component: ResetPasswordComponent },
-      { path: 'edit-profile', component: EditProfileComponent, canActivate: [authGuard] },
-      { path: 'cart', component: CartComponent},
+      { path: '', component: Home, pathMatch: 'full', data: { isPublic: true } },
+      { path: 'home', component: Home, data: { isPublic: true } },
+      { path: 'login', component: LoginComponent, data: { isPublic: true } },
+      { path: 'register', component: RegisterComponent, data: { isPublic: true } },
+      { path: 'forgot-password', component: ForgotPasswordComponent, data: { isPublic: true } },
+      { path: 'reset-password', component: ResetPasswordComponent, data: { isPublic: true } },
+      { path: 'edit-profile', component: EditProfileComponent, canActivate: [authGuard, roleGuard], data: { expectedRoles: ['Client'] } },
+      { path: 'cart', component: CartComponent, canActivate: [authGuard, roleGuard], data: { expectedRoles: ['Client'] } },
 
       // Placeholder routes to prevent redirection for missing pages
-      { path: 'wishlist', component: Home },
-      { path: 'cart', component: Home },
-      { path: 'checkout', component: Home },
-      { path: 'about-us', component: Home },
-      { path: 'contact-us', component: Home },
-      { path: 'track-order', component: Home },
-      { path: 'compare', component: Home },
-      { path: 'shop', component: Home },
-      {path: 'detail/:id', component: ProductDetail}
+      { path: 'wishlist', component: Home, data: { isPublic: true } },
+      { path: 'cart', component: Home, data: { isPublic: true } },
+      { path: 'checkout', component: Home, data: { isPublic: true } },
+      { path: 'about-us', component: Home, data: { isPublic: true } },
+      { path: 'contact-us', component: Home, data: { isPublic: true } },
+      { path: 'track-order', component: Home, data: { isPublic: true } },
+      { path: 'compare', component: Home, data: { isPublic: true } },
+      { path: 'shop', component: Home, data: { isPublic: true } },
+      { path: 'detail/:id', component: ProductDetail, data: { isPublic: true } }
     ]
   },
 

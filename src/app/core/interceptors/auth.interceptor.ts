@@ -17,17 +17,13 @@ import {
 } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { TokenService } from '../services/token.service';
+import { PUBLIC_PATHS, AUTH_ENDPOINTS } from '../constants/routes.config';
 
 // ─── Shared state for coordinating concurrent refresh ────────────────────────
 
 let isRefreshing = false;
 const refreshSubject = new BehaviorSubject<string | null>(null);
 
-/** Paths that should never trigger a 401 redirect. */
-const PUBLIC_PATHS = ['/login', '/register', '/forgot-password', '/reset-password'];
-
-/** Paths whose requests must never carry a Bearer token or trigger refresh. */
-const AUTH_ENDPOINTS = ['/auth/login', '/auth/refresh-token', '/auth/register', '/auth/google-login', '/auth/login/facebook'];
 
 // ─── Interceptor ─────────────────────────────────────────────────────────────
 
@@ -61,6 +57,12 @@ export const authInterceptor: HttpInterceptorFn = (
   const token = tokenService.getAccessToken();
   console.log(`[AuthInterceptor] Requesting: ${req.url}. Token found: ${!!token}`);
   
+  // Proactively check if token is expired before sending the request
+  if (token && tokenService.isTokenExpired(token)) {
+    console.log('[AuthInterceptor] Token is expired (or expiring soon). Proactively refreshing...');
+    return handleRefresh(req, next, router, authService, tokenService);
+  }
+
   const authReq = token
     ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
     : req;
@@ -68,16 +70,16 @@ export const authInterceptor: HttpInterceptorFn = (
   return next(authReq).pipe(
     catchError((error) => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
-        return handle401(req, next, router, authService, tokenService);
+        return handleRefresh(req, next, router, authService, tokenService);
       }
       return throwError(() => error);
     }),
   );
 };
 
-// ─── 401 handler with silent refresh ─────────────────────────────────────────
+// ─── Refresh handler ─────────────────────────────────────────────────────────
 
-function handle401(
+function handleRefresh(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   router: Router,
