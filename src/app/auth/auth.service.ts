@@ -28,7 +28,8 @@ export interface ResetPasswordDTO {
 
 /** Shape returned by the backend on login / refresh. */
 export interface AuthTokens {
-  accessToken: string | null;
+  accessToken?: string | null;
+  token?: string | null; // Some backends use 'token' instead of 'accessToken'
   refreshToken: string | null;
   requiresTwoFactor?: boolean;
   userId?: string;
@@ -140,9 +141,10 @@ export class AuthService {
 
   /** Persist tokens if the response contains them. */
   private storeTokens(res: AuthTokens, rememberMe?: boolean): void {
-    if (res?.accessToken && res?.refreshToken) {
+    const accessToken = res?.accessToken || res?.token;
+    if (accessToken && res?.refreshToken) {
       this.tokenService.setTokens(
-        res.accessToken,
+        accessToken,
         res.refreshToken,
         rememberMe ?? this.tokenService.rememberMe,
       );

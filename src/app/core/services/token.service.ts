@@ -66,25 +66,50 @@ export class TokenService {
     }
   }
 
-  /** Extracts the Role claim from the JWT token. */
+  /** Extracts the Role claim from the JWT token. Checks multiple common claim names. */
   getUserRole(): string | null {
     const token = this.getAccessToken();
     if (!token) return null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.Role || null;
+      // Common role claim keys
+      const roleKeys = [
+        'Role',
+        'role',
+        'roles',
+        'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+      ];
+
+      for (const key of roleKeys) {
+        if (payload[key]) {
+          return payload[key];
+        }
+      }
+      return null;
     } catch (e) {
       return null;
     }
   }
 
-  /** Extracts the Email claim from the JWT token. */
+  /** Extracts the Email claim from the JWT token. Checks multiple common claim names. */
   getUserEmail(): string | null {
     const token = this.getAccessToken();
     if (!token) return null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.email || null;
+      // Common email claim keys
+      const emailKeys = [
+        'email',
+        'Email',
+        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
+      ];
+
+      for (const key of emailKeys) {
+        if (payload[key]) {
+          return payload[key];
+        }
+      }
+      return null;
     } catch (e) {
       return null;
     }

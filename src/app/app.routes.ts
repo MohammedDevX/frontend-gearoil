@@ -28,9 +28,6 @@ export const routes: Routes = [
       { path: '', component: SuppliersComponent }
     ]
   },
-        { path: 'products', component: ProductListComponent },
-      { path: 'products/add', component: ProductFormComponent },
-      { path: 'products/:id/edit', component: ProductFormComponent },
   // Admin Routes (Dashboard)
   {
     path: 'admin',
@@ -71,7 +68,7 @@ export const routes: Routes = [
       { path: 'track-order', component: Home, data: { isPublic: true } },
       { path: 'compare', component: Home, data: { isPublic: true } },
       { path: 'shop', component: Home, data: { isPublic: true } },
-      { path: 'detail/:id', component: ProductDetail, data: { isPublic: true } }
+      { path: 'products', component: ProductDetail, data: { isPublic: true } }
     ]
   },
 

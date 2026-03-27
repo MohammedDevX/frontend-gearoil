@@ -1,7 +1,7 @@
 <div class="product-card product-card--layout--grid">
     <div class="product-card__image">
         <div class="image image--type--product">
-            <a [routerLink]="['/detail', product.id]" class="image__body">
+            <a [routerLink]="['/products']" [queryParams]="{ id: product.id }" class="image__body">
                 <img
                     class="image__tag"
                     [src]="product.urlImage || 'images/products/product-1-245x245.jpg'"
@@ -17,7 +17,7 @@
                 <div class="product-card__sku" style="font-size: 13px; color: #a1a1a1; margin-bottom: 4px;">
                     SKU: {{ product.sku || 'N/A' }}
                 </div>
-                <a [routerLink]="['/detail', product.id]">{{ product.name }}</a>
+                <a [routerLink]="['/products']" [queryParams]="{ id: product.id }">{{ product.name }}</a>
             </div>
         </div>
         <div class="product-card__rating">

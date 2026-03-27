@@ -55,7 +55,6 @@ export const authInterceptor: HttpInterceptorFn = (
 
   // Attach the current access token
   const token = tokenService.getAccessToken();
-  console.log(`[AuthInterceptor] Requesting: ${req.url}. Token found: ${!!token}`);
   
   // Proactively check if token is expired before sending the request
   if (token && tokenService.isTokenExpired(token)) {

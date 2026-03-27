@@ -29,8 +29,16 @@ export class ProductDetail implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const id = params['id'];
+    // Check for ID in both route params and query params
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.loadProduct(id);
+      }
+    });
+
+    this.route.queryParamMap.subscribe(params => {
+      const id = params.get('id');
       if (id) {
         this.loadProduct(id);
       }

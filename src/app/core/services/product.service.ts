@@ -40,7 +40,7 @@ export class ProductService {
 
   getHomeProducts(): Observable<ProductHome[]> {
     if (!this.homeProductsCache$) {
-      this.homeProductsCache$ = this.http.get<any>(`${environment.apiUrl}/products/active`).pipe(
+      this.homeProductsCache$ = this.http.get<any>(`${environment.apiUrl}/products/home`).pipe(
         map(response => {
           const items = response.member || response['hydra:member'] || [];
           return items.map((item: any) => {
