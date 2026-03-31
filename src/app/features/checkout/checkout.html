@@ -1,0 +1,171 @@
+<div class="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    
+    <!-- Success State -->
+    <div *ngIf="paymentSuccess" class="bg-white rounded-2xl shadow-xl p-12 text-center transform transition-all">
+      <div class="mx-auto w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6">
+        <svg class="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Payment Successful!</h2>
+      <p class="text-gray-500 text-lg mb-8">Thank you for your order. Transaction has been recorded securely.</p>
+      <button (click)="goHome()" class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg">
+        Return to Shop
+      </button>
+    </div>
+
+    <!-- Payment Flow -->
+    <div *ngIf="!paymentSuccess">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Checkout</h1>
+        <p class="mt-4 text-xl text-gray-500">Complete your payment securely.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        
+        <!-- Left Column: Forms -->
+        <div class="lg:col-span-8">
+          
+          <!-- Shipping Form -->
+          <div class="bg-white shadow sm:rounded-xl mb-8 border border-gray-100">
+            <div class="px-4 py-5 sm:p-6">
+              <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Shipping Details</h3>
+              <form [formGroup]="checkoutForm" class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">First Name</label>
+                  <div class="mt-1">
+                    <input type="text" formControlName="firstName" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm p-3 border">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                  <div class="mt-1">
+                    <input type="text" formControlName="lastName" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm p-3 border">
+                  </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label class="block text-sm font-medium text-gray-700">Email address</label>
+                  <div class="mt-1">
+                    <input type="email" formControlName="email" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm p-3 border">
+                  </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label class="block text-sm font-medium text-gray-700">Delivery Address</label>
+                  <div class="mt-1">
+                    <input type="text" formControlName="address" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm p-3 border">
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+          <!-- Payment Widget -->
+          <div class="bg-white shadow sm:rounded-xl border border-gray-100">
+            <div class="px-4 py-5 sm:p-6">
+              <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Payment Method</h3>
+              
+              <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                <!-- Card Toggle -->
+                <button 
+                   (click)="setPaymentMethod('CARD')"
+                   [class.ring-2]="selectedPaymentMethod === 'CARD'"
+                   [class.ring-red-500]="selectedPaymentMethod === 'CARD'"
+                   [class.border-transparent]="selectedPaymentMethod === 'CARD'"
+                   class="flex-1 border rounded-lg p-4 flex items-center justify-center space-x-3 hover:bg-gray-50 focus:outline-none transition-all">
+                  <svg class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                  </svg>
+                  <span class="font-medium text-gray-900">Credit Card</span>
+                </button>
+
+                <!-- PayPal Toggle -->
+                <button 
+                  (click)="setPaymentMethod('PAYPAL')"
+                  [class.ring-2]="selectedPaymentMethod === 'PAYPAL'"
+                  [class.ring-blue-500]="selectedPaymentMethod === 'PAYPAL'"
+                  [class.border-transparent]="selectedPaymentMethod === 'PAYPAL'"
+                  class="flex-1 border rounded-lg p-4 flex items-center justify-center space-x-3 hover:bg-gray-50 focus:outline-none transition-all">
+                  <svg class="h-6 w-6 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.473 2.502-1.928 4.316-4.04 4.907a4.673 4.673 0 0 1-1.802.138h-2.5a.641.641 0 0 0-.632.534L9.049 20.61c-.046.335-.333.585-.674.585h-1.3zM9.546 13.924H12a2.834 2.834 0 0 0 1.5-.2c1.3-.5 2.1-1.7 2.4-3.5.2-1.1-.1-2.1-.8-2.7-.6-.6-1.6-.9-2.9-.9H7.817L6.033 13.924h3.513z"/>
+                  </svg>
+                  <span class="font-medium text-gray-900">PayPal</span>
+                </button>
+              </div>
+
+              <!-- Stripe Elements (Shown if CARD) -->
+              <div *ngIf="selectedPaymentMethod === 'CARD'" class="mt-4">
+                <div class="p-4 border border-gray-300 rounded-md bg-white shadow-sm">
+                  <div #cardInfo></div>
+                </div>
+                <div *ngIf="cardError" class="mt-2 text-sm text-red-600">
+                  {{ cardError }}
+                </div>
+              </div>
+
+              <!-- PayPal Description -->
+              <div *ngIf="selectedPaymentMethod === 'PAYPAL'" class="mt-4 text-center p-6 bg-blue-50 rounded-xl">
+                 <p class="text-blue-800 font-medium">You will be securely redirected to PayPal after confirmation.</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Order Summary -->
+        <div class="lg:col-span-4">
+          <div class="bg-white shadow sm:rounded-xl sticky top-6 border border-gray-100">
+            <div class="px-4 py-5 sm:p-6">
+              <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Order Summary</h3>
+              
+              <ng-container *ngIf="cart$ | async as cart">
+                <!-- Loop over some items ideally but here we just show total -->
+                <div class="flow-root mb-6">
+                  <ul role="list" class="-my-4 divide-y divide-gray-200">
+                    <li *ngFor="let item of cart.items" class="flex py-4">
+                      <div class="ml-3 flex-1 flex flex-col justify-center">
+                        <div>
+                          <div class="flex justify-between text-sm font-medium text-gray-900">
+                            <h3>SKU: {{ item.sku }}</h3>
+                            <p class="ml-4">{{ item.total | currency:'EUR':'symbol' }}</p>
+                          </div>
+                          <p class="mt-1 text-sm text-gray-500">Qty: {{ item.quantity }}</p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
+                  <dt class="text-base font-medium text-gray-900">Total Price</dt>
+                  <dd class="text-2xl font-extrabold text-red-600">{{ totalPrice | currency:'EUR':'symbol' }}</dd>
+                </div>
+              </ng-container>
+
+              <div class="mt-8">
+                <button 
+                  [disabled]="isProcessing || totalPrice === 0 || checkoutForm.invalid"
+                  (click)="processPayment()"
+                  [ngClass]="{'opacity-50 cursor-not-allowed': isProcessing || totalPrice === 0 || checkoutForm.invalid}"
+                  class="w-full flex justify-center items-center px-4 py-4 border border-transparent rounded-lg shadow-sm font-bold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all text-lg">
+                  <span *ngIf="!isProcessing">Pay Now</span>
+                  <span *ngIf="isProcessing" class="flex items-center">
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+                    Processing...
+                  </span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -12,6 +12,7 @@ import { authGuard } from './auth/auth.guard';
 import { ClientLayoutComponent } from './layouts/client-layout/client-layout';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout';
 import { CartComponent } from './features/cart/cart';
+import { CheckoutComponent } from './features/checkout/checkout';
 import { ProductDetail } from './features/products/product-detail/product-detail';
 import { ProductListComponent } from './features/products/product-list/product-list.component';
 import { ProductFormComponent } from './features/products/product-form/product-form.component';
@@ -60,8 +61,7 @@ export const routes: Routes = [
 
       // Placeholder routes to prevent redirection for missing pages
       { path: 'wishlist', component: Home },
-      { path: 'cart', component: Home },
-      { path: 'checkout', component: Home },
+      { path: 'checkout', component: CheckoutComponent },
       { path: 'about-us', component: Home },
       { path: 'contact-us', component: Home },
       { path: 'track-order', component: Home },

@@ -13,6 +13,12 @@
         "pathRewrite": { "^/api": "" },
         "logLevel": "debug"
     },
+    "/api/payments": {
+        "target": "http://127.0.0.1:8081",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    },
     "/api": {
         "target": "http://127.0.0.1:5000",
         "secure": false,

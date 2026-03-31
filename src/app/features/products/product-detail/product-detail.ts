@@ -41,11 +41,11 @@ export class ProductDetail implements OnInit {
 
   loadProduct(id: string): void {
     this.productService.getProductById(id).subscribe({
-      next: (data) => {
-        this.product = data;
-        this.setupGallery(data);
+      next: (data: any) => {
+        this.product = data as IProduct;
+        this.setupGallery(this.product);
       },
-      error: (err) => console.error('Error loading product', err)
+      error: (err: any) => console.error('Error loading product', err)
     });
   }
 
