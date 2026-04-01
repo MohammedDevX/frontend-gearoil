@@ -1,0 +1,15 @@
+.livreur-dashboard {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.text-brand-600 { color: #4f46e5; }
+.text-brand-500 { color: #6366f1; }
+.text-brand-700 { color: #4338ca; }
+.bg-brand-50 { background-color: #eef2ff; }
+.bg-brand-500 { background-color: #6366f1; }
+.focus\:ring-brand-500:focus { --tw-ring-color: #6366f1; }

@@ -16,6 +16,10 @@ import { ProductDetail } from './features/products/product-detail/product-detail
 import { ProductListComponent } from './features/products/product-list/product-list.component';
 import { ProductFormComponent } from './features/products/product-form/product-form.component';
 import { roleGuard } from './core/guards/role.guard';
+import { CheckoutComponent } from './features/checkout/checkout';
+import { TrackingComponent } from './features/tracking/tracking';
+import { LivreurLayoutComponent } from './layouts/livreur-layout/livreur-layout';
+import { LivreurDashboardComponent } from './features/livreur-dashboard/livreur-dashboard';
 
 export const routes: Routes = [
   { path: 'liste-users', redirectTo: 'admin/liste-users', pathMatch: 'full' },
@@ -44,6 +48,19 @@ export const routes: Routes = [
       { path: '', redirectTo: 'liste-users', pathMatch: 'full' }
     ]
   },
+  
+  // Livreur Routes
+  {
+    path: 'livreur',
+    component: LivreurLayoutComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { expectedRoles: ['Livreur'] },
+    children: [
+      { path: 'dashboard', component: LivreurDashboardComponent },
+      { path: 'active', component: TrackingComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
+  },
 
   // Client Routes
   {
@@ -61,8 +78,8 @@ export const routes: Routes = [
 
       // Placeholder routes to prevent redirection for missing pages
       { path: 'wishlist', component: Home, data: { isPublic: true } },
-      { path: 'cart', component: Home, data: { isPublic: true } },
-      { path: 'checkout', component: Home, data: { isPublic: true } },
+      { path: 'checkout', component: CheckoutComponent, canActivate: [authGuard, roleGuard], data: { expectedRoles: ['Client'] } },
+      { path: 'track-order/:id', component: TrackingComponent, canActivate: [authGuard, roleGuard], data: { expectedRoles: ['Client', 'Livreur'] } },
       { path: 'about-us', component: Home, data: { isPublic: true } },
       { path: 'contact-us', component: Home, data: { isPublic: true } },
       { path: 'track-order', component: Home, data: { isPublic: true } },
